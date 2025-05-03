@@ -1,0 +1,3 @@
+com.renaissancerentals.telemetry.TelemetryAutoConfiguration
+com.renaissancerentals.logging.LoggingAutoConfiguration
+com.renaissancerentals.error.ExceptionHandlerAutoConfiguration

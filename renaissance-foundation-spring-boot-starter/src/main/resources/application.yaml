@@ -1,0 +1,14 @@
+otel:
+  logs:
+    exporter: none
+  metrics:
+    exporter: none
+  traces:
+    exporter: none
+
+renaissancerentals:
+  logging:
+    enabled: true
+  telemetry:
+    enabled: true
+
