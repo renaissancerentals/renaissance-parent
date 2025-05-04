@@ -13,3 +13,6 @@ otel:
     exporter: none
   traces:
     exporter: none
+spring:
+  profiles:
+    active: plain-text-logging

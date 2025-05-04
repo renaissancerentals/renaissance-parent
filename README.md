@@ -20,8 +20,10 @@ This parent project currently includes:
 
 - renaissance-bom
 - renaissance-foundation-spring-boot-starter
-- renaissance-auth-spring-boot-starter
 - renaissance-mail-spring-boot-starter
+- renaissance-assets-spring-boot-starter
+- renaissance-monitor-spring-boot-starter
+- renaissance-auth-spring-boot-starter
 - renaissance-data-spring-boot-starter
 
 ## How to Use

@@ -1,0 +1,33 @@
+renaissancerentals:
+  monitor:
+    applications:
+      renaissancerental-admin:
+        healthEndpoint: https://admin.renaissancerentals.com/renaissance/health
+      renaissancerental:
+        healthEndpoint: http://localhost:8089/renaissance/health
+    monitoring-zone-id: America/New_York
+    retry: 2
+    timeout-in-seconds: 2
+    run-in-every-milliseconds: 5000
+    send-notification-email-to: renaissance.rentals.mail@gmail.com
+  mail:
+    enabled: true
+    clientId: ${GOOGLE_API_CLIENT_ID}
+    clientSecret: ${GOOGLE_API_CLIENT_SECRET}
+    refreshToken: ${GOOGLE_API_REFRESH_TOKEN}
+    tokenServer: https://oauth2.googleapis.com/token
+    from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
+    fromName: ${MAIL_FROM_NAME:Renaissance Rentals}
+management:
+  endpoints:
+    web:
+      base-path: /renaissance
+
+otel:
+  logs:
+    exporter: none
+  metrics:
+    exporter: none
+  traces:
+    exporter: none
+

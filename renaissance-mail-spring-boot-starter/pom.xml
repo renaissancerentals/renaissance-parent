@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
 
     <artifactId>renaissance-mail-spring-boot-starter</artifactId>
@@ -38,7 +38,6 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>

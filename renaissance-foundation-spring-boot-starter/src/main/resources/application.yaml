@@ -1,3 +1,7 @@
+spring:
+  profiles:
+#    or use json-logging for logs to be serialized to json
+    active: json-logging
 otel:
   logs:
     exporter: none
