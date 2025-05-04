@@ -23,7 +23,6 @@ This parent project currently includes:
 - renaissance-auth-spring-boot-starter
 - renaissance-mail-spring-boot-starter
 - renaissance-data-spring-boot-starter
-- 
 
 ## How to Use
 

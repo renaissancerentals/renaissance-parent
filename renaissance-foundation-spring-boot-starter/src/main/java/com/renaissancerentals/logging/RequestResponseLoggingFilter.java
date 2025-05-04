@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -60,9 +61,10 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
                 maskHeaders(headers),maskBody(body));
     }
 
-    @SuppressWarnings("DataFlowIssue")
     private void logResponse(ContentCachingResponseWrapper response){
-        var headers = response.getHeaderNames().stream().collect(Collectors.toMap(h -> h,response::getHeader));
+        Map<String, String> headers = response.getHeaderNames().stream().collect(Collectors.toMap(Function.identity(),
+                h -> String.join(", ",response.getHeaders(h)),(v1,v2) -> v1.equals(v2) ? v1 : v1 + ", " + v2));
+
         String body = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
 
         LOG.info("Outgoing Response: status={} headers={} body={}",response.getStatus(),maskHeaders(headers),

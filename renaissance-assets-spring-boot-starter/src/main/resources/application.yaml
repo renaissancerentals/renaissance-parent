@@ -1,13 +1,11 @@
 renaissancerentals:
-  mail:
+  assets:
     enabled: true
     clientId: ${GOOGLE_API_CLIENT_ID}
     clientSecret: ${GOOGLE_API_CLIENT_SECRET}
     refreshToken: ${GOOGLE_API_REFRESH_TOKEN}
     tokenServer: https://oauth2.googleapis.com/token
-    from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
-    cc: ${MAIL_CC:edainton@renaissancerentals.com}
-    fromName: ${MAIL_FROM_NAME:Renaissance Rentals}
+    defaultFolder: ${GOOGLE_DRIVE_FOLDER}
 otel:
   logs:
     exporter: none
