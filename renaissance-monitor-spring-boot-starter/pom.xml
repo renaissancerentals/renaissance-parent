@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>1.5.0</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>renaissance-monitor-spring-boot-starter</artifactId>
@@ -15,10 +15,6 @@
         <dependency>
             <groupId>com.renaissancerentals</groupId>
             <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.renaissancerentals</groupId>
-            <artifactId>renaissance-mail-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

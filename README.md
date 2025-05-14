@@ -1,4 +1,4 @@
-# renaissance-parent 
+# renaissance-parent
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)
 [![CI](https://github.com/renaissancerentals/renaissance-parent/actions/workflows/maven.yml/badge.svg)](https://github.com/renaissance/renaissance-parent/actions)
 
@@ -20,7 +20,6 @@ This parent project currently includes:
 
 - renaissance-bom
 - renaissance-foundation-spring-boot-starter
-- renaissance-mail-spring-boot-starter
 - renaissance-assets-spring-boot-starter
 - renaissance-monitor-spring-boot-starter
 - renaissance-auth-spring-boot-starter
@@ -32,9 +31,9 @@ In your Maven project, set `renaissance-parent` as the parent:
 
 ```xml
 <parent>
-  <groupId>com.renaissance</groupId>
-  <artifactId>renaissance-parent</artifactId>
-  <version>1.0.0</version>
+    <groupId>com.renaissance</groupId>
+    <artifactId>renaissance-parent</artifactId>
+    <version>1.0.0</version>
 </parent>
 ```
 This gives your project:
@@ -75,9 +74,9 @@ We follow [GitHub Flow](https://guides.github.com/introduction/flow/) for develo
 Your PR description should follow this format:
 
 Short summary of the change
-	
+
 Key changes (bullet points)
-	
+
 * Any notes on why/how things are implemented (optional)
 
 Closes #
@@ -117,8 +116,8 @@ CI/CD and Quality
 
 These are enforced via GitHub Actions and other automation tools.
 
-- ✅ Tests must pass before merging 
-- ✅ PR should be reviewed and approved 
+- ✅ Tests must pass before merging
+- ✅ PR should be reviewed and approved
 - ✅ No merge conflicts
 ---
 

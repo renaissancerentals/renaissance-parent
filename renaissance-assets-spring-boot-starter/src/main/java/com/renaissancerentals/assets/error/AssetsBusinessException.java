@@ -1,7 +1,7 @@
 package com.renaissancerentals.assets.error;
 
-import com.renaissancerentals.error.BusinessException;
-import com.renaissancerentals.error.ErrorMessage;
+import com.renaissancerentals.foundation.error.BusinessException;
+import com.renaissancerentals.foundation.error.ErrorMessage;
 
 import lombok.Getter;
 

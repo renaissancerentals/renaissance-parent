@@ -1,3 +1,4 @@
-com.renaissancerentals.telemetry.TelemetryAutoConfiguration
-com.renaissancerentals.logging.LoggingAutoConfiguration
-com.renaissancerentals.error.ExceptionHandlerAutoConfiguration
+com.renaissancerentals.foundation.telemetry.TelemetryAutoConfiguration
+com.renaissancerentals.foundation.logging.LoggingAutoConfiguration
+com.renaissancerentals.foundation.error.ExceptionHandlerAutoConfiguration
+com.renaissancerentals.foundation.mail.config.MailAutoConfiguration

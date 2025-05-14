@@ -2,9 +2,9 @@ package com.renaissancerentals.monitor.service;
 
 import org.springframework.stereotype.Service;
 
-import com.renaissancerentals.mail.model.MailMessage;
-import com.renaissancerentals.mail.service.MailService;
-import com.renaissancerentals.mail.template.MailMessageFactory;
+import com.renaissancerentals.foundation.mail.model.MailMessage;
+import com.renaissancerentals.foundation.mail.service.MailService;
+import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
 import com.renaissancerentals.monitor.config.MonitorConfigProperties;
 import com.renaissancerentals.monitor.template.model.MonitorErrorMessage;
 import com.renaissancerentals.monitor.template.model.MonitorHealthyMessage;

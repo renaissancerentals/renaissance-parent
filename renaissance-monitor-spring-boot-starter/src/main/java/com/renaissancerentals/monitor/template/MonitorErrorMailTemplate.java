@@ -2,7 +2,7 @@ package com.renaissancerentals.monitor.template;
 
 import org.springframework.stereotype.Component;
 
-import com.renaissancerentals.mail.template.AbstractMailTemplate;
+import com.renaissancerentals.foundation.mail.template.AbstractMailTemplate;
 import com.renaissancerentals.monitor.template.model.MonitorErrorMessage;
 
 import freemarker.template.Configuration;

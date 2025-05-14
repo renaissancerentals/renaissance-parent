@@ -1,7 +1,7 @@
 package com.renaissancerentals.assets.error;
 
-import com.renaissancerentals.error.ClientException;
-import com.renaissancerentals.error.ErrorMessage;
+import com.renaissancerentals.foundation.error.ClientException;
+import com.renaissancerentals.foundation.error.ErrorMessage;
 
 public class AssetsClientException extends ClientException {
     public AssetsClientException(AssetsErrorCode errorCode, Throwable cause) {
