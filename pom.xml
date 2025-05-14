@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>1.7.0</version>
+    <version>1.9.0</version>
     <packaging>pom</packaging>
     <description>Renaissancerentals parent pom</description>
     <url>https://github.com/contentmunch/renaissance-parent</url>
@@ -54,7 +54,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>1.7.0</version>
+                <version>1.9.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

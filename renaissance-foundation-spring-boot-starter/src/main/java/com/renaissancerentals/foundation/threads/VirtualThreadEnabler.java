@@ -1,4 +1,4 @@
-package com.renaissancerentals.foundation.config;
+package com.renaissancerentals.foundation.threads;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;

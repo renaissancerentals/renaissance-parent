@@ -1,6 +1,6 @@
 spring:
   profiles:
-#    or use json-logging for logs to be serialized to json
+    #    or use json-logging for logs to be serialized to json
     active: json-logging
 otel:
   logs:
@@ -11,16 +11,25 @@ otel:
     exporter: none
 
 renaissancerentals:
+  error:
+    notification:
+      enabled: true
+      email-to: contentmunch@gmail.com
+      email-cc: contentmunch@gmail.com
+      title-format: ⚠️ Server Exception Alert - {0}
+      excluded-server-exceptions:
+        - com.renaissancerentals.mail.error.MailServerException
   logging:
     enabled: true
   telemetry:
     enabled: true
   mail:
     enabled: true
-    clientId: ${GOOGLE_API_CLIENT_ID}
-    clientSecret: ${GOOGLE_API_CLIENT_SECRET}
-    refreshToken: ${GOOGLE_API_REFRESH_TOKEN}
-    tokenServer: https://oauth2.googleapis.com/token
+    client-id: ${GOOGLE_API_CLIENT_ID}
+    client-secret: ${GOOGLE_API_CLIENT_SECRET}
+    refresh-token: ${GOOGLE_API_REFRESH_TOKEN}
+    token-server: https://oauth2.googleapis.com/token
     from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
     cc: ${MAIL_CC:edainton@renaissancerentals.com}
-    fromName: ${MAIL_FROM_NAME:Renaissance Rentals}
+    from-name: ${MAIL_FROM_NAME:Renaissance Rentals}
+
