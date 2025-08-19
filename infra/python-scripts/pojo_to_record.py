@@ -29,91 +29,59 @@ def pojo_to_record(java_code):
 
     components_str = ', '.join(components)
 
-    record_code = f'''@Table({class_name}.TABLE)
-    @Builder
+    record_code = f'''@Builder
 public record {class_name}({components_str}) {{
-    public static final String TABLE = "{table_name}";
 }}
 '''
     return record_code
 
 # Example usage
 pojo_code = '''
-@Entity
-@Data
-@EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode(of = "id")
-public class Sublet implements Serializable {
-
+public class JobVacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    @JsonIgnore
-    private String assetKey;
-
-    @NotNull
-    private String firstName;
-
-    @NotNull
-    private String lastName;
-
-    @NotNull
-    private String email;
-
-    @NotNull
-    private Integer bedroom;
-
-    @NotNull
-    private Integer availableBedrooms;
-
-    @NotNull
-    private LocalDate availableFrom;
-
-    @NotNull
-    private LocalDate availableTo;
-
-    @NotNull
-    private Float rent;
-
-    @NotNull
-    private Boolean petsAllowed;
-
-    @NotNull
-    private Boolean utilitiesIncluded;
-
     @Size(max = 255, message = "allowed length up to {max}")
     @NotNull
-    private String address;
-
-    @NotNull
-    private String zipcode;
-
-    private String subletFolderId;
-
-    private String photosFolderId;
-
-    private String coverImage;
-
-    @NotNull
-    @Size(max = 255, message = "allowed length up to {max}")
     private String title;
 
     @NotNull
     private String description;
 
+
+    @NotNull
+    private LocalDateTime validThrough;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private EmploymentType employmentType;
+
+    @NotNull
+    private Float salary;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private SalaryType salaryType;
+
+    @NotNull
+    @Size(max = 255, message = "allowed length up to {max}")
+    private String startDate;
+
+    @NotNull
+    @Size(max = 255, message = "allowed length up to {max}")
+    private String workHours;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
+
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDate datePosted;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
     private Boolean active;
-
-    private Boolean approved;
-
-    @Version
-    private Long version;
-
-
 }
 
 '''
