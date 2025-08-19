@@ -6,8 +6,9 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>1.11.0</version>
+        <version>1.12.0</version>
     </parent>
+    <name>Renaissance Assets</name>
     <artifactId>renaissance-assets-spring-boot-starter</artifactId>
     <dependencies>
         <dependency>
