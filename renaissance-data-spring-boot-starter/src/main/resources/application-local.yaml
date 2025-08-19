@@ -1,0 +1,21 @@
+contentmunch:
+  auth:
+    accessTokenMaxAgeInMinutes: 30
+    cookie:
+      same-site: LAX
+      secure: false
+      domain: localhost
+  notes:
+    auth:
+      allowed-origins:
+        - http://localhost:5173
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/renaissancedb
+    username: renaissance
+    password: renaissancepass
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: DEBUG

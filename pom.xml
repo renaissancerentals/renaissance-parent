@@ -42,6 +42,7 @@
         <module>renaissance-foundation-spring-boot-starter</module>
         <module>renaissance-assets-spring-boot-starter</module>
         <module>renaissance-monitor-spring-boot-starter</module>
+        <module>renaissance-data-spring-boot-starter</module>
     </modules>
     <dependencyManagement>
         <dependencies>
