@@ -121,3 +121,8 @@ These are enforced via GitHub Actions and other automation tools.
 - ✅ No merge conflicts
 ---
 
+### MapStruct Configuration
+MapStruct relies on annotation processing at compile time. If mapper options (e.g., `unmappedTargetPolicy`, `nullValueMappingStrategy`) seem inconsistent:
+- Run `mvn clean compile` to avoid incremental build issues.
+- Ensure annotation processing is enabled in your IDE.
+- Use a shared `@MapperConfig` to set defaults across all mappers.  

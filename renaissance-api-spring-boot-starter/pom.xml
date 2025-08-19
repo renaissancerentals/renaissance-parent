@@ -8,22 +8,34 @@
         <artifactId>renaissance-parent</artifactId>
         <version>1.14.0</version>
     </parent>
-    <name>Renaissance Assets</name>
-    <artifactId>renaissance-assets-spring-boot-starter</artifactId>
+    <artifactId>renaissance-api-spring-boot-starter</artifactId>
+    <name>renaissance-api-spring-boot-starter</name>
+    <description>Renaissance API Spring Boot Starter</description>
+
     <dependencies>
         <dependency>
             <groupId>com.renaissancerentals</groupId>
             <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.renaissancerentals</groupId>
+            <artifactId>renaissance-persistence-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- google drive related -->
         <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-drive</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
         </dependency>
 
         <dependency>
@@ -37,5 +49,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

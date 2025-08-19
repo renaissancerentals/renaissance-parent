@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>1.13.0</version>
+    <version>1.14.0</version>
     <packaging>pom</packaging>
     <name>Renaissance parent pom</name>
     <description>Renaissancerentals parent pom</description>
@@ -45,7 +45,8 @@
         <module>renaissance-foundation-spring-boot-starter</module>
         <module>renaissance-assets-spring-boot-starter</module>
         <module>renaissance-monitor-spring-boot-starter</module>
-        <module>renaissance-data-spring-boot-starter</module>
+        <module>renaissance-api-spring-boot-starter</module>
+        <module>renaissance-persistence-spring-boot-starter</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -59,7 +60,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>1.13.0</version>
+                <version>1.14.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

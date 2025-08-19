@@ -8,8 +8,10 @@
         <artifactId>renaissance-parent</artifactId>
         <version>1.14.0</version>
     </parent>
-    <name>Renaissance Assets</name>
-    <artifactId>renaissance-assets-spring-boot-starter</artifactId>
+    <artifactId>renaissance-persistence-spring-boot-starter</artifactId>
+    <name>renaissance-persistence-spring-boot-starter</name>
+    <description>Renaissance Persistence Spring Boot Starter</description>
+
     <dependencies>
         <dependency>
             <groupId>com.renaissancerentals</groupId>
@@ -17,15 +19,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
-
-        <!-- google drive related -->
         <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-drive</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
