@@ -370,7 +370,7 @@ ALTER TABLE unit
 
 --changeset renaissance-admin:23
 ALTER TABLE floorplan
-    drop column garages;
+drop column garages;
 
 --changeset renaissance-admin:24
 CREATE TABLE leasing_office
@@ -400,10 +400,10 @@ ALTER TABLE property
 
 --changeset renaissance-admin:26
 ALTER TABLE property
-    drop column phone;
+drop column phone;
 
 ALTER TABLE property
-    drop column office_hours;
+drop column office_hours;
 
 
 --changeset renaissance-admin:27
@@ -420,7 +420,7 @@ ALTER TABLE leasing_office
 
 --changeset renaissance-admin:30
 ALTER TABLE property_amenity
-   alter column featured drop not null;
+    alter column featured drop not null;
 
 --changeset renaissance-admin:31
 ALTER TABLE amenity
@@ -449,7 +449,7 @@ ALTER TABLE property
 
 --changeset renaissance-admin:35
 ALTER TABLE property
-    alter column rating_link type varchar(2048);
+alter column rating_link type varchar(2048);
 
 --changeset renaissance-admin:36
 ALTER TABLE job_vacancy
@@ -804,3 +804,62 @@ ALTER TABLE home_page_special ALTER COLUMN id SET DEFAULT nextval('home_page_spe
 
 DROP SEQUENCE IF EXISTS hibernate_sequence;
 DROP TABLE IF EXISTS revinfo;
+
+-- changeset renaissance-admin:72
+
+SELECT setval('property_amenity_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM property_amenity), 0) + 1,
+              false);
+
+SELECT setval('property_key_log_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM property_key_log), 0) + 1,
+              false);
+
+SELECT setval('unit_key_log_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM unit_key_log), 0) + 1, false);
+
+SELECT setval('lease_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM lease), 0) + 1, false);
+
+SELECT setval('job_vacancy_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM job_vacancy), 0) + 1, false);
+
+SELECT setval('utility_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM utility), 0) + 1, false);
+
+SELECT setval('amenity_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM amenity), 0) + 1, false);
+
+SELECT setval('similar_floorplan_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM similar_floorplan), 0) + 1,
+              false);
+
+SELECT setval('floorplan_variation_id_seq'::regclass,
+              COALESCE((SELECT MAX(id) ::bigint FROM floorplan_variation), 0) + 1, false);
+
+SELECT setval('testimonial_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM testimonial), 0) + 1, false);
+
+SELECT setval('web_special_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM web_special), 0) + 1, false);
+
+SELECT setval('team_member_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM team_member), 0) + 1, false);
+
+SELECT setval('team_member_property_id_seq'::regclass,
+              COALESCE((SELECT MAX(id) ::bigint FROM team_member_property), 0) + 1, false);
+
+SELECT setval('property_bus_route_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM property_bus_route), 0) + 1,
+              false);
+
+SELECT setval('sublet_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM sublet), 0) + 1, false);
+
+SELECT setval('mileage_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM mileage), 0) + 1, false);
+
+SELECT setval('property_check_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM property_check), 0) + 1, false);
+
+SELECT setval('short_term_floorplan_id_seq'::regclass,
+              COALESCE((SELECT MAX(id) ::bigint FROM short_term_floorplan), 0) + 1, false);
+
+SELECT setval('home_page_special_id_seq'::regclass, COALESCE((SELECT MAX(id) ::bigint FROM home_page_special), 0) + 1,
+              false);
+
+-- Fix leasing_office.id back to varchar(255)
+
+-- Step 1: Drop the default (sequence nextval)
+ALTER TABLE leasing_office ALTER COLUMN id DROP DEFAULT;
+
+-- Step 2: If a sequence was attached as "owned by", detach it
+ALTER SEQUENCE leasing_office_id_seq OWNED BY NONE;
+
+-- Step 3: (Optional) Drop the mistaken sequence if not used elsewhere
+DROP SEQUENCE IF EXISTS leasing_office_id_seq;

@@ -16,24 +16,24 @@ public class InMemoryRateLimiter implements RateLimiter {
     private final Duration window;
     private final int threshold;
 
-    private final ConcurrentHashMap<String, RatelimiterEntry> state = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, RateLimiterEntry> state = new ConcurrentHashMap<>();
 
     @Override
     public boolean shouldTrigger(String key){
 
         final var now = Instant.now();
 
-        return state.compute(key,(k,ratelimiterEntry) -> {
-            if (ratelimiterEntry == null || ratelimiterEntry.firstSeen().isBefore(now.minus(window))) {
-                return new RatelimiterEntry(now, 1);
+        return state.compute(key,(k,rateLimiterEntry) -> {
+            if (rateLimiterEntry == null || rateLimiterEntry.firstSeen().isBefore(now.minus(window))) {
+                return new RateLimiterEntry(now, 1);
             }
 
-            int currentCount = ratelimiterEntry.count() + 1;
+            int currentCount = rateLimiterEntry.count() + 1;
 
             if (currentCount >= threshold) {
-                return new RatelimiterEntry(now, 0);
+                return new RateLimiterEntry(now, 0);
             }
-            return new RatelimiterEntry(ratelimiterEntry.firstSeen(), currentCount);
+            return new RateLimiterEntry(rateLimiterEntry.firstSeen(), currentCount);
 
         }).count() == 0;
 

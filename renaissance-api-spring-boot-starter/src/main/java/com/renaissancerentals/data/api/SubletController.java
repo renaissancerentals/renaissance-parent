@@ -3,10 +3,7 @@ package com.renaissancerentals.data.api;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.renaissancerentals.data.domain.data.Sublet;
 import com.renaissancerentals.data.domain.repository.SubletRepository;
@@ -25,6 +22,12 @@ public class SubletController {
     public ResponseEntity<Sublet> getSublet(@PathVariable("subletId") Long subletId){
         return ResponseEntity.ok(subletRepository.getSublet(subletId)
                 .orElseThrow(() -> new NotFoundException(String.format("Sublet with id: %d",subletId))));
+    }
+
+    @GetMapping("/asset-key/{assetKey}")
+    public ResponseEntity<Sublet> getSubletByAssetKey(@PathVariable("assetKey") String assetKey){
+        return ResponseEntity.ok(subletRepository.getSubletByAssetKey(assetKey)
+                .orElseThrow(() -> new NotFoundException(String.format("Sublet with assetId: %s",assetKey))));
     }
 
     @GetMapping

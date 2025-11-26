@@ -1,6 +1,7 @@
 package com.renaissancerentals.persistence.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,5 +12,7 @@ public interface SubletDao extends CrudRepository<SubletEntity, Long> {
     List<SubletEntity> findByActiveTrue();
 
     List<SubletEntity> findByActiveTrueAndApprovedTrue();
+
+    Optional<SubletEntity> findOneByAssetKey(String assetKey);
 
 }

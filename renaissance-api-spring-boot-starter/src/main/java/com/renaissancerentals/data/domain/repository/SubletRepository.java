@@ -21,6 +21,10 @@ public class SubletRepository {
         return subletDao.findById(subletId).map(subletMapper::toDomain);
     }
 
+    public Optional<Sublet> getSubletByAssetKey(String assetKey){
+        return subletDao.findOneByAssetKey(assetKey).map(subletMapper::toDomain);
+    }
+
     public List<Sublet> getActiveAndApprovedSublets(){
         return subletDao.findByActiveTrueAndApprovedTrue().stream().map(subletMapper::toDomain).toList();
     }
@@ -28,4 +32,5 @@ public class SubletRepository {
     public List<Sublet> getActiveSublets(){
         return subletDao.findByActiveTrue().stream().map(subletMapper::toDomain).toList();
     }
+
 }
