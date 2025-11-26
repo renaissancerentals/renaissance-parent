@@ -39,9 +39,7 @@ This gives your project:
 * Java 21 setup
 * Centralized dependency versions
 * Automatic source/javadoc jars
-* GPG signing support
 * Plugin configurations
-* Compatibility with Maven Central publishing (via Sonatype)
 
 ## Dependency Management
 
