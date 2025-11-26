@@ -46,9 +46,9 @@ git push origin main
 echo "🚀 Deploying to Nexus..."
 
 # Deploy BOM first
-mvn deploy -pl contentmunch-bom -DskipTests
+mvn deploy -pl renaissance-bom -DskipTests
 
 # Deploy everything else
-mvn deploy -pl !contentmunch-bom -DskipTests
+mvn deploy -pl !renaissance-bom -DskipTests
 
 echo "🎉 Release complete: $NEW_VERSION"
