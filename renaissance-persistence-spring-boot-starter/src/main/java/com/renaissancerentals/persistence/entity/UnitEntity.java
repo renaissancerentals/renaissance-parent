@@ -32,6 +32,12 @@ public class UnitEntity implements Serializable {
 
     private Float discountedRent;
 
+    private LocalDate discountedRentStartDate;
+
+    private LocalDate discountedRentEndDate;
+
+    private String discountedRentDescription;
+
     private Float deposit;
 
     private Boolean endUnit;
