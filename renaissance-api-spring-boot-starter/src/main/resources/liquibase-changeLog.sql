@@ -863,3 +863,64 @@ ALTER SEQUENCE leasing_office_id_seq OWNED BY NONE;
 
 -- Step 3: (Optional) Drop the mistaken sequence if not used elsewhere
 DROP SEQUENCE IF EXISTS leasing_office_id_seq;
+
+
+-- changeset renaissance-admin:73
+
+CREATE TABLE floorplan_faq
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    question           TEXT NOT NULL,
+    answer             TEXT NOT NULL,
+    sort_order         FLOAT,
+    floorplan_id       VARCHAR(255),
+    last_modified_by   VARCHAR(255),
+    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT fk_floorplan_floorplan_faq_floorplan_id FOREIGN KEY (floorplan_id) REFERENCES floorplan (id) ON DELETE CASCADE
+);
+
+-- changeset renaissance-admin:74
+
+CREATE TABLE property_faq
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    question           TEXT NOT NULL,
+    answer             TEXT NOT NULL,
+    sort_order         FLOAT,
+    property_id        VARCHAR(255),
+    last_modified_by   VARCHAR(255),
+    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT fk_property_property_faq_property_id FOREIGN KEY (property_id) REFERENCES property (id) ON DELETE CASCADE
+);
+
+-- changeset renaissance-admin:75
+
+CREATE TABLE resident_faq
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    question           TEXT NOT NULL,
+    answer             TEXT NOT NULL,
+    sort_order         FLOAT,
+    last_modified_by   VARCHAR(255),
+    last_modified_date TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- changeset renaissance-admin:76
+
+CREATE TABLE maintenance_faq
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    question           TEXT NOT NULL,
+    answer             TEXT NOT NULL,
+    sort_order         FLOAT,
+    last_modified_by   VARCHAR(255),
+    last_modified_date TIMESTAMP WITHOUT TIME ZONE
+);
+
+
+--changeset renaissance-admin:77
+ALTER TABLE unit
+    ADD COLUMN discounted_rent_start_date date,
+    ADD COLUMN discounted_rent_end_date date,
+    ADD COLUMN discounted_rent_description varchar(255);
+

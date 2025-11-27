@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>2.2.0</version>
+    <version>2.3.0</version>
     <packaging>pom</packaging>
     <name>Renaissance parent pom</name>
     <description>Renaissancerentals parent pom</description>
-    <url>https://github.com/contentmunch/renaissance-parent</url>
+    <url>https://github.com/renaissancerentals/renaissance-parent</url>
     <licenses>
         <license>
             <name>License</name>
@@ -60,7 +60,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>2.2.0</version>
+                <version>2.3.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -75,7 +75,7 @@
                     <version>2.26.0</version>
                     <configuration>
                         <!--suppress UnresolvedMavenProperty -->
-                        <configFile>${project.parent.basedir}/eclipse/formatter.xml</configFile>
+                        <configFile>${session.topLevelProject.basedir}/.build-config/formatter.xml</configFile>
                         <encoding>UTF-8</encoding>
                         <lineEnding>LF</lineEnding>
                     </configuration>
@@ -205,7 +205,7 @@
                             <effort>Max</effort>
                             <threshold>Medium</threshold>
                             <!--suppress UnresolvedMavenProperty -->
-                            <excludeFilterFile>${project.parent.basedir}/config/spotbugs-exclude.xml</excludeFilterFile>
+                            <excludeFilterFile>${session.topLevelProject.basedir}/.build-config/spotbugs-exclude.xml</excludeFilterFile>
                         </configuration>
                     </plugin>
                 </plugins>
