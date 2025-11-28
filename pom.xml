@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
     <packaging>pom</packaging>
-    <name>Renaissance parent pom</name>
-    <description>Renaissancerentals parent pom</description>
+    <name>Renaissance Parent </name>
+    <description>Renaissancerentals Parent pom</description>
     <url>https://github.com/renaissancerentals/renaissance-parent</url>
     <licenses>
         <license>
@@ -60,7 +60,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>2.5.0</version>
+                <version>2.6.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
