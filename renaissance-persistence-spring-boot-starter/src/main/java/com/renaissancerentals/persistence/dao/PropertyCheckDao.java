@@ -12,9 +12,9 @@ public interface PropertyCheckDao extends CrudRepository<PropertyCheckEntity, Lo
 
     List<PropertyCheckEntity> findAllByEmployee(String employee);
 
-    @Query("select p from PropertyCheckEntity p where p.startDate = :startDate and p.employee =:employee")
+    @Query("SELECT * FROM property_check WHERE start_date = :startDate AND employee =:employee")
     List<PropertyCheckEntity> findAllByEmployeeAndStartDate(String employee,LocalDate startDate);
 
-    @Query("select p from PropertyCheckEntity p where p.startDate >= :fromDate and p.startDate <=:toDate")
+    @Query("SELECT * FROM property_check WHERE start_date >= :fromDate AND start_date <=:toDate")
     List<PropertyCheckEntity> findBetween(LocalDate fromDate,LocalDate toDate);
 }

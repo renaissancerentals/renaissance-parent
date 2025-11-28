@@ -12,6 +12,6 @@ public interface MileageDao extends CrudRepository<MileageEntity, Long> {
 
     List<MileageEntity> findAllByEmployee(String employee);
 
-    @Query("select m from MileageEntity m where m.driveDate >= :fromDate and m.driveDate <=:toDate")
+    @Query("SELECT * FROM mileage WHERE drive_date >= :fromDate AND drive_date <=:toDate")
     List<MileageEntity> findBetween(LocalDate fromDate,LocalDate toDate);
 }
