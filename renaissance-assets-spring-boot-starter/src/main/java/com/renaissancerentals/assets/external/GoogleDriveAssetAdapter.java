@@ -180,7 +180,8 @@ public class GoogleDriveAssetAdapter implements AssetService {
         return Asset.builder().id(file.getId()).name(file.getName()).description(file.getDescription())
                 .folderId(hasParents(file) ? file.getParents().getFirst() : null).mimeType(file.getMimeType())
                 .height(file.getImageMediaMetadata() != null ? file.getImageMediaMetadata().getHeight() : null)
-                .width(file.getImageMediaMetadata() != null ? file.getImageMediaMetadata().getWidth() : null).build();
+                .width(file.getImageMediaMetadata() != null ? file.getImageMediaMetadata().getWidth() : null)
+                .thumbnail(file.getThumbnailLink()).build();
     }
 
     private boolean hasParents(final File file){
