@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.renaissancerentals.persistence.entity.PropertyEntity;
 
 public interface PropertyDao extends CrudRepository<PropertyEntity, String> {
 
-    Optional<PropertyEntity> findOneByNameIgnoreCase(String name);
+    Optional<PropertyEntity> findOneByNameIgnoreCase(@Param("name") String name);
 
-    List<PropertyEntity> findAllByLeaseType(String leaseType);
+    List<PropertyEntity> findAllByLeaseType(@Param("leaseType") String leaseType);
 
 }
