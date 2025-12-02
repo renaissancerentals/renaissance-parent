@@ -1,5 +1,6 @@
 package com.renaissancerentals.assets.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -8,6 +9,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.renaissancerentals.assets.error.AssetsNotFoundException;
@@ -42,13 +44,18 @@ public class AssetController {
 
     @GetMapping("/assets/{id}/download")
     public ResponseEntity<Resource> getFile(@PathVariable("id") String id){
+
+        // sanitize for header safety
+        var safeFilename = StringUtils.cleanPath(id).replaceAll("[\r\n]","");
+
         final var fileBytes = assetService.getFile(id)
                 .orElseThrow(() -> new AssetsNotFoundException("Asset with Id: " + id + " not found"));
 
         final var resource = new ByteArrayResource(fileBytes);
+
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(resource.contentLength())
-                .header(HttpHeaders.CONTENT_DISPOSITION,ContentDisposition.attachment().filename(id).build().toString())
+                .contentLength(resource.contentLength()).header(HttpHeaders.CONTENT_DISPOSITION,ContentDisposition
+                        .attachment().filename(safeFilename,StandardCharsets.UTF_8).build().toString())
                 .body(resource);
     }
 
