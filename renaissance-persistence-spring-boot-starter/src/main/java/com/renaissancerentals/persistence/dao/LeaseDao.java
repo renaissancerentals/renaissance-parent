@@ -11,4 +11,6 @@ public interface LeaseDao extends CrudRepository<LeaseEntity, Long> {
     List<LeaseEntity> findAllByOrderByEndDateDesc();
 
     List<LeaseEntity> findAllByOrderByEndDateAsc();
+
+    List<LeaseEntity> findAllByUnitIdOrderByEndDateDesc(String unitId);
 }
