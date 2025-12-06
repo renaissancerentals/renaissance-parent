@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = PropertyFaqEntity.TABLE_NAME)
-public class PropertyFaqEntity implements Serializable {
+public class PropertyFaqEntity implements Serializable, PropertyAware {
     public static final String TABLE_NAME = "property_faq";
     @Id
     private Long id;

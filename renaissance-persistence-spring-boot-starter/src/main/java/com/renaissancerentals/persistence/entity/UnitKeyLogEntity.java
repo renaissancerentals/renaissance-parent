@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = UnitKeyLogEntity.TABLE_NAME)
-public class UnitKeyLogEntity implements Serializable {
+public class UnitKeyLogEntity implements Serializable, UnitAware {
     public static final String TABLE_NAME = "unit_key_log";
     @Id
     private Long id;

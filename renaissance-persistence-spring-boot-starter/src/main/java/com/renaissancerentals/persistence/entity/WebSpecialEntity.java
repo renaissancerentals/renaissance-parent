@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = WebSpecialEntity.TABLE_NAME)
-public class WebSpecialEntity implements Serializable {
+public class WebSpecialEntity implements Serializable, FloorplanAware {
     public static final String TABLE_NAME = "web_special";
     @Id
     private Long id;

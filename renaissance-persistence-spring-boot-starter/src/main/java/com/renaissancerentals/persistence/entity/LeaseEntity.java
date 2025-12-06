@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = LeaseEntity.TABLE_NAME)
-public class LeaseEntity implements Serializable {
+public class LeaseEntity implements Serializable, UnitAware {
     public static final String TABLE_NAME = "lease";
     @Id
     private Long id;

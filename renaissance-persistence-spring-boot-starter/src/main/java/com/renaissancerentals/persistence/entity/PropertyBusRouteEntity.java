@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = PropertyBusRouteEntity.TABLE_NAME)
-public class PropertyBusRouteEntity implements Serializable {
+public class PropertyBusRouteEntity implements Serializable, PropertyAware {
     public static final String TABLE_NAME = "property_bus_route";
     @Id
     private Long id;

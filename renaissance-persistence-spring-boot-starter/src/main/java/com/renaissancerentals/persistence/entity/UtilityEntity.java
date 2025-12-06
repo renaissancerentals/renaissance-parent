@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = UtilityEntity.TABLE_NAME)
-public class UtilityEntity implements Serializable {
+public class UtilityEntity implements Serializable, FloorplanAware {
     public static final String TABLE_NAME = "utility";
     @Id
     private Long id;
