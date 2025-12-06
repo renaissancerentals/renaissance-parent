@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = UnitEntity.TABLE_NAME)
-public class UnitEntity implements Serializable {
+public class UnitEntity implements Serializable, FloorplanAware {
     public static final String TABLE_NAME = "unit";
 
     @Id
