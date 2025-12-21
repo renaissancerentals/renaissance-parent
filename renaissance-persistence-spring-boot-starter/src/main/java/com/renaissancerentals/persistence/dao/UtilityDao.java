@@ -1,7 +1,9 @@
 package com.renaissancerentals.persistence.dao;
 
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -15,5 +17,8 @@ public interface UtilityDao extends CrudRepository<UtilityEntity, Long> {
     void deleteByFloorplanId(@Param("floorplanId") String floorplanId);
 
     List<UtilityEntity> findByFloorplanId(@Param("floorplanId") String floorplanId);
+
+    @Query("SELECT DISTINCT name FROM utility")
+    Set<String> findDistinctNames();
 
 }
