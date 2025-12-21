@@ -57,9 +57,9 @@ public class GmailAdapter implements MailService {
 
         helper.setTo(mail.to());
 
-        Optional.ofNullable(mail.cc()).or(() -> Optional.ofNullable(config.cc())).ifPresent(cc -> {
+        Optional.ofNullable(mail.cc()).ifPresent(cc -> {
             try {
-                helper.setCc(cc);
+                helper.setCc(cc.toArray(String[]::new));
             } catch (MessagingException e) {
                 throw new MailBusinessException(MailErrorCode.INVALID_EMAIL_ADDRESS, e);
             }

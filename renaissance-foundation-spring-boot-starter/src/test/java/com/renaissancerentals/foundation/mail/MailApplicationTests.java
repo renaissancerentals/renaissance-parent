@@ -23,8 +23,7 @@ class MailApplicationTests {
         var defaultMessage = new DefaultMessage("Muncher", "Test mail");
 
         var message = mailMessageFactory.createMessage(defaultMessage);
-        mailService.sendMail(MailMessage.builder().subject("Hello World!").cc("admin@contentmunch.com")
-                .to("asikpradhan@gmail.com").build(),message);
+        mailService.sendMail(MailMessage.builder().subject("Hello World!").to("asikpradhan@gmail.com").build(),message);
     }
 
 }

@@ -45,5 +45,4 @@ renaissancerentals:
     refresh-token: ${GOOGLE_API_REFRESH_TOKEN}
     token-server: https://oauth2.googleapis.com/token
     from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
-    cc: ${MAIL_CC:edainton@renaissancerentals.com}
     from-name: ${MAIL_FROM_NAME:Renaissance Rentals}

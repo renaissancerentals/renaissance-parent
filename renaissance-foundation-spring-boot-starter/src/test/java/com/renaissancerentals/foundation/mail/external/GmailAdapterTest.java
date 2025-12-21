@@ -49,8 +49,6 @@ class GmailAdapterTest {
         when(gmailFactory.create()).thenReturn(gmail);
         when(config.from()).thenReturn("noreply@example.com");
         when(config.fromName()).thenReturn("Mail Bot");
-        when(config.cc()).thenReturn(null);
-
         adapter = new GmailAdapter(config, gmailFactory);
     }
 
