@@ -1,14 +1,13 @@
 package com.renaissancerentals.persistence.entity;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.UUID;
-
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import lombok.Data;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.UUID;
 
 @Data
 @Table(name = ApplicationEmailEntity.TABLE_NAME)
@@ -21,11 +20,13 @@ public class ApplicationEmailEntity implements Serializable, RenaissanceEmailAwa
     private String fromEmail;
     private String fromPhone;
     private String sourceUrl;
-    @CreatedDate
-    private Instant createdAt;
 
     private String interestedCommunity;
     private String interestedLocation;
     private String rawQuestions;
+
+
+    @CreatedDate
+    private Instant createdAt;
 
 }

@@ -1,16 +1,15 @@
 package com.renaissancerentals.persistence.entity;
 
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.Data;
 
 @Data
 @Table(name = ContactEmailEntity.TABLE_NAME)
@@ -23,8 +22,6 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware {
     private String fromEmail;
     private String fromPhone;
     private String sourceUrl;
-    @CreatedDate
-    private Instant createdAt;
 
     private boolean phonePreferred;
     private boolean textPreferred;
@@ -34,7 +31,10 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware {
 
     private Map<String, Object> additionalInfo;
 
-    public Map<String, Object> getAdditionalInfo(){
+    @CreatedDate
+    private Instant createdAt;
+
+    public Map<String, Object> getAdditionalInfo() {
         return additionalInfo == null ? null : new HashMap<>(additionalInfo);
     }
 }

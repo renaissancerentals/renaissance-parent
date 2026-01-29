@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/renaissance-site-parent/.mvn/
