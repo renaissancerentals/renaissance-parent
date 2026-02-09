@@ -8,13 +8,15 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
 
 @Data
 @Table(name = ContactEmailEntity.TABLE_NAME)
-public class ContactEmailEntity implements Serializable, RenaissanceEmailAware {
+public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, Persistable<UUID> {
     public static final String TABLE_NAME = "contact_email";
 
     @Id
@@ -32,10 +34,22 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware {
 
     private Map<String, Object> additionalInfo;
 
+    @Transient
+    private boolean isNew;
+
     @CreatedDate
     private Instant createdAt;
 
     public Map<String, Object> getAdditionalInfo(){
         return additionalInfo == null ? null : new HashMap<>(additionalInfo);
+    }
+
+    @Override
+    public boolean isNew(){
+        return isNew;
+    }
+
+    public void markNew(){
+        this.isNew = true;
     }
 }
