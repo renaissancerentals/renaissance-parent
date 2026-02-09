@@ -11,11 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import com.renaissancerentals.foundation.captcha.error.CaptchaException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -92,16 +88,6 @@ public class GlobalExceptionHandler {
         log.error("Validation failed: {}",errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.builder().errorMessage(errorMessage).errorCode("VALIDATION_ERROR").build());
-    }
-
-    /**
-     * Honey pot based captcha exception
-     **/
-    @ExceptionHandler(CaptchaException.class)
-    @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public ErrorMessage handleCaptchaException(CaptchaException e){
-        return ErrorMessage.builder().message("Bot Activity Detected").build();
     }
 
     @ExceptionHandler(Exception.class)
