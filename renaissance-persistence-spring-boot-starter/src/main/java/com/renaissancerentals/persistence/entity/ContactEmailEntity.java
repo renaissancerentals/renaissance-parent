@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
@@ -37,7 +36,6 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
     @Transient
     private boolean isNew;
 
-    @CreatedDate
     private Instant createdAt;
 
     public Map<String, Object> getAdditionalInfo(){

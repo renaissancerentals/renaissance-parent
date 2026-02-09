@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
@@ -28,7 +27,6 @@ public class ApplicationEmailEntity implements Serializable, RenaissanceEmailAwa
     private String interestedLocation;
     private String rawQuestions;
 
-    @CreatedDate
     private Instant createdAt;
 
     @Transient
