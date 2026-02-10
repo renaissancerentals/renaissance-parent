@@ -29,7 +29,7 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
 
     private String rawQuestion;
 
-    private String additionalInfo;
+    private ContactAdditionalInfo additionalInfo;
 
     @Transient
     private boolean isNew;
@@ -43,5 +43,14 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
 
     public void markNew(){
         this.isNew = true;
+    }
+
+    public ContactAdditionalInfo getAdditionalInfo(){
+        if (additionalInfo == null)
+            return null;
+        return new ContactAdditionalInfo(additionalInfo.getAmenities(), additionalInfo.getBedrooms(),
+                additionalInfo.getFloorPlan(), additionalInfo.getHearAboutUs(), additionalInfo.getLowerRent(),
+                additionalInfo.getUpperRent(), additionalInfo.getMoveInDate(), additionalInfo.getPets(),
+                additionalInfo.getCommunities());
     }
 }
