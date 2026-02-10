@@ -2,8 +2,6 @@ package com.renaissancerentals.persistence.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -31,16 +29,12 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
 
     private String rawQuestion;
 
-    private Map<String, Object> additionalInfo;
+    private String additionalInfo;
 
     @Transient
     private boolean isNew;
 
     private Instant createdAt;
-
-    public Map<String, Object> getAdditionalInfo(){
-        return additionalInfo == null ? null : new HashMap<>(additionalInfo);
-    }
 
     @Override
     public boolean isNew(){
