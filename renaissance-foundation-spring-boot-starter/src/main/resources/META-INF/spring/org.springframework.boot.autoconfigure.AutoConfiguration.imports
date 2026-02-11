@@ -5,3 +5,4 @@ com.renaissancerentals.foundation.mail.config.MailAutoConfiguration
 com.renaissancerentals.foundation.threads.VirtualThreadAutoConfiguration
 com.renaissancerentals.foundation.ratelimiter.RateLimiterAutoconfiguration
 com.renaissancerentals.foundation.management.ManagementAutoConfiguration
+com.renaissancerentals.foundation.web.WebAutoConfiguration
