@@ -112,6 +112,13 @@
                 <version>2.11.0</version>
                 <scope>test</scope>
             </dependency>
+
+            <!--Ring Central related -->
+            <dependency>
+                <groupId>com.ringcentral</groupId>
+                <artifactId>ringcentral</artifactId>
+                <version>3.3.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

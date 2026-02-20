@@ -17,4 +17,9 @@ public class UtilityConfirmationMailTemplate extends AbstractMailTemplate<Utilit
     public String getTemplateName(){
         return "utility-confirmation-mail.ftl";
     }
+
+    @Override
+    public Class<UtilityConfirmationRequest> getModelType() {
+        return UtilityConfirmationRequest.class;
+    }
 }
