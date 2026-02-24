@@ -37,20 +37,26 @@ public class GmailAdapter implements MailService {
     }
 
     @Override
-    public void sendMail(MailMessage mailMessage,String messageBody){
+    public void sendMail(MailMessage mailMessage,String body){
+        send(body,mailMessage,false);
+    }
+
+    @Override
+    public void sendHtmlMail(MailMessage mailMessage,String body){
+        send(body,mailMessage,true);
+    }
+
+    private void send(String body,MailMessage mail,boolean isHtml){
         try {
-            log.debug("Sending email via Gmail: {}",mailMessage);
-
-            MimeMessage mimeMessage = buildMimeMessage(mailMessage,messageBody);
+            MimeMessage mimeMessage = buildMimeMessage(mail,body,isHtml);
             Message message = encodeMimeMessage(mimeMessage);
-
             gmail.users().messages().send(USER_ID,message).execute();
         } catch (IOException | MessagingException e) {
             throw new MailServerException(MailErrorCode.MAIL_SEND_ERROR, e);
         }
     }
 
-    private MimeMessage buildMimeMessage(MailMessage mail,String body)
+    private MimeMessage buildMimeMessage(MailMessage mail,String body,boolean isHtml)
             throws MessagingException, UnsupportedEncodingException{
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties(),null));
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
@@ -72,7 +78,7 @@ public class GmailAdapter implements MailService {
         }
 
         helper.setSubject(mail.subject());
-        helper.setText(body);
+        helper.setText(body,isHtml);
         Optional.ofNullable(mail.replyTo()).ifPresent(replyTo -> {
             try {
                 helper.setReplyTo(replyTo);

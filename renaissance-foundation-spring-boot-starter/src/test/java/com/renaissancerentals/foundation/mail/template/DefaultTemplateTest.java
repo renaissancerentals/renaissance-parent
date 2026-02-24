@@ -17,13 +17,14 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.renaissancerentals.foundation.mail.error.MailErrorCode;
 import com.renaissancerentals.foundation.mail.error.MailServerException;
-import com.renaissancerentals.foundation.mail.template.model.DefaultMessage;
+import com.renaissancerentals.foundation.template.mail.DefaultMailTemplate;
+import com.renaissancerentals.foundation.template.mail.model.DefaultMessage;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultMailTemplateTest {
+class DefaultTemplateTest {
 
     @Mock
     Configuration freemarkerConfiguration;

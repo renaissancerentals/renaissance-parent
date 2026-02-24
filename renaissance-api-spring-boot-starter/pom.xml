@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
     </parent>
     <artifactId>renaissance-api-spring-boot-starter</artifactId>
     <name>Renaissance API</name>
@@ -32,10 +32,6 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ringcentral</groupId>
-            <artifactId>ringcentral</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

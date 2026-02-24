@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
     </parent>
     <name>Renaissance Foundation</name>
     <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
@@ -28,6 +28,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.ringcentral</groupId>
+            <artifactId>ringcentral</artifactId>
+        </dependency>
+
         <!-- OpenTelemetry SDK and HTTP instrumentation -->
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>

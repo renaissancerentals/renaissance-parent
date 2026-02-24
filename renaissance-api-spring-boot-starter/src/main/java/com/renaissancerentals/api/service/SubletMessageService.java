@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.renaissancerentals.api.domain.Sublet;
-import com.renaissancerentals.api.domain.mail.SubletEmailMessage;
+import com.renaissancerentals.api.domain.template.SubletEmailMessage;
 import com.renaissancerentals.api.messaging.SubletMessageRequest;
 import com.renaissancerentals.foundation.mail.model.MailMessage;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 public class SubletMessageService {
 
     private final MailService mailService;
-    private final MailMessageFactory mailMessageFactory;
+    private final TemplateMessageFactory templateMessageFactory;
 
     @Value("${renaissancerentals.sublet.alertTo}")
     private String alertTo;
 
     public void sendMessage(Sublet sublet,SubletMessageRequest subletMessage){
 
-        var message = mailMessageFactory.createMessage(SubletEmailMessage.builder().subletTitle(sublet.title())
+        var message = templateMessageFactory.createMessage(SubletEmailMessage.builder().subletTitle(sublet.title())
                 .ownerName(sublet.firstName()).messenger(subletMessage.name()).messengerEmail(subletMessage.email())
                 .message(subletMessage.message()).build());
 
@@ -36,7 +36,7 @@ public class SubletMessageService {
 
     public void sendNewSubletAlert(Sublet sublet){
 
-        var message = mailMessageFactory.createMessage(sublet);
+        var message = templateMessageFactory.createMessage(sublet);
 
         mailService.sendMail(MailMessage.builder().to(alertTo).replyTo(sublet.email())
                 .subject(String.format("New Sublet Posted: - %s ",sublet.title())).build(),message);

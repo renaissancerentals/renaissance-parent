@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.renaissancerentals.api.messaging.UtilityConfirmationRequest;
 import com.renaissancerentals.foundation.mail.model.MailMessage;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,12 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class UtilityConfirmationService {
 
     private final MailService mailService;
-    private final MailMessageFactory mailMessageFactory;
+    private final TemplateMessageFactory templateMessageFactory;
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
     public void save(UtilityConfirmationRequest utilityConfirmation){
-        var message = mailMessageFactory.createMessage(utilityConfirmation);
+        var message = templateMessageFactory.createMessage(utilityConfirmation);
         var subject = String.format("Utility Setup Confirmation by by %s",utilityConfirmation.name());
         mailService.sendMail(MailMessage.builder().subject(subject).replyTo(utilityConfirmation.email())
                 .to(utilityConfirmation.emailTo()).cc(cc).build(),message);

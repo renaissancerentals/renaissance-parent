@@ -1,4 +1,4 @@
-package com.renaissancerentals.api.domain.mail;
+package com.renaissancerentals.api.domain.template;
 
 import lombok.Builder;
 

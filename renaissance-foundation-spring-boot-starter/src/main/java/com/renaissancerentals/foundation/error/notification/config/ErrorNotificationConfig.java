@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import com.renaissancerentals.foundation.error.ServerException;
 import com.renaissancerentals.foundation.error.notification.component.ExceptionNotifier;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
 import com.renaissancerentals.foundation.ratelimiter.RateLimiter;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 
 @Configuration
 public class ErrorNotificationConfig {
 
     @Bean
     public ExceptionNotifier<ServerException> serverExceptionNotifier(ErrorNotificationConfigProperties properties,
-            MailMessageFactory mailMessageFactory,MailService mailService,RateLimiter rateLimiter){
-        return new ExceptionNotifier<>(properties, mailMessageFactory, mailService, rateLimiter);
+            TemplateMessageFactory templateMessageFactory,MailService mailService,RateLimiter rateLimiter){
+        return new ExceptionNotifier<>(properties, templateMessageFactory, mailService, rateLimiter);
     }
 }

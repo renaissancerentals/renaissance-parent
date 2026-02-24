@@ -2,6 +2,8 @@ com.renaissancerentals.foundation.telemetry.TelemetryAutoConfiguration
 com.renaissancerentals.foundation.logging.LoggingAutoConfiguration
 com.renaissancerentals.foundation.error.ExceptionHandlerAutoConfiguration
 com.renaissancerentals.foundation.mail.config.MailAutoConfiguration
+com.renaissancerentals.foundation.template.config.TemplateAutoConfiguration
+com.renaissancerentals.foundation.text.config.TextAutoConfiguration
 com.renaissancerentals.foundation.threads.VirtualThreadAutoConfiguration
 com.renaissancerentals.foundation.ratelimiter.RateLimiterAutoconfiguration
 com.renaissancerentals.foundation.management.ManagementAutoConfiguration

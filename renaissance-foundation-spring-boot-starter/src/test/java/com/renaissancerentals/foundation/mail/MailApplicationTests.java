@@ -7,22 +7,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.renaissancerentals.foundation.mail.model.MailMessage;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
-import com.renaissancerentals.foundation.mail.template.model.DefaultMessage;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
+import com.renaissancerentals.foundation.template.mail.model.DefaultMessage;
 
 @SpringBootTest
 class MailApplicationTests {
     @Autowired
     private MailService mailService;
     @Autowired
-    private MailMessageFactory mailMessageFactory;
+    private TemplateMessageFactory templateMessageFactory;
 
     @Test
     @Disabled("Only enable to test the working on email")
     void contextLoads(){
         var defaultMessage = new DefaultMessage("Muncher", "Test mail");
 
-        var message = mailMessageFactory.createMessage(defaultMessage);
+        var message = templateMessageFactory.createMessage(defaultMessage);
         mailService.sendMail(MailMessage.builder().subject("Hello World!").to("asikpradhan@gmail.com").build(),message);
     }
 

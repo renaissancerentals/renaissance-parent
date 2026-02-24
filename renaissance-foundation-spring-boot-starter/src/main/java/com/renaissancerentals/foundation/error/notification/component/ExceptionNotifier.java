@@ -9,15 +9,15 @@ import com.renaissancerentals.foundation.error.notification.config.ErrorNotifica
 import com.renaissancerentals.foundation.error.notification.mail.model.ServerErrorMessage;
 import com.renaissancerentals.foundation.mail.model.MailMessage;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
 import com.renaissancerentals.foundation.ratelimiter.RateLimiter;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ExceptionNotifier<T extends BaseException> {
     private final ErrorNotificationConfigProperties properties;
-    private final MailMessageFactory mailMessageFactory;
+    private final TemplateMessageFactory templateMessageFactory;
     private final MailService mailService;
     private final RateLimiter rateLimiter;
 
@@ -31,7 +31,7 @@ public class ExceptionNotifier<T extends BaseException> {
         if (!rateLimiter.shouldTrigger(notifyingException.getClass().getName()))
             return;
 
-        final var messageBody = mailMessageFactory.createMessage(messageFrom(notifyingException));
+        final var messageBody = templateMessageFactory.createMessage(messageFrom(notifyingException));
         final var title = MessageFormat.format(properties.titleFormat(),notifyingException.getErrorMessage().code());
 
         var mailMessage = MailMessage.builder().subject(title).to(properties.emailTo()).cc(properties.emailCc())

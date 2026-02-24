@@ -70,8 +70,30 @@ renaissancerentals:
     folder: ${GOOGLE_DRIVE_SUBLETS_FOLDER:1Aus9EfNfZ0p0mIr-2L484mIISlsrS4IX}
   text:
     enabled: true
-    client-id: ${RENAISSANCE_TEXT_CLIENT_ID}
-    client-secret: ${RENAISSANCE_TEXT_CLIENT_SECRET}
-    jwt-token: ${RENAISSANCE_TEXT_JWT_TOKEN}
     server-url: https://platform.ringcentral.com
+    extensions:
+      8123238021:
+        name: Covenanter Hill
+        phone-number: +18123238021
+        client-id: ${RENAISSANCE_TEXT_COV_CLIENT_ID}
+        client-secret: ${RENAISSANCE_TEXT_COV_CLIENT_SECRET}
+        jwt-token: ${RENAISSANCE_TEXT_COV_JWT_TOKEN}
+      8123301123:
+        name: Scholars Rock
+        phone-number: +18123301123
+        client-id: ${RENAISSANCE_TEXT_SC_CLIENT_ID}
+        client-secret: ${RENAISSANCE_TEXT_SC_CLIENT_SECRET}
+        jwt-token: ${RENAISSANCE_TEXT_SC_JWT_TOKEN}
+      8123322141:
+        name: Summer House
+        phone-number: +18123322141
+        client-id: ${RENAISSANCE_TEXT_SH_CLIENT_ID}
+        client-secret: ${RENAISSANCE_TEXT_SH_CLIENT_SECRET}
+        jwt-token: ${RENAISSANCE_TEXT_SH_JWT_TOKEN}
+      8123332280:
+        name: Verona Park
+        phone-number: +18123332280
+        client-id: ${RENAISSANCE_TEXT_VP_CLIENT_ID}
+        client-secret: ${RENAISSANCE_TEXT_VP_CLIENT_SECRET}
+        jwt-token: ${RENAISSANCE_TEXT_VP_JWT_TOKEN}
 

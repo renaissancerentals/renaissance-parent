@@ -3,12 +3,12 @@ package com.renaissancerentals.api.template;
 import org.springframework.stereotype.Component;
 
 import com.renaissancerentals.api.messaging.UtilityConfirmationRequest;
-import com.renaissancerentals.foundation.mail.template.AbstractMailTemplate;
+import com.renaissancerentals.foundation.template.AbstractTemplate;
 
 import freemarker.template.Configuration;
 
 @Component
-public class UtilityConfirmationMailTemplate extends AbstractMailTemplate<UtilityConfirmationRequest> {
+public class UtilityConfirmationMailTemplate extends AbstractTemplate<UtilityConfirmationRequest> {
     protected UtilityConfirmationMailTemplate(Configuration freemarkerConfiguration) {
         super(freemarkerConfiguration);
     }
@@ -19,7 +19,7 @@ public class UtilityConfirmationMailTemplate extends AbstractMailTemplate<Utilit
     }
 
     @Override
-    public Class<UtilityConfirmationRequest> getModelType() {
+    public Class<UtilityConfirmationRequest> getModelType(){
         return UtilityConfirmationRequest.class;
     }
 }

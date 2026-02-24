@@ -1,4 +1,4 @@
-package com.renaissancerentals.foundation.mail.template.model;
+package com.renaissancerentals.foundation.template.mail.model;
 
 public record DefaultMessage(String name, String message) {
 }

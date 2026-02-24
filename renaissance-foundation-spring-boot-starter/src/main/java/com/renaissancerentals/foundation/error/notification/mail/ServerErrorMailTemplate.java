@@ -3,12 +3,12 @@ package com.renaissancerentals.foundation.error.notification.mail;
 import org.springframework.stereotype.Component;
 
 import com.renaissancerentals.foundation.error.notification.mail.model.ServerErrorMessage;
-import com.renaissancerentals.foundation.mail.template.AbstractMailTemplate;
+import com.renaissancerentals.foundation.template.AbstractTemplate;
 
 import freemarker.template.Configuration;
 
 @Component
-public class ServerErrorMailTemplate extends AbstractMailTemplate<ServerErrorMessage> {
+public class ServerErrorMailTemplate extends AbstractTemplate<ServerErrorMessage> {
     public ServerErrorMailTemplate(Configuration freemarkerConfiguration) {
         super(freemarkerConfiguration);
     }
@@ -16,5 +16,10 @@ public class ServerErrorMailTemplate extends AbstractMailTemplate<ServerErrorMes
     @Override
     public String getTemplateName(){
         return "server-error-mail.ftl";
+    }
+
+    @Override
+    public Class<ServerErrorMessage> getModelType(){
+        return ServerErrorMessage.class;
     }
 }

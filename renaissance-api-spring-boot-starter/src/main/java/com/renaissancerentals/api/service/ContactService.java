@@ -8,14 +8,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.renaissancerentals.api.error.NotFoundException;
+import com.renaissancerentals.api.domain.PropertyContact;
+import com.renaissancerentals.api.domain.template.ContactAcknowledgementMail;
+import com.renaissancerentals.api.domain.template.ContactAcknowledgementText;
 import com.renaissancerentals.api.messaging.ContactMessageRequest;
 import com.renaissancerentals.api.repository.ContactRepository;
 import com.renaissancerentals.foundation.mail.model.MailMessage;
 import com.renaissancerentals.foundation.mail.service.MailService;
-import com.renaissancerentals.foundation.mail.template.MailMessageFactory;
-import com.renaissancerentals.persistence.dao.PropertyDao;
-import com.renaissancerentals.persistence.entity.PropertyEntity;
+import com.renaissancerentals.foundation.template.TemplateMessageFactory;
+import com.renaissancerentals.foundation.text.data.TextMessage;
+import com.renaissancerentals.foundation.text.service.TextService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,10 +27,11 @@ public class ContactService {
 
     private final ContactRepository contactRepository;
 
-    private final PropertyDao propertyRepository;
+    private final PropertyService propertyService;
 
     private final MailService mailService;
-    private final MailMessageFactory mailMessageFactory;
+    private final TextService textService;
+    private final TemplateMessageFactory templateMessageFactory;
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
@@ -37,33 +40,46 @@ public class ContactService {
 
         contactRepository.save(contactMessage);
 
-        var property = propertyRepository.findById(contactMessage.property())
-                .orElseThrow(() -> new NotFoundException("Property not found"));
+        var property = propertyService.getPropertyContact(contactMessage.property());
+
         sendContactEmail(contactMessage,property);
 
     }
 
-    private List<String> getCC(PropertyEntity property){
+    private List<String> getCC(String secondaryEmail){
 
         List<String> ccList = new ArrayList<>(cc);
-        if (property.getSecondaryEmail() != null && !property.getSecondaryEmail().isEmpty()) {
-            ccList.add(property.getSecondaryEmail());
+        if (secondaryEmail != null && !secondaryEmail.isEmpty()) {
+            ccList.add(secondaryEmail);
         }
 
         return ccList;
 
     }
 
-    private void sendContactEmail(final ContactMessageRequest contactMessage,final PropertyEntity property){
-        var message = mailMessageFactory.createMessage(contactMessage);
-        var subject = String.format("Message from %s by %s",property.getName(),contactMessage.name());
+    private void sendContactEmail(final ContactMessageRequest contactMessage,final PropertyContact property){
+        var message = templateMessageFactory.createMessage(contactMessage);
+        var subject = String.format("Message from %s by %s",property.propertyName(),contactMessage.name());
         mailService.sendMail(MailMessage.builder().subject(subject).replyTo(contactMessage.email())
-                .to(getEmailTo(property)).cc(getCC(property)).build(),message);
+                .to(getEmailTo(property.email())).cc(getCC(property.secondaryEmail())).build(),message);
     }
 
-    private String getEmailTo(final PropertyEntity property){
+    private void sendContactAcknowledgementMail(final ContactAcknowledgementMail acknowledgementMail){
+        var message = templateMessageFactory.createMessage(acknowledgementMail);
+        var subject = String.format("Your contact form has been received! - %s",acknowledgementMail.propertyName());
+        mailService.sendMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
+                .to(acknowledgementMail.email()).build(),message);
+    }
 
-        return Optional.ofNullable(property.getEmail()).orElse("inquiries@renaissancerentals.com");
+    private void sendContactAcknowledgementText(final ContactAcknowledgementText acknowledgementText){
+        var message = templateMessageFactory.createMessage(acknowledgementText);
+        textService.sendText(TextMessage.builder().from(acknowledgementText.propertyPhone())
+                .to(acknowledgementText.phoneNumber()).message(message).build());
+    }
+
+    private String getEmailTo(final String propertyEmail){
+
+        return Optional.ofNullable(propertyEmail).orElse("inquiries@renaissancerentals.com");
 
     }
 
