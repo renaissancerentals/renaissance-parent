@@ -3,6 +3,7 @@ package com.renaissancerentals.foundation.mail.external;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.Properties;
@@ -59,7 +60,9 @@ public class GmailAdapter implements MailService {
     private MimeMessage buildMimeMessage(MailMessage mail,String body,boolean isHtml)
             throws MessagingException, UnsupportedEncodingException{
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties(),null));
-        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+        MimeMessageHelper helper = isHtml
+                ? new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name())
+                : new MimeMessageHelper(message, false);
 
         helper.setTo(mail.to());
 

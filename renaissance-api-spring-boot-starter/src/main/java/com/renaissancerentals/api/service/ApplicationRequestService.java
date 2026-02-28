@@ -50,6 +50,17 @@ public class ApplicationRequestService {
 
         var property = propertyService.getPropertyContact(applicationRequest.property());
         sendApplicationRequestEmail(applicationRequest,property);
+        var propertyManager = propertyService.getPropertyManager(applicationRequest.property());
+        sendApplicationRequestAcknowledgementMail(ApplicationAcknowledgementMail.builder()
+                .name(applicationRequest.name()).email(applicationRequest.email()).propertyName(property.propertyName())
+                .propertyPhone(property.phone()).propertyEmail(property.email())
+                .propertyManager(propertyManager.getName()).build());
+        if (applicationRequest.phone() != null) {
+            sendApplicationRequestAcknowledgementText(ApplicationAcknowledgementText.builder()
+                    .name(applicationRequest.name()).phoneNumber(applicationRequest.phone())
+                    .propertyName(property.propertyName()).propertyPhone(property.phone())
+                    .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
+        }
 
     }
 
@@ -77,7 +88,7 @@ public class ApplicationRequestService {
         var message = templateMessageFactory.createMessage(acknowledgementMail);
         var subject = String.format("We’ve received your application request for %s",
                 acknowledgementMail.propertyName());
-        mailService.sendMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
+        mailService.sendHtmlMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
                 .to(acknowledgementMail.email()).build(),message);
     }
 

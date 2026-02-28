@@ -7,6 +7,7 @@ import com.renaissancerentals.foundation.text.data.TextMessage;
 import com.renaissancerentals.foundation.text.error.TextException;
 import com.renaissancerentals.foundation.text.error.TextExtensionNotFoundException;
 import com.renaissancerentals.foundation.text.service.TextService;
+import com.renaissancerentals.foundation.text.util.TextUtils;
 import com.ringcentral.RestClient;
 import com.ringcentral.RestException;
 import com.ringcentral.definitions.CreateSMSMessage;
@@ -23,7 +24,7 @@ public class RingCentralTextService implements TextService {
     @Override
     public void sendText(TextMessage textMessage){
         try {
-            if (!textConfigProperties.extensions().containsKey(textMessage.from()))
+            if (!textConfigProperties.extensions().containsKey(TextUtils.cleanPhoneNumber(textMessage.from())))
                 throw new TextExtensionNotFoundException(textMessage.from());
 
             var textExtension = textConfigProperties.extensions().get(textMessage.from());

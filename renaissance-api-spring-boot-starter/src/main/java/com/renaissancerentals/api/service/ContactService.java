@@ -43,6 +43,18 @@ public class ContactService {
         var property = propertyService.getPropertyContact(contactMessage.property());
 
         sendContactEmail(contactMessage,property);
+        var propertyManager = propertyService.getPropertyManager(contactMessage.property());
+        sendContactAcknowledgementMail(ContactAcknowledgementMail.builder().name(contactMessage.name())
+                .email(contactMessage.email()).propertyName(property.propertyName()).propertyPhone(property.phone())
+                .propertyEmail(property.email()).propertyManager(propertyManager.getName())
+                .propertyUrl(propertyService.getPropertyUrl(contactMessage.property())).build());
+
+        if (contactMessage.phone() != null) {
+            sendContactAcknowledgementText(
+                    ContactAcknowledgementText.builder().name(contactMessage.name()).phoneNumber(contactMessage.phone())
+                            .propertyName(property.propertyName()).propertyPhone(property.phone())
+                            .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
+        }
 
     }
 
@@ -67,7 +79,7 @@ public class ContactService {
     private void sendContactAcknowledgementMail(final ContactAcknowledgementMail acknowledgementMail){
         var message = templateMessageFactory.createMessage(acknowledgementMail);
         var subject = String.format("Your contact form has been received! - %s",acknowledgementMail.propertyName());
-        mailService.sendMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
+        mailService.sendHtmlMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
                 .to(acknowledgementMail.email()).build(),message);
     }
 

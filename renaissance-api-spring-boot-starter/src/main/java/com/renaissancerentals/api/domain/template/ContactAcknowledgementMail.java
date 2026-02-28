@@ -1,5 +1,7 @@
 package com.renaissancerentals.api.domain.template;
 
+import com.renaissancerentals.api.util.StringUtils;
+
 import lombok.Builder;
 
 @Builder
@@ -7,16 +9,16 @@ public record ContactAcknowledgementMail(String name, String email, String prope
         String propertyEmail, String propertyManager, String propertyUrl) {
     @Override
     public String name(){
-        return name != null ? name.toUpperCase() : null;
+        return StringUtils.capitalizeWords(name);
     }
 
     @Override
     public String propertyName(){
-        return propertyName;
+        return StringUtils.capitalizeWords(propertyName);
     }
 
     @Override
     public String propertyManager(){
-        return propertyManager;
+        return StringUtils.capitalizeWords(propertyManager);
     }
 }

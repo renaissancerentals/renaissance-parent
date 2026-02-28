@@ -1,8 +1,24 @@
 package com.renaissancerentals.api.domain.template;
 
+import com.renaissancerentals.api.util.StringUtils;
+
 import lombok.Builder;
 
 @Builder
-public record ApplicationAcknowledgementMail(String email, String name, String propertyName, String propertyPhone,
-        String propertyManager, String propertyEmail) {
+public record ApplicationAcknowledgementMail(String name, String email, String propertyName, String propertyPhone,
+        String propertyEmail, String propertyManager) {
+    @Override
+    public String name(){
+        return StringUtils.capitalizeWords(name);
+    }
+
+    @Override
+    public String propertyName(){
+        return StringUtils.capitalizeWords(propertyName);
+    }
+
+    @Override
+    public String propertyManager(){
+        return StringUtils.capitalizeWords(propertyManager);
+    }
 }

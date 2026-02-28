@@ -58,6 +58,21 @@ renaissancerentals:
     from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
     cc: ${MAIL_CC:edainton@renaissancerentals.com}
     from-name: ${MAIL_FROM_NAME:Renaissance Rentals}
+  property:
+    default-property-email: ${DEAULT_PROPERTY_EMAIL:inquiries@renaissancerentals.com}
+    default-property-phone: ${DEAULT_PROPERTY_PHONE:8123332280}
+    default-property-manager: ${DEAULT_PROPERTY_MANAGER:Eric Dainton}
+    default-property-url: https://www.renaissancerentals.com/
+    property-urls:
+      covenanter-hill: https://www.covenanterhill.com/
+      high-grove: https://www.highgrovebloomington.com/
+      renaissance-rentals: https://www.renaissancerentals.com/
+      scholars-quad: https://www.scholarsquad.com/
+      scholars-rooftop: https://www.scholarsrooftop.com/
+      summer-house: https://www.summerhouseatindiana.com/
+      verona-park: https://www.veronaparkneighborhood.com/
+      apartments-in-bloomington: https://www.apartmentsinbloomington.com/
+      bloomington-apartments: https://www.bloomingtonapartmentsavailablenow.com/
   assets:
     enabled: true
     clientId: ${GOOGLE_API_CLIENT_ID}

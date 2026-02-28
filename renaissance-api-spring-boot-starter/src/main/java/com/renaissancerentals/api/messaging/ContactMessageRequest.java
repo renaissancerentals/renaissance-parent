@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record ContactMessageRequest(@NotNull String name, @NotNull @Email String email,
 
-        @NotNull String phone, @NotNull String question,
+        @NotNull String phone, String question,
 
         @NotNull String property, @NotNull String currentPage,
 
