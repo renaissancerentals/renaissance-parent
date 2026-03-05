@@ -13,4 +13,5 @@ public interface UnitDao extends CrudRepository<UnitEntity, String> {
             + "    JOIN property p ON p.id=f.property_id \n"
             + "WHERE u.active=true AND f.active=true AND p.active=true")
     List<UnitEntity> findAllActive();
+
 }

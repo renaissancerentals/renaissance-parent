@@ -3,11 +3,13 @@ package com.renaissancerentals.api.domain;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
-public class TeamMemberDetails {
-
+@Data
+public class TeamMember {
+    private Long id;
     private String name;
-
+    private String jobTitle;
     private String email;
+    private String photoLink;
+    private String blogLink;
 }

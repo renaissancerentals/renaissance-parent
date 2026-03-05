@@ -3,12 +3,14 @@ package com.renaissancerentals.api.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.renaissancerentals.api.domain.PropertyContact;
+import com.renaissancerentals.api.domain.TeamMember;
+import com.renaissancerentals.api.domain.projection.PropertyContact;
 import com.renaissancerentals.api.domain.template.ContactAcknowledgementMail;
 import com.renaissancerentals.api.domain.template.ContactAcknowledgementText;
 import com.renaissancerentals.api.messaging.ContactMessageRequest;
@@ -32,6 +34,8 @@ public class ContactService {
     private final MailService mailService;
     private final TextService textService;
     private final TemplateMessageFactory templateMessageFactory;
+
+    private final ExecutorService virtualThreadExecutor;
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
@@ -43,7 +47,15 @@ public class ContactService {
         var property = propertyService.getPropertyContact(contactMessage.property());
 
         sendContactEmail(contactMessage,property);
-        var propertyManager = propertyService.getPropertyManager(contactMessage.property());
+
+        virtualThreadExecutor.execute(() -> {
+            var propertyManager = propertyService.getPropertyManager(contactMessage.property());
+            sendAcknowledgements(contactMessage,property,propertyManager);
+        });
+    }
+
+    private void sendAcknowledgements(ContactMessageRequest contactMessage,PropertyContact property,
+            TeamMember propertyManager){
         sendContactAcknowledgementMail(ContactAcknowledgementMail.builder().name(contactMessage.name())
                 .email(contactMessage.email()).propertyName(property.propertyName()).propertyPhone(property.phone())
                 .propertyEmail(property.email()).propertyManager(propertyManager.getName())
@@ -55,7 +67,6 @@ public class ContactService {
                             .propertyName(property.propertyName()).propertyPhone(property.phone())
                             .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
         }
-
     }
 
     private List<String> getCC(String secondaryEmail){

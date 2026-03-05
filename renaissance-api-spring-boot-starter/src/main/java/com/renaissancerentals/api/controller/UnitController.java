@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.renaissancerentals.api.domain.projection.Projection;
 import com.renaissancerentals.api.repository.UnitRepository;
 import com.renaissancerentals.foundation.error.ClientException;
 import com.renaissancerentals.foundation.error.ErrorMessage;
@@ -18,8 +19,8 @@ public class UnitController {
     private final UnitRepository unitRepository;
 
     @GetMapping
-    public ResponseEntity<List<?>> getAll(@RequestParam(value = "projection") String projection){
-        if ("address".equals(projection)) {
+    public ResponseEntity<List<?>> getAll(@RequestParam(value = "projection") Projection projection){
+        if (Projection.ADDRESS.equals(projection)) {
             return ResponseEntity.ok(unitRepository.getAllAddresses());
         } else {
             throw new ClientException(ErrorMessage.builder().message("Unsupported Projection").build());
@@ -28,8 +29,8 @@ public class UnitController {
 
     @GetMapping("/{unitId}")
     public ResponseEntity<?> get(@PathVariable("unitId") String unitId,
-            @RequestParam(value = "projection") String projection){
-        if ("utilities".equals(projection)) {
+            @RequestParam(value = "projection") Projection projection){
+        if (Projection.UTILITIES.equals(projection)) {
             return ResponseEntity.ok(unitRepository.getUnitUtilities(unitId));
         } else {
             throw new ClientException(ErrorMessage.builder().message("Unsupported Projection").build());

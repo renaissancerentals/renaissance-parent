@@ -1,4 +1,4 @@
-package com.renaissancerentals.api.domain;
+package com.renaissancerentals.api.domain.projection;
 
 import lombok.Builder;
 

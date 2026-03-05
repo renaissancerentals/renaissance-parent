@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.renaissancerentals.api.domain.UnitAddress;
-import com.renaissancerentals.api.domain.UnitUtilities;
 import com.renaissancerentals.api.domain.Utility;
 import com.renaissancerentals.api.domain.mapper.UnitMapper;
+import com.renaissancerentals.api.domain.projection.UnitAddress;
+import com.renaissancerentals.api.domain.projection.UnitUtilities;
 import com.renaissancerentals.api.error.NotFoundException;
 import com.renaissancerentals.persistence.dao.FloorplanDao;
 import com.renaissancerentals.persistence.dao.PropertyDao;

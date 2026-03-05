@@ -1,6 +1,8 @@
-package com.renaissancerentals.api.domain;
+package com.renaissancerentals.api.domain.projection;
 
 import java.util.List;
+
+import com.renaissancerentals.api.domain.Utility;
 
 import lombok.Builder;
 

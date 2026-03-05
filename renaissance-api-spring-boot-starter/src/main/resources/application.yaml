@@ -73,6 +73,18 @@ renaissancerentals:
       verona-park: https://www.veronaparkneighborhood.com/
       apartments-in-bloomington: https://www.apartmentsinbloomington.com/
       bloomington-apartments: https://www.bloomingtonapartmentsavailablenow.com/
+    property-name-ids:
+      Arch Haven: arch-haven
+      Covenanter Hill: covenanter-hill
+      HighGrove: high-grove
+      Huntington Gardens: huntington-gardens
+      Scholar's Quad: scholars-quasd
+      Scholar's Rock: scholars-rock
+      Scholar's Rooftop: scholars-rooftop
+      SummerHouse at Indiana: summer-house
+      Townhomes At MeadowCreek: meadow-creek
+      Verona Park: verona-park
+      Other: other
   assets:
     enabled: true
     clientId: ${GOOGLE_API_CLIENT_ID}

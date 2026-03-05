@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.renaissancerentals.api.domain.PropertyContact;
+import com.renaissancerentals.api.domain.TeamMember;
 import com.renaissancerentals.api.domain.mapper.ApplicationRequestMapper;
+import com.renaissancerentals.api.domain.projection.PropertyContact;
 import com.renaissancerentals.api.domain.template.ApplicationAcknowledgementMail;
 import com.renaissancerentals.api.domain.template.ApplicationAcknowledgementText;
 import com.renaissancerentals.api.messaging.ApplicationRequest;
@@ -36,6 +38,8 @@ public class ApplicationRequestService {
     private final MailService mailService;
     private final TextService textService;
     private final TemplateMessageFactory templateMessageFactory;
+    private final ExecutorService virtualThreadExecutor;
+
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
@@ -50,7 +54,15 @@ public class ApplicationRequestService {
 
         var property = propertyService.getPropertyContact(applicationRequest.property());
         sendApplicationRequestEmail(applicationRequest,property);
-        var propertyManager = propertyService.getPropertyManager(applicationRequest.property());
+
+        virtualThreadExecutor.execute(() -> {
+            var propertyManager = propertyService.getPropertyManager(applicationRequest.property());
+            sendAcknowledgements(applicationRequest,property,propertyManager);
+        });
+    }
+
+    private void sendAcknowledgements(ApplicationRequest applicationRequest,PropertyContact property,
+            TeamMember propertyManager){
         sendApplicationRequestAcknowledgementMail(ApplicationAcknowledgementMail.builder()
                 .name(applicationRequest.name()).email(applicationRequest.email()).propertyName(property.propertyName())
                 .propertyPhone(property.phone()).propertyEmail(property.email())
@@ -61,7 +73,6 @@ public class ApplicationRequestService {
                     .propertyName(property.propertyName()).propertyPhone(property.phone())
                     .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
         }
-
     }
 
     private List<String> getCC(String secondaryEmail){

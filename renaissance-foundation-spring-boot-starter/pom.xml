@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.6.0</version>
     </parent>
     <name>Renaissance Foundation</name>
     <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
