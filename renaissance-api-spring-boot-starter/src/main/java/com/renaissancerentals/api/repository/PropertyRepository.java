@@ -134,6 +134,16 @@ public class PropertyRepository {
                 : Optional.ofNullable(propertyListing.getFirst());
     }
 
+    public List<PropertyListing> getPropertyListings(){
+
+        SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL).where("f.style != :style","style","GARAGE")
+                .where("p.active = :propertyActive","propertyActive",true)
+                .where("f.active = :floorplanActive","floorplanActive",true)
+                .where("u.active = :unitActive","unitActive",true);
+
+        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertyListingExtractor);
+    }
+
     private List<Amenity> getPropertyAmenities(String propertyId){
         return propertyAmenityDao.findByPropertyId(propertyId).stream().map(propertyAmenityMapper::toDomain).toList();
     }

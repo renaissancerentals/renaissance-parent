@@ -2,11 +2,13 @@ package com.renaissancerentals.api.domain.projection;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "DTO used only for serialization; safe to expose collections")
 public class FloorplanSpotlight {
     private String id;
     private String name;
@@ -17,15 +19,4 @@ public class FloorplanSpotlight {
     private String coverImage;
     private List<UnitSpotlight> units;
     private PropertySpotlight property;
-
-    public List<UnitSpotlight> getUnits(){
-        return units != null ? List.copyOf(units) : null;
-    }
-
-    public PropertySpotlight getProperty(){
-        return property == null
-                ? null
-                : new PropertySpotlight(property.getId(), property.getName(), property.getAddress(),
-                        property.getZipcode());
-    }
 }

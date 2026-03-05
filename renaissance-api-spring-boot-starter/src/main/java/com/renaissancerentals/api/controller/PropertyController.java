@@ -19,6 +19,16 @@ import lombok.RequiredArgsConstructor;
 public class PropertyController {
     private final PropertyService propertyService;
 
+    @GetMapping
+    public ResponseEntity<?> getAll(@RequestParam(value = "projection") Projection projection){
+        if (Projection.FILTER.equals(projection)) {
+            return ResponseEntity.ok(propertyService.getPropertyListings());
+        } else {
+            throw new ClientException(ErrorMessage.builder().message("Unsupported Projection").build());
+        }
+
+    }
+
     @GetMapping("/{propertyId}")
     public ResponseEntity<?> get(@PathVariable("propertyId") String propertyId,
             @RequestParam(value = "projection") Projection projection){

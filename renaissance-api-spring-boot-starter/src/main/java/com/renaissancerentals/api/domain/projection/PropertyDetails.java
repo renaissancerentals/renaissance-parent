@@ -7,11 +7,13 @@ import com.renaissancerentals.api.domain.LeasingOffice;
 import com.renaissancerentals.api.domain.PropertyBusRoute;
 import com.renaissancerentals.api.domain.TeamMember;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "DTO used only for serialization; safe to expose collections")
 public class PropertyDetails {
     private String id;
 
@@ -78,24 +80,4 @@ public class PropertyDetails {
     private List<PropertyBusRoute> busRoutes;
 
     private List<FloorplanDetails> floorplans;
-
-    public LeasingOffice getLeasingOffice(){
-        return leasingOffice == null ? null : leasingOffice.toBuilder().build();
-    }
-
-    public List<TeamMember> getTeamMembers(){
-        return teamMembers == null ? null : List.copyOf(teamMembers);
-    }
-
-    public List<Amenity> getAmenities(){
-        return amenities == null ? null : List.copyOf(amenities);
-    }
-
-    public List<PropertyBusRoute> getBusRoutes(){
-        return busRoutes == null ? null : List.copyOf(busRoutes);
-    }
-
-    public List<FloorplanDetails> getFloorplans(){
-        return floorplans == null ? null : List.copyOf(floorplans);
-    }
 }

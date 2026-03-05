@@ -6,11 +6,13 @@ import java.util.List;
 import com.renaissancerentals.api.domain.Amenity;
 import com.renaissancerentals.api.domain.WebSpecial;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "DTO used only for serialization; safe to expose collections")
 public class FloorplanDetails {
     private String id;
     private String name;
@@ -35,15 +37,4 @@ public class FloorplanDetails {
     private List<UnitDetails> units;
     private List<WebSpecial> webSpecials;
 
-    public List<WebSpecial> getWebSpecials(){
-        return webSpecials != null ? List.copyOf(webSpecials) : null;
-    }
-
-    public List<UnitDetails> getUnits(){
-        return units != null ? List.copyOf(units) : null;
-    }
-
-    public List<Amenity> getAmenities(){
-        return amenities != null ? List.copyOf(amenities) : null;
-    }
 }

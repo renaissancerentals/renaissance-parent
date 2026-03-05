@@ -51,15 +51,13 @@ public class PropertyService {
                 propertyConfigProperties.defaultPropertyUrl());
     }
 
-    public String getPropertyId(String propertyName){
-        return propertyConfigProperties.propertyNameIds().getOrDefault(propertyName,"renaissance-rentals");
-    }
-
     public PropertyDetails getProperty(String propertyId){
         return propertyRepository.getProperty(propertyId)
                 .orElseThrow(() -> new NotFoundException(String.format("Property with id: %s not found",propertyId)));
     }
-
+    public List<PropertyListing> getPropertyListings(){
+        return propertyRepository.getPropertyListings();
+    }
     public List<FloorplanListing> getFloorplanListingsForProperty(String propertyId){
         return propertyRepository.getPropertyListing(propertyId).map(PropertyListing::getFloorplans).orElse(List.of());
     }
