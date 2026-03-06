@@ -19,6 +19,6 @@ public record ContactAcknowledgementMail(String name, String email, String prope
 
     @Override
     public String propertyManager(){
-        return StringUtils.capitalizeWords(propertyManager);
+        return StringUtils.capitalizeWords(StringUtils.getFirstName(propertyManager));
     }
 }

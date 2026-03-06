@@ -19,6 +19,6 @@ public record ApplicationAcknowledgementText(String name, String phoneNumber, St
 
     @Override
     public String propertyManager(){
-        return StringUtils.capitalizeWords(propertyManager);
+        return StringUtils.capitalizeWords(StringUtils.getFirstName(propertyManager));
     }
 }

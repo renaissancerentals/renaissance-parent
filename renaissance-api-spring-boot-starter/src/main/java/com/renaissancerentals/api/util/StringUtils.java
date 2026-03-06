@@ -1,5 +1,7 @@
 package com.renaissancerentals.api.util;
 
+import java.util.Arrays;
+
 public final class StringUtils {
 
     public static String capitalizeWords(String input){
@@ -25,5 +27,12 @@ public final class StringUtils {
         }
 
         return sb.toString();
+    }
+
+    public static String getFirstName(String fullName){
+        if (fullName == null || fullName.isBlank()) {
+            return "";
+        }
+        return Arrays.stream(fullName.trim().split("\\s+")).findFirst().orElse("");
     }
 }
