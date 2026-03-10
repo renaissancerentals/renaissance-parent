@@ -12,7 +12,7 @@ import com.renaissancerentals.api.domain.LeasingOffice;
 import com.renaissancerentals.api.domain.projection.PropertyDetails;
 
 @Component
-public class PropertyJdbcMapper implements RowMapper<PropertyDetails> {
+public class PropertyDetailsJdbcMapper implements RowMapper<PropertyDetails> {
     @Nullable
     @Override
     public PropertyDetails mapRow(@NotNull ResultSet rs,int rowNum) throws SQLException{

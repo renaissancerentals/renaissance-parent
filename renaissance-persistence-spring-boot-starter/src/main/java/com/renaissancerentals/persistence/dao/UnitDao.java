@@ -1,11 +1,10 @@
 package com.renaissancerentals.persistence.dao;
 
-import java.util.List;
-
+import com.renaissancerentals.persistence.entity.UnitEntity;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.renaissancerentals.persistence.entity.UnitEntity;
+import java.util.List;
 
 public interface UnitDao extends CrudRepository<UnitEntity, String> {
 
@@ -13,5 +12,7 @@ public interface UnitDao extends CrudRepository<UnitEntity, String> {
             + "    JOIN property p ON p.id=f.property_id \n"
             + "WHERE u.active=true AND f.active=true AND p.active=true")
     List<UnitEntity> findAllActive();
+
+    List<UnitEntity> findAllByFloorplanId(String floorplanId);
 
 }

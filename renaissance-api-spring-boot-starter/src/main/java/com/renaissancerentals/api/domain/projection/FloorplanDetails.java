@@ -33,6 +33,17 @@ public class FloorplanDetails {
     private String coverImage;
     private String floorPlanFolderId;
     private String photosFolderId;
+
+    private Integer photosCount;
+    private String description;
+    private String vanityLink;
+    private String htmlTitle;
+    private String metaDescription;
+    private String conversionTrackingId1;
+    private String conversionTrackingId2;
+    private String customCode;
+    private String highlights;
+
     private List<Amenity> amenities;
     private List<UnitDetails> units;
     private List<WebSpecial> webSpecials;

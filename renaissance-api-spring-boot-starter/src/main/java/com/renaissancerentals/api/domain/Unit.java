@@ -1,0 +1,72 @@
+package com.renaissancerentals.api.domain;
+
+import java.time.LocalDate;
+
+public record Unit(
+        String id,
+
+        Integer squareFoot,
+
+        String allowedPet,
+
+        String petPolicy,
+
+        Float rent,
+
+        Float discountedRent,
+
+        LocalDate discountedRentStartDate,
+
+        LocalDate discountedRentEndDate,
+
+        String discountedRentDescription,
+
+        Float deposit,
+
+        Boolean endUnit,
+
+        Boolean furnished,
+
+        Boolean murphyBedProvided,
+
+        Boolean affordableHousing,
+
+        Boolean patioIncluded,
+
+        String level,
+
+        String turnoverRate,
+
+        String features,
+
+        String address,
+
+        String zipcode,
+
+        Integer garages,
+
+        LocalDate moveInDate,
+
+        Integer availabilityExtensionMonths,
+
+        String unitFolderId,
+
+        String photosFolderId,
+
+        String marketingFolderId,
+
+        Integer photosCount,
+
+        String coverImage,
+
+        String videoTourLink,
+
+        String threeSixtyVideoTourLink,
+
+        String virtualTourLink,
+
+        String photosLink,
+
+        String floorplanLink
+        ) {
+}

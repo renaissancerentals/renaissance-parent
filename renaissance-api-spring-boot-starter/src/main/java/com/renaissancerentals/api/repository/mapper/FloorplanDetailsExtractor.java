@@ -1,5 +1,13 @@
 package com.renaissancerentals.api.repository.mapper;
 
+import com.renaissancerentals.api.domain.Amenity;
+import com.renaissancerentals.api.domain.WebSpecial;
+import com.renaissancerentals.api.domain.projection.FloorplanDetails;
+import com.renaissancerentals.api.domain.projection.UnitDetails;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -8,20 +16,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.stereotype.Component;
-
-import com.renaissancerentals.api.domain.Amenity;
-import com.renaissancerentals.api.domain.WebSpecial;
-import com.renaissancerentals.api.domain.projection.FloorplanDetails;
-import com.renaissancerentals.api.domain.projection.UnitDetails;
-
 @Component
 public class FloorplanDetailsExtractor implements ResultSetExtractor<List<FloorplanDetails>> {
 
     @Override
-    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException{
+    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<String, FloorplanDetails> floorplanMap = new LinkedHashMap<>();
 
         while (rs.next()) {
@@ -50,6 +49,16 @@ public class FloorplanDetailsExtractor implements ResultSetExtractor<List<Floorp
             String coverImage = rs.getString("cover_image");
             String floorPlanFolderId = rs.getString("floor_plan_folder_id");
             String photosFolderId = rs.getString("photos_folder_id");
+
+            Integer photosCount = rs.getInt("photos_count");
+            String description = rs.getString("description");
+            String vanityLink = rs.getString("vanity_link");
+            String htmlTitle = rs.getString("html_title");
+            String metaDescription = rs.getString("meta_description");
+            String conversionTrackingId1 = rs.getString("conversion_tracking_id1");
+            String conversionTrackingId2 = rs.getString("conversion_tracking_id2");
+            String customCode = rs.getString("custom_code");
+            String highlights = rs.getString("highlights");
 
             // --- Unit fields ---
             String unitId = rs.getString("unit_id");
@@ -88,7 +97,10 @@ public class FloorplanDetailsExtractor implements ResultSetExtractor<List<Floorp
                             .threeSixtyVideoTourLink(threeSixtyVideoTourLink).virtualTourLink(virtualTourLink)
                             .photo(photo).coverImage(coverImage).floorPlanFolderId(floorPlanFolderId)
                             .photosFolderId(photosFolderId).units(new ArrayList<>()).webSpecials(new ArrayList<>())
-                            .amenities(new ArrayList<>()).build());
+                            .amenities(new ArrayList<>()).photosCount(photosCount).description(description)
+                            .vanityLink(vanityLink).htmlTitle(htmlTitle).metaDescription(metaDescription)
+                            .conversionTrackingId1(conversionTrackingId1).conversionTrackingId2(conversionTrackingId2)
+                            .customCode(customCode).highlights(highlights).build());
 
             // --- Add Unit ---
             if (unitId != null && floorplanDetails.getUnits().stream().noneMatch(u -> u.getId().equals(unitId))) {
