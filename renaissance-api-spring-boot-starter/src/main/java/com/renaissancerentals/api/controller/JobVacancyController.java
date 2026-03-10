@@ -15,7 +15,7 @@ import com.renaissancerentals.api.repository.JobVacancyRepository;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/job-vacancies")
+@RequestMapping("/api/jobVacancies")
 @RequiredArgsConstructor
 public class JobVacancyController {
 
@@ -27,8 +27,8 @@ public class JobVacancyController {
                 .orElseThrow(() -> new NotFoundException(String.format("Job Vacancy with id: %d",jobVacancyId))));
     }
 
-    @GetMapping()
-    public ResponseEntity<List<JobVacancy>> getActiveJobVacancies(){
+    @GetMapping
+    public ResponseEntity<List<JobVacancy>> getJobVacancies(){
         return ResponseEntity.ok(jobVacancyRepository.getActiveJobVacancies());
     }
 

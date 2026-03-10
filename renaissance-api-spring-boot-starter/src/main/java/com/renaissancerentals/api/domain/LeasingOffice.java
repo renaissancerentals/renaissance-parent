@@ -17,5 +17,4 @@ public class LeasingOffice {
     private String officeMapLandscape;
     private String officeImage;
     private String officeImageDescription;
-
 }

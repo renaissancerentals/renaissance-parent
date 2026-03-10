@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AnalyticsController {
     private final AnalyticsService analyticsService;
 
-    @PostMapping("/contact-events")
+    @PostMapping("/contactEvents")
     public ResponseEntity<Void> contactEvent(@RequestBody @Valid ContactEventRequest contactEvent){
         analyticsService.handleContactEvent(contactEvent);
         return new ResponseEntity<>(HttpStatus.OK);

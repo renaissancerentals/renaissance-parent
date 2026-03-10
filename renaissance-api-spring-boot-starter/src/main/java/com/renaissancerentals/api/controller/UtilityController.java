@@ -13,13 +13,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/utility-confirmation")
+@RequestMapping("/api/utilities")
 @RequiredArgsConstructor
-public class UtilityConfirmationController {
+public class UtilityController {
 
     private final UtilityConfirmationService utilityConfirmationService;
 
-    @PostMapping
+    @PostMapping("/confirmation")
     public ResponseEntity<Void> postUtilityConfirmationRequest(
             @RequestBody @Valid UtilityConfirmationRequest utilityConfirmation){
 
