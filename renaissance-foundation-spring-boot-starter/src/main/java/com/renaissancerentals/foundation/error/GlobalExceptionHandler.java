@@ -9,12 +9,13 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
-@ControllerAdvice
+@RestControllerAdvice(basePackages = "com.renaissancerentals")
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(ServerException.class)
@@ -48,6 +49,13 @@ public class GlobalExceptionHandler {
     /**
      * Spring based exceptions
      **/
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(NoResourceFoundException ex){
+        log.warn("Resource not found: {}",ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.builder().errorMessage(ex.getMessage()).errorCode("RESOURCE_NOT_FOUND").build());
+    }
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex){
         log.error("HTTP method not supported: {}",ex.getMethod());

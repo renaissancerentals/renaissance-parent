@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-bom</artifactId>
-    <version>3.11.0</version>
+    <version>3.12.0</version>
     <packaging>pom</packaging>
     <name>Renaissance BOM</name>
     <description>Bill of materials for Renaissancerentals libraries</description>
@@ -41,27 +41,27 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-assets-spring-boot-starter</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-monitor-spring-boot-starter</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-api-spring-boot-starter</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-persistence-spring-boot-starter</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.0</version>
             </dependency>
 
             <!-- Mapping related-->
