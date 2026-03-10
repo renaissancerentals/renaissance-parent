@@ -1,14 +1,14 @@
 package com.renaissancerentals.api.domain;
 
-import com.renaissancerentals.api.domain.projection.PropertySummary;
-import lombok.Builder;
-
 import java.time.LocalDate;
 import java.util.List;
 
+import com.renaissancerentals.api.domain.projection.PropertySummary;
+
+import lombok.Builder;
+
 @Builder
-public record Floorplan(
-        String id,
+public record Floorplan(String id,
 
         String name,
 
@@ -83,4 +83,25 @@ public record Floorplan(
         List<WebSpecial> webSpecials
 
 ) {
+    public Floorplan {
+        property = property == null
+                ? null
+                : PropertySummary.builder().id(property.getId()).name(property.getName()).address(property.getAddress())
+                        .zipcode(property.getZipcode()).email(property.getEmail()).phone(property.getPhone())
+                        .leaseType(property.getLeaseType()).busRoutes(property.getBusRoutes()).build();
+
+        utilities = utilities == null ? List.of() : List.copyOf(utilities);
+        amenities = amenities == null ? List.of() : List.copyOf(amenities);
+        units = units == null ? List.of() : List.copyOf(units);
+        webSpecials = webSpecials == null ? List.of() : List.copyOf(webSpecials);
+    }
+
+    @Override
+    public PropertySummary property(){
+        return property == null
+                ? null
+                : PropertySummary.builder().id(property.getId()).name(property.getName()).address(property.getAddress())
+                        .zipcode(property.getZipcode()).email(property.getEmail()).phone(property.getPhone())
+                        .leaseType(property.getLeaseType()).busRoutes(property.getBusRoutes()).build();
+    }
 }

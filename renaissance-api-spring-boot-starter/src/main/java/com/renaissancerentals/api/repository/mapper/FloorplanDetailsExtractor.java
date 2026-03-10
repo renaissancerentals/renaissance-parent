@@ -1,13 +1,5 @@
 package com.renaissancerentals.api.repository.mapper;
 
-import com.renaissancerentals.api.domain.Amenity;
-import com.renaissancerentals.api.domain.WebSpecial;
-import com.renaissancerentals.api.domain.projection.FloorplanDetails;
-import com.renaissancerentals.api.domain.projection.UnitDetails;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.stereotype.Component;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,11 +8,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
+
+import com.renaissancerentals.api.domain.Amenity;
+import com.renaissancerentals.api.domain.WebSpecial;
+import com.renaissancerentals.api.domain.projection.FloorplanDetails;
+import com.renaissancerentals.api.domain.projection.UnitDetails;
+
 @Component
 public class FloorplanDetailsExtractor implements ResultSetExtractor<List<FloorplanDetails>> {
 
     @Override
-    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException {
+    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException{
         Map<String, FloorplanDetails> floorplanMap = new LinkedHashMap<>();
 
         while (rs.next()) {

@@ -41,8 +41,9 @@ public class UnitRepository {
                 .orElseThrow(() -> new NotFoundException("Property not found"));
 
         var utilities = utilityRepository.findByFloorplanId(floorplan.getId()).stream()
-                .map(utilityEntity -> Utility.builder().id(utilityEntity.getId()).name(utilityEntity.getName()).type(utilityEntity.getType())
-                        .averageMonthlyBill(utilityEntity.getAverageMonthlyBill()).build())
+                .map(utilityEntity -> Utility.builder().id(utilityEntity.getId()).name(utilityEntity.getName())
+                        .type(utilityEntity.getType()).averageMonthlyBill(utilityEntity.getAverageMonthlyBill())
+                        .build())
                 .toList();
         return UnitUtilities.builder().id(unit.getId()).utilities(utilities).propertyEmail(property.getEmail()).build();
 

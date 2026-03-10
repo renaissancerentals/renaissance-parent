@@ -2,8 +2,7 @@ package com.renaissancerentals.api.domain;
 
 import java.time.LocalDate;
 
-public record Unit(
-        String id,
+public record Unit(String id,
 
         Integer squareFoot,
 
@@ -67,6 +66,5 @@ public record Unit(
 
         String photosLink,
 
-        String floorplanLink
-        ) {
+        String floorplanLink) {
 }

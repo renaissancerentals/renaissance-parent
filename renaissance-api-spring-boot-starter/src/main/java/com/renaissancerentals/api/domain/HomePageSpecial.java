@@ -2,8 +2,7 @@ package com.renaissancerentals.api.domain;
 
 import java.time.LocalDate;
 
-public record HomePageSpecial(
-        Long id,
+public record HomePageSpecial(Long id,
 
         String title,
 

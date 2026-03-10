@@ -1,13 +1,13 @@
 package com.renaissancerentals.api.domain;
 
-import com.renaissancerentals.api.domain.projection.PropertySummary;
-import lombok.Builder;
-
 import java.util.List;
 
+import com.renaissancerentals.api.domain.projection.PropertySummary;
+
+import lombok.Builder;
+
 @Builder
-public record ShortTermFloorplan(
-        String id,
+public record ShortTermFloorplan(String id,
 
         String name,
 
@@ -67,6 +67,24 @@ public record ShortTermFloorplan(
 
         String priceFor4andMoreMonths,
 
-        Integer squareFoot
-) {
+        Integer squareFoot) {
+
+    public ShortTermFloorplan {
+        property = property == null
+                ? null
+                : PropertySummary.builder().id(property.getId()).name(property.getName()).address(property.getAddress())
+                        .zipcode(property.getZipcode()).email(property.getEmail()).phone(property.getPhone())
+                        .leaseType(property.getLeaseType()).busRoutes(property.getBusRoutes()).build();
+
+        amenities = amenities == null ? List.of() : List.copyOf(amenities);
+    }
+
+    @Override
+    public PropertySummary property(){
+        return property == null
+                ? null
+                : PropertySummary.builder().id(property.getId()).name(property.getName()).address(property.getAddress())
+                        .zipcode(property.getZipcode()).email(property.getEmail()).phone(property.getPhone())
+                        .leaseType(property.getLeaseType()).busRoutes(property.getBusRoutes()).build();
+    }
 }
