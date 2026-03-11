@@ -4,12 +4,12 @@ spring:
   profiles:
     active: plain-text-logging,prd
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://c4qh9oqeot5prk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d66u128qfbgkm}
-    username: ${SPRING_DATASOURCE_USERNAME:u7duk9ntfime5n}
-    password: ${SPRING_DATASOURCE_PASSWORD:p3cd1b51b6d09096c3bfdc3315a93b3ca02c50848276a83283d44f40ccdabc2df}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/renaissancedb}
+    username: ${SPRING_DATASOURCE_USERNAME:renaissance}
+    password: ${SPRING_DATASOURCE_PASSWORD:renaissancepass}
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 2
+      maximum-pool-size: 5
   jpa:
     hibernate:
       ddl-auto: validate
