@@ -2,6 +2,7 @@ package com.renaissancerentals.api.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -46,6 +47,9 @@ public class ShortTermService {
                 .collect(Collectors.toMap(FloorplanDetails::getId,Function.identity()));
         return shortTermEntityFuture.join().stream().map(shortTermEntity -> {
             var floorplanDetails = floorplanDetailsMap.get(shortTermEntity.getFloorplanId());
+            if (floorplanDetails == null)
+                return null;
+
             return ShortTermFloorplan.builder().id(shortTermEntity.getFloorplanId()).name(floorplanDetails.getName())
                     .bedroom(floorplanDetails.getBedroom()).bathroom(floorplanDetails.getBathroom())
                     .style(floorplanDetails.getStyle()).address(floorplanDetails.getAddress())
@@ -69,7 +73,7 @@ public class ShortTermService {
                     .squareFoot(shortTermEntity.getSquareFoot()).build();
         }
 
-        ).toList();
+        ).filter(Objects::nonNull).toList();
     }
 
     public ShortTermFloorplan getShortTermFloorplan(String floorplanId){
