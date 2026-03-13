@@ -5,14 +5,14 @@ A new sublet has just been posted on the platform. Details are as follows:
 ------------------------------------------------------------
 Sublet Details
 ------------------------------------------------------------
-Title       : ${data.title}
-Location    : ${data.address!""}, ${data.zipcode!""}
-Owner Name  : ${data.firstName!""} ${data.lastName!""}
-Owner Email : ${data.email!""}
+Title       : ${data.title()}
+Location    : ${data.address()!""}, ${data.zipcode()!""}
+Owner Name  : ${data.firstName()!""} ${data.lastName()!""}
+Owner Email : ${data.email()!""}
 ------------------------------------------------------------
 Description
 ------------------------------------------------------------
-${data.description!""}
+${data.description()!""}
 
 ------------------------------------------------------------
 Action
