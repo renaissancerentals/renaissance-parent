@@ -1,6 +1,7 @@
 package com.renaissancerentals.foundation.error;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,26 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.renaissancerentals.foundation.error.notification.component.ExceptionNotifier;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice(basePackages = "com.renaissancerentals")
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+    private final ExceptionNotifier<ServerException> exceptionNotifier;
+    private final ExecutorService virtualThreadExecutor;
+
     @ExceptionHandler(ServerException.class)
     public ResponseEntity<ErrorResponse> handleServerException(ServerException ex){
         log.error("Server exception: {}",ex.getErrorMessage(),ex);
+
+        virtualThreadExecutor.execute(() -> {
+            exceptionNotifier.notifyException(ex);
+        });
+
         return ResponseEntity
                 .status(Optional.ofNullable(ex.getErrorMessage().status()).orElse(HttpStatus.INTERNAL_SERVER_ERROR))
                 .body(ErrorResponse.builder().errorMessage(ex.getErrorMessage().message())

@@ -1,7 +1,7 @@
 Subject: ⚠️ Server Exception Alert - ${data.errorCode()}
 
 From: ${data.sourceName()}
-Timestamp: ${data.timestamp()}
+Timestamp: ${data.timeStamp()}
 
 ===============================
 🚨 ERROR DETAILS

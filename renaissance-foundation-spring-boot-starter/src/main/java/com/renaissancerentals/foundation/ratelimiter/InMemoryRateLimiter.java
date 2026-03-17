@@ -24,13 +24,15 @@ public class InMemoryRateLimiter implements RateLimiter {
         final var now = Instant.now();
 
         return state.compute(key,(k,rateLimiterEntry) -> {
-            if (rateLimiterEntry == null || rateLimiterEntry.firstSeen().isBefore(now.minus(window))) {
-                return new RateLimiterEntry(now, 1);
+            if (rateLimiterEntry == null) {
+                return new RateLimiterEntry(now, threshold == 1 ? 0 : 1);
             }
+
+            boolean hasSeenExpired = rateLimiterEntry.firstSeen().isBefore(now.minus(window));
 
             int currentCount = rateLimiterEntry.count() + 1;
 
-            if (currentCount >= threshold) {
+            if (hasSeenExpired && currentCount >= threshold) {
                 return new RateLimiterEntry(now, 0);
             }
             return new RateLimiterEntry(rateLimiterEntry.firstSeen(), currentCount);

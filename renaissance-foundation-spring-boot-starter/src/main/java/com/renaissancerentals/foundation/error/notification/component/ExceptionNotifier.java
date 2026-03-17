@@ -31,7 +31,8 @@ public class ExceptionNotifier<T extends BaseException> {
         if (!rateLimiter.shouldTrigger(notifyingException.getClass().getName()))
             return;
 
-        final var messageBody = templateMessageFactory.createMessage(messageFrom(notifyingException));
+        var serverErrorMessage = messageFrom(notifyingException);
+        final var messageBody = templateMessageFactory.createMessage(serverErrorMessage);
         final var title = MessageFormat.format(properties.titleFormat(),notifyingException.getErrorMessage().code());
 
         var mailMessage = MailMessage.builder().subject(title).to(properties.emailTo()).cc(properties.emailCc())
