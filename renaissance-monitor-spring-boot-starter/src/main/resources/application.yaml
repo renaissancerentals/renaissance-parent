@@ -18,10 +18,6 @@ renaissancerentals:
     tokenServer: https://oauth2.googleapis.com/token
     from: ${MAIL_FROM:renaissance.rentals.mail@gmail.com}
     fromName: ${MAIL_FROM_NAME:Renaissance Rentals}
-management:
-  endpoints:
-    web:
-      base-path: /renaissance
 
 otel:
   logs:
