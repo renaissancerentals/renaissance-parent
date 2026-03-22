@@ -14,6 +14,14 @@ import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Email based exception notifier. Only works with exceptions that extends BaseException. User rate limiter, so only
+ * notifies based on ratelimiter parameters
+ *
+ * @param <T>
+ *            extends BaseException
+ * @see com.renaissancerentals.foundation.ratelimiter.RateLimiter
+ */
 @RequiredArgsConstructor
 public class ExceptionNotifier<T extends BaseException> {
     private final ErrorNotificationConfigProperties properties;
@@ -33,7 +41,8 @@ public class ExceptionNotifier<T extends BaseException> {
 
         var serverErrorMessage = messageFrom(notifyingException);
         final var messageBody = templateMessageFactory.createMessage(serverErrorMessage);
-        final var title = MessageFormat.format(properties.titleFormat(),notifyingException.getErrorMessage().code());
+        final var title = MessageFormat.format(properties.titleFormat(),
+                notifyingException.getErrorMessage().application());
 
         var mailMessage = MailMessage.builder().subject(title).to(properties.emailTo()).cc(properties.emailCc())
                 .build();

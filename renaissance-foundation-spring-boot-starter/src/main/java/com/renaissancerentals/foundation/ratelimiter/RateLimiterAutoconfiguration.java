@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class RateLimiterAutoconfiguration {
     @Bean
     @ConditionalOnMissingBean
-    public RateLimiter inMemoryRateLimiter(){
-        return new InMemoryRateLimiter(Duration.ofMinutes(5), 1);
+    public RateLimiter inMemoryErrorRateLimiter(){
+        return new InMemoryErrorRateLimiter(Duration.ofMinutes(5), 1);
     }
 }

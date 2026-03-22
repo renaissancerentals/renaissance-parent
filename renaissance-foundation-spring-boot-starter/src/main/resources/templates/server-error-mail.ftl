@@ -1,5 +1,3 @@
-Subject: ⚠️ Server Exception Alert - ${data.errorCode()}
-
 From: ${data.sourceName()}
 Timestamp: ${data.timeStamp()}
 

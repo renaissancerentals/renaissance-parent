@@ -2,7 +2,7 @@ spring:
   application:
     name: renaissance-data
   profiles:
-    active: plain-text-logging,prd
+    active: loki-logging,prd
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/renaissancedb}
     username: ${SPRING_DATASOURCE_USERNAME:renaissance}
@@ -41,8 +41,7 @@ renaissancerentals:
     notification:
       enabled: true
       email-to: contentmunch@gmail.com
-      email-cc: contentmunch@gmail.com
-      title-format: ?? Server Exception Alert - {0}
+      title-format: ⚠️Server Exception Alert - {0}
       excluded-server-exceptions:
         - com.renaissancerentals.mail.error.MailServerException
   logging:
@@ -111,4 +110,8 @@ renaissancerentals:
         client-id: ${RENAISSANCE_TEXT_VP_CLIENT_ID}
         client-secret: ${RENAISSANCE_TEXT_VP_CLIENT_SECRET}
         jwt-token: ${RENAISSANCE_TEXT_VP_JWT_TOKEN}
-
+logging:
+  loki:
+    url: http://localhost:3100/loki/api/v1/push
+    app-name: ${spring.application.name}
+    environment: prod

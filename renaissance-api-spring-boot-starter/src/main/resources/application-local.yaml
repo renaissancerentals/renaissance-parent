@@ -19,3 +19,6 @@ logging:
     org:
       springframework:
         jdbc: DEBUG
+  loki:
+    url: http://localhost:3100/loki/api/v1/push
+    environment: local
