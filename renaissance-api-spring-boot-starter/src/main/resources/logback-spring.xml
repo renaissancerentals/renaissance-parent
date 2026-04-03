@@ -11,12 +11,14 @@
         <lokiUrl>${lokiUrl}</lokiUrl>
         <appName>${appName}</appName>
         <environment>${environment}</environment>
+        <username>${username}</username>
+        <password>${password}</password>
     </appender>
 
     <!-- Plain Text Appender -->
     <appender name="PLAIN" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} [%X{traceId:-}, %X{spanId:-}] - %msg%n</pattern>
         </encoder>
     </appender>
     <root level="INFO">
