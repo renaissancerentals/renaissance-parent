@@ -76,6 +76,8 @@ public class UnitEntity implements Serializable, FloorplanAware {
 
     private String coverImage;
 
+    private String floorplanImage;
+
     private String videoTourLink;
 
     private String threeSixtyVideoTourLink;
