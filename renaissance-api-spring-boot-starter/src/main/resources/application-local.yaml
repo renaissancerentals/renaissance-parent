@@ -1,14 +1,3 @@
-contentmunch:
-  auth:
-    accessTokenMaxAgeInMinutes: 30
-    cookie:
-      same-site: LAX
-      secure: false
-      domain: localhost
-  notes:
-    auth:
-      allowed-origins:
-        - http://localhost:5173
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5434/renaissancedb
@@ -20,5 +9,4 @@ logging:
       springframework:
         jdbc: DEBUG
   loki:
-    url: http://localhost:3100/loki/api/v1/push
     environment: local

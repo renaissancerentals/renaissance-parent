@@ -11,7 +11,7 @@ import lombok.Getter;
 public enum Projection {
 
     ADDRESS("address"), DETAILS("details"), FILTER("filter"), SPOTLIGHT("spotlight"), UTILITIES("utilities"), ENRICHED(
-            "enriched");
+            "enriched"), UNIT_FLOORPLAN("unit-floorplan");
 
     private final String value;
 

@@ -138,8 +138,7 @@ public class FloorplanRepository {
     }
 
     public Optional<FloorplanSpotlight> getFloorplanSpotlight(String floorplanId){
-        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL).where("f.active = :active","active",true)
-                .where("f.id = :floorplanId","floorplanId",floorplanId);
+        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL).where("f.id = :floorplanId","floorplanId",floorplanId);
         var spotlights = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanSpotlightExtractor);
         return spotlights == null || spotlights.isEmpty()
                 ? Optional.empty()

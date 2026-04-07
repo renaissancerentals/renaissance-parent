@@ -15,5 +15,4 @@ public interface UnitDao extends CrudRepository<UnitEntity, String> {
     List<UnitEntity> findAllActive();
 
     List<UnitEntity> findAllByFloorplanId(String floorplanId);
-
 }

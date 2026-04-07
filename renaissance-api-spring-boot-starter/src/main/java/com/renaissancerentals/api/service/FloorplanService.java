@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.renaissancerentals.api.domain.*;
 import com.renaissancerentals.api.domain.mapper.FaqMapper;
+import com.renaissancerentals.api.domain.mapper.UnitMapper;
+import com.renaissancerentals.api.domain.projection.UnitFloorplan;
 import com.renaissancerentals.api.error.NotFoundException;
 import com.renaissancerentals.persistence.dao.*;
 import com.renaissancerentals.persistence.entity.FloorplanEntity;
@@ -25,7 +27,7 @@ public class FloorplanService {
     private final TestimonialDao testimonialDao;
     private final FloorplanFaqDao floorplanFaqDao;
     private final FaqMapper faqMapper;
-
+    private final UnitMapper unitMapper;
     private final ExecutorService virtualThreadExecutor;
 
     private final UnitService unitService;
@@ -92,6 +94,16 @@ public class FloorplanService {
 
     public List<WebSpecial> findFloorplanWebSpecials(String floorplanId){
         return webSpecialService.getWebSpecialForFloorplanAsync(floorplanId).join();
+    }
+
+    public UnitFloorplan getUnitFloorplan(String unitId){
+
+        var unitEntity = unitService.getUnit(unitId)
+                .orElseThrow(() -> new NotFoundException(String.format("Unit %s not found",unitId)));
+        var unitFloorplan = unitMapper.toUnitFloorplan(unitEntity);
+        unitFloorplan.setFloorplan(getFloorplan(unitEntity.getFloorplanId()));
+        return unitFloorplan;
+
     }
 
     public List<Faq> findFloorplanFaqs(String floorplanId){

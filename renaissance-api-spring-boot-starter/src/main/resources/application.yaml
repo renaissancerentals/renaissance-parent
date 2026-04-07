@@ -112,6 +112,8 @@ renaissancerentals:
         jwt-token: ${RENAISSANCE_TEXT_VP_JWT_TOKEN}
 logging:
   loki:
-    url: http://localhost:3100/loki/api/v1/push
+    url: https://loki.contentmunch.com/api/push
     app-name: ${spring.application.name}
     environment: prod
+    username: ${LOKI_USERNAME}
+    password: ${LOKI_PASSWORD}
