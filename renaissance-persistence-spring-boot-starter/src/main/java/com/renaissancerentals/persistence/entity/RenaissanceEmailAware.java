@@ -7,7 +7,9 @@ public interface RenaissanceEmailAware {
 
     UUID getId();
 
-    String getName();
+    String getFirstName();
+
+    String getLastName();
 
     String getFromEmail();
 

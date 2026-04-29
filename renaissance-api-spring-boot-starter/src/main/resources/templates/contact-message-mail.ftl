@@ -5,7 +5,8 @@ A new message has been submitted via ${data.property()}. Details are as follows:
 ------------------------------------------------------------
 Contact Details
 ------------------------------------------------------------
-Name : ${data.name()!""}
+First Name : ${data.firstName()!""}
+Last Name : ${data.lastName()!""}
 Email : ${data.email()!""}
 Phone : ${data.phone()!""}
 

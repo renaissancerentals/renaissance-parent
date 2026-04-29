@@ -18,7 +18,8 @@ public class ApplicationEmailEntity implements Serializable, RenaissanceEmailAwa
 
     @Id
     private UUID id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String fromEmail;
     private String fromPhone;
     private String sourceUrl;

@@ -5,11 +5,16 @@ import com.renaissancerentals.api.util.StringUtils;
 import lombok.Builder;
 
 @Builder
-public record ApplicationAcknowledgementMail(String name, String email, String propertyName, String propertyPhone,
-        String propertyEmail, String propertyManager) {
+public record ApplicationAcknowledgementMail(String firstName, String lastName, String email, String propertyName,
+        String propertyPhone, String propertyEmail, String propertyManager) {
     @Override
-    public String name(){
-        return StringUtils.capitalizeWords(name);
+    public String firstName(){
+        return StringUtils.capitalizeWords(firstName);
+    }
+
+    @Override
+    public String lastName(){
+        return StringUtils.capitalizeWords(lastName);
     }
 
     @Override

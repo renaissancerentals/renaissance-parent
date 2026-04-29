@@ -1,4 +1,4 @@
-<p>Hi ${data.name()},</p>
+<p>Hi ${data.firstName()},</p>
 
 <p>
     Thank you for reaching out and for your interest in renting with us.

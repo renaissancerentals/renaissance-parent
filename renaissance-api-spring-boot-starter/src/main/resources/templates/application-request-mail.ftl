@@ -5,7 +5,8 @@ A rental application request has been submitted via ${data.property()}. Details 
 ------------------------------------------------------------
 Contact Details
 ------------------------------------------------------------
-Name : ${data.name()!""}
+First Name : ${data.firstName()!""}
+Last Name : ${data.lastName()!""}
 Email : ${data.email()!""}
 <#if data.phone()?? && data.phone()?has_content>
 Phone : ${data.phone()}

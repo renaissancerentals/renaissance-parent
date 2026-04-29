@@ -56,16 +56,17 @@ public class ContactService {
 
     private void sendAcknowledgements(ContactMessageRequest contactMessage,PropertyContact property,
             TeamMember propertyManager){
-        sendContactAcknowledgementMail(ContactAcknowledgementMail.builder().name(contactMessage.name())
-                .email(contactMessage.email()).propertyName(property.propertyName()).propertyPhone(property.phone())
-                .propertyEmail(property.email()).propertyManager(propertyManager.getName())
+        sendContactAcknowledgementMail(ContactAcknowledgementMail.builder().firstName(contactMessage.firstName())
+                .lastName(contactMessage.lastName()).email(contactMessage.email()).propertyName(property.propertyName())
+                .propertyPhone(property.phone()).propertyEmail(property.email())
+                .propertyManager(propertyManager.getName())
                 .propertyUrl(propertyService.getPropertyUrl(contactMessage.property())).build());
 
         if (contactMessage.phone() != null) {
-            sendContactAcknowledgementText(
-                    ContactAcknowledgementText.builder().name(contactMessage.name()).phoneNumber(contactMessage.phone())
-                            .propertyName(property.propertyName()).propertyPhone(property.phone())
-                            .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
+            sendContactAcknowledgementText(ContactAcknowledgementText.builder().firstName(contactMessage.firstName())
+                    .lastName(contactMessage.lastName()).phoneNumber(contactMessage.phone())
+                    .propertyName(property.propertyName()).propertyPhone(property.phone())
+                    .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
         }
     }
 
@@ -82,7 +83,7 @@ public class ContactService {
 
     private void sendContactEmail(final ContactMessageRequest contactMessage,final PropertyContact property){
         var message = templateMessageFactory.createMessage(contactMessage);
-        var subject = String.format("Message from %s by %s",property.propertyName(),contactMessage.name());
+        var subject = String.format("Message from %s by %s",property.propertyName(),contactMessage.firstName());
         mailService.sendMail(MailMessage.builder().subject(subject).replyTo(contactMessage.email())
                 .to(getEmailTo(property.email())).cc(getCC(property.secondaryEmail())).build(),message);
     }

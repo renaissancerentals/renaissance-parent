@@ -64,14 +64,15 @@ public class ApplicationRequestService {
     private void sendAcknowledgements(ApplicationRequest applicationRequest,PropertyContact property,
             TeamMember propertyManager){
         sendApplicationRequestAcknowledgementMail(ApplicationAcknowledgementMail.builder()
-                .name(applicationRequest.name()).email(applicationRequest.email()).propertyName(property.propertyName())
-                .propertyPhone(property.phone()).propertyEmail(property.email())
-                .propertyManager(propertyManager.getName()).build());
+                .firstName(applicationRequest.firstName()).lastName(applicationRequest.lastName())
+                .email(applicationRequest.email()).propertyName(property.propertyName()).propertyPhone(property.phone())
+                .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
         if (applicationRequest.phone() != null) {
-            sendApplicationRequestAcknowledgementText(ApplicationAcknowledgementText.builder()
-                    .name(applicationRequest.name()).phoneNumber(applicationRequest.phone())
-                    .propertyName(property.propertyName()).propertyPhone(property.phone())
-                    .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
+            sendApplicationRequestAcknowledgementText(
+                    ApplicationAcknowledgementText.builder().firstName(applicationRequest.firstName())
+                            .lastName(applicationRequest.lastName()).phoneNumber(applicationRequest.phone())
+                            .propertyName(property.propertyName()).propertyPhone(property.phone())
+                            .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
         }
     }
 
@@ -90,7 +91,7 @@ public class ApplicationRequestService {
             final PropertyContact property){
         var message = templateMessageFactory.createMessage(applicationRequest);
         var subject = String.format("Rental Application Request from %s by %s",property.propertyName(),
-                applicationRequest.name());
+                applicationRequest.firstName());
         mailService.sendMail(MailMessage.builder().subject(subject).replyTo(applicationRequest.email())
                 .to(getEmailTo(property.email())).cc(getCC(property.secondaryEmail())).build(),message);
     }

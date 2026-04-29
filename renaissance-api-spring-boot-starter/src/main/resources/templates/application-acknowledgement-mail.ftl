@@ -1,4 +1,4 @@
-<p>Hi ${data.name()},</p>
+<p>Hi ${data.firstName()},</p>
 
 <p>
     We’ve received your request for a rental application for
