@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
@@ -86,7 +85,16 @@ public class GoogleDriveAssetAdapter implements AssetService {
         return getBy(request.folderId(),request.name()).orElseGet(() -> {
             var metadata = buildFileMetadata(request.name(),request.description(),request.folderId(),
                     stripExtension(request.multipartFile().getOriginalFilename()));
-            return uploadFile(metadata,request.multipartFile());
+
+            return execute(() -> {
+                log.debug("Creating file: {} with parentId: {}",metadata.getName(),metadata.getParents());
+                var filePart = request.multipartFile();
+                var mediaContent = new InputStreamContent(filePart.getContentType(), filePart.getInputStream());
+
+                var uploaded = drive.files().create(metadata,mediaContent).setFields(IMAGE_FIELDS)
+                        .setSupportsAllDrives(true).execute();
+                return buildAssetFrom(uploaded);
+            });
         });
     }
 
@@ -129,7 +137,20 @@ public class GoogleDriveAssetAdapter implements AssetService {
 
         final var metadata = buildFileMetadata(request.name(),request.description(),null,
                 request.multipartFile() != null ? request.multipartFile().getOriginalFilename() : null);
-        return uploadFile(metadata,request.multipartFile());
+        return execute(() -> {
+            log.debug("Updating file: {} with parentId: {}",metadata.getName(),metadata.getParents());
+            var filePart = request.multipartFile();
+            if (filePart == null) {
+                var uploaded = drive.files().update(metadata.getId(),metadata).setFields(IMAGE_FIELDS)
+                        .setSupportsAllDrives(true).execute();
+                return buildAssetFrom(uploaded);
+            } else {
+                var mediaContent = new InputStreamContent(filePart.getContentType(), filePart.getInputStream());
+                var uploaded = drive.files().update(metadata.getId(),metadata,mediaContent).setFields(IMAGE_FIELDS)
+                        .setSupportsAllDrives(true).execute();
+                return buildAssetFrom(uploaded);
+            }
+        });
     }
 
     @Override
@@ -161,19 +182,6 @@ public class GoogleDriveAssetAdapter implements AssetService {
             file.setParents(List.of(parentId));
         }
         return file;
-    }
-
-    private Asset uploadFile(File metadata,MultipartFile filePart){
-        return execute(() -> {
-            log.debug("Uploading file: {} with parentId: {}",metadata.getName(),metadata.getParents());
-            var mediaContent = filePart != null
-                    ? new InputStreamContent(filePart.getContentType(), filePart.getInputStream())
-                    : null;
-
-            var uploaded = drive.files().create(metadata,mediaContent).setFields(IMAGE_FIELDS)
-                    .setSupportsAllDrives(true).execute();
-            return buildAssetFrom(uploaded);
-        });
     }
 
     private Asset buildAssetFrom(final File file){
