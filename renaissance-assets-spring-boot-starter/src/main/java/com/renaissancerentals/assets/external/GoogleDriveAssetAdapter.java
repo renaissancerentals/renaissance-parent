@@ -138,15 +138,16 @@ public class GoogleDriveAssetAdapter implements AssetService {
         final var metadata = buildFileMetadata(request.name(),request.description(),null,
                 request.multipartFile() != null ? request.multipartFile().getOriginalFilename() : null);
         return execute(() -> {
-            log.debug("Updating file: {} with parentId: {}",metadata.getName(),metadata.getParents());
+            log.debug("Updating file: {} with parentId: {} and id: {} ",metadata.getName(),metadata.getParents(),
+                    request.id());
             var filePart = request.multipartFile();
             if (filePart == null) {
-                var uploaded = drive.files().update(metadata.getId(),metadata).setFields(IMAGE_FIELDS)
+                var uploaded = drive.files().update(request.id(),metadata).setFields(IMAGE_FIELDS)
                         .setSupportsAllDrives(true).execute();
                 return buildAssetFrom(uploaded);
             } else {
                 var mediaContent = new InputStreamContent(filePart.getContentType(), filePart.getInputStream());
-                var uploaded = drive.files().update(metadata.getId(),metadata,mediaContent).setFields(IMAGE_FIELDS)
+                var uploaded = drive.files().update(request.id(),metadata,mediaContent).setFields(IMAGE_FIELDS)
                         .setSupportsAllDrives(true).execute();
                 return buildAssetFrom(uploaded);
             }
