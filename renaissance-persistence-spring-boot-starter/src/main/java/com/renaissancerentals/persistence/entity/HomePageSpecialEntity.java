@@ -20,17 +20,7 @@ public class HomePageSpecialEntity implements Serializable {
     @Id
     private Long id;
 
-    private String title;
-
     private String description;
-
-    private String details;
-
-    private String information1;
-
-    private String information2;
-
-    private String information3;
 
     private String image;
 
@@ -39,6 +29,8 @@ public class HomePageSpecialEntity implements Serializable {
     private LocalDate endDate;
 
     private String properties;
+
+    private LinkedImageRegions links;
 
     @LastModifiedBy
     private String lastModifiedBy;

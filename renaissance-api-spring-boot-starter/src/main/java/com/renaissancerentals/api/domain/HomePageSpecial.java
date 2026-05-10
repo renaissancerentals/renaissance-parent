@@ -1,20 +1,11 @@
 package com.renaissancerentals.api.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record HomePageSpecial(Long id,
 
-        String title,
-
         String description,
-
-        String details,
-
-        String information1,
-
-        String information2,
-
-        String information3,
 
         String image,
 
@@ -22,5 +13,9 @@ public record HomePageSpecial(Long id,
 
         LocalDate endDate,
 
-        String properties) {
+        String properties, List<HomePageLinkedImageRegion> links) {
+
+    public HomePageSpecial {
+        links = links == null ? List.of() : List.copyOf(links);
+    }
 }
