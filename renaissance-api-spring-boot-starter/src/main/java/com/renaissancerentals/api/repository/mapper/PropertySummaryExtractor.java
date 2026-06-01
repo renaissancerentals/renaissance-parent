@@ -1,24 +1,22 @@
 package com.renaissancerentals.api.repository.mapper;
 
+import com.renaissancerentals.api.domain.PropertyBusRoute;
+import com.renaissancerentals.api.domain.projection.PropertySummary;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
-
-import com.renaissancerentals.api.domain.PropertyBusRoute;
-import com.renaissancerentals.api.domain.projection.PropertySummary;
 
 @Component
 public class PropertySummaryExtractor implements ResultSetExtractor<List<PropertySummary>> {
 
     @Override
-    public List<PropertySummary> extractData(ResultSet rs) throws SQLException, DataAccessException{
+    public List<PropertySummary> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<String, PropertySummary> propertyMap = new LinkedHashMap<>();
 
         while (rs.next()) {
@@ -33,15 +31,27 @@ public class PropertySummaryExtractor implements ResultSetExtractor<List<Propert
             String busRoute = rs.getString("bus_route");
             String busRouteLink = rs.getString("bus_route_link");
 
-            propertyMap.computeIfAbsent(id,
-                    propertyId -> PropertySummary.builder().id(id).name(name).address(address).zipcode(zipcode)
-                            .email(email).phone(phone).leaseType(leaseType).busRoutes(new ArrayList<>()).build());
+            propertyMap.computeIfAbsent(id, propertyId -> PropertySummary.builder()
+                    .id(id)
+                    .name(name)
+                    .address(address)
+                    .zipcode(zipcode)
+                    .email(email)
+                    .phone(phone)
+                    .leaseType(leaseType)
+                    .busRoutes(new ArrayList<>())
+                    .build());
 
             if (busRouteId != null) {
-                propertyMap.get(id).getBusRoutes().add(PropertyBusRoute.builder().id(busRouteId).busRoute(busRoute)
-                        .busRouteLink(busRouteLink).build());
+                propertyMap
+                        .get(id)
+                        .getBusRoutes()
+                        .add(PropertyBusRoute.builder()
+                                .id(busRouteId)
+                                .busRoute(busRoute)
+                                .busRouteLink(busRouteLink)
+                                .build());
             }
-
         }
 
         return new ArrayList<>(propertyMap.values());

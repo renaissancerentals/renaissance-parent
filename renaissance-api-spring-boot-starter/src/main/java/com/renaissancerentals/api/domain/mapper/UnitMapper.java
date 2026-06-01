@@ -1,12 +1,11 @@
 package com.renaissancerentals.api.domain.mapper;
 
-import org.mapstruct.Mapper;
-
 import com.renaissancerentals.api.domain.Unit;
 import com.renaissancerentals.api.domain.mapper.config.CentralMapperConfig;
 import com.renaissancerentals.api.domain.projection.UnitAddress;
 import com.renaissancerentals.api.domain.projection.UnitFloorplan;
 import com.renaissancerentals.persistence.entity.UnitEntity;
+import org.mapstruct.Mapper;
 
 @Mapper(config = CentralMapperConfig.class)
 public interface UnitMapper {

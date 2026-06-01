@@ -1,10 +1,9 @@
 package com.renaissancerentals.api.domain.template;
 
-import org.mapstruct.Mapper;
-
 import com.renaissancerentals.api.domain.LeasingOffice;
 import com.renaissancerentals.api.domain.mapper.config.CentralMapperConfig;
 import com.renaissancerentals.persistence.entity.LeasingOfficeEntity;
+import org.mapstruct.Mapper;
 
 @Mapper(config = CentralMapperConfig.class)
 public interface LeasingOfficeMapper {

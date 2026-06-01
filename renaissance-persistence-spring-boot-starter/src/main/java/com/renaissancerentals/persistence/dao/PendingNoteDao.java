@@ -1,8 +1,6 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.PendingNoteEntity;
 import org.springframework.data.repository.CrudRepository;
 
-import com.renaissancerentals.persistence.entity.PendingNoteEntity;
-
-public interface PendingNoteDao extends CrudRepository<PendingNoteEntity, String> {
-}
+public interface PendingNoteDao extends CrudRepository<PendingNoteEntity, String> {}

@@ -9,9 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAutoConfiguration implements WebMvcConfigurer {
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/static/")
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/index.html")
+                .addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.noStore());
-
     }
 }

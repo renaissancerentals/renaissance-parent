@@ -1,11 +1,9 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.TeamMemberPropertyEntity;
 import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import com.renaissancerentals.persistence.entity.TeamMemberPropertyEntity;
 
 public interface TeamMemberPropertyDao extends CrudRepository<TeamMemberPropertyEntity, Long> {
 

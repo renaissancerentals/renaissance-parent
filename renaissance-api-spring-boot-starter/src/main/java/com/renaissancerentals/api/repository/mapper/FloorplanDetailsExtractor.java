@@ -1,5 +1,9 @@
 package com.renaissancerentals.api.repository.mapper;
 
+import com.renaissancerentals.api.domain.Amenity;
+import com.renaissancerentals.api.domain.WebSpecial;
+import com.renaissancerentals.api.domain.projection.FloorplanDetails;
+import com.renaissancerentals.api.domain.projection.UnitDetails;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -7,21 +11,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
-
-import com.renaissancerentals.api.domain.Amenity;
-import com.renaissancerentals.api.domain.WebSpecial;
-import com.renaissancerentals.api.domain.projection.FloorplanDetails;
-import com.renaissancerentals.api.domain.projection.UnitDetails;
 
 @Component
 public class FloorplanDetailsExtractor implements ResultSetExtractor<List<FloorplanDetails>> {
 
     @Override
-    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException{
+    public List<FloorplanDetails> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<String, FloorplanDetails> floorplanMap = new LinkedHashMap<>();
 
         while (rs.next()) {
@@ -70,7 +68,9 @@ public class FloorplanDetailsExtractor implements ResultSetExtractor<List<Floorp
             float deposit = rs.getFloat("deposit");
             boolean furnished = rs.getBoolean("furnished");
             int garages = rs.getInt("garages");
-            LocalDate moveInDate = rs.getDate("move_in_date") != null ? rs.getDate("move_in_date").toLocalDate() : null;
+            LocalDate moveInDate = rs.getDate("move_in_date") != null
+                    ? rs.getDate("move_in_date").toLocalDate()
+                    : null;
             int availabilityExtensionMonths = rs.getInt("availability_extension_months");
 
             // --- WebSpecial fields ---
@@ -90,40 +90,84 @@ public class FloorplanDetailsExtractor implements ResultSetExtractor<List<Floorp
             String amenityType = rs.getString("amenity_type");
 
             // --- Floorplan: create if not exists ---
-            FloorplanDetails floorplanDetails = floorplanMap.computeIfAbsent(floorplanId,
-                    id -> FloorplanDetails.builder().id(floorplanId).name(name).bedroom(bedroom).bathroom(bathroom)
-                            .style(style).specialRent(specialRent).specialRentStartDate(specialRentStartDate)
-                            .specialRentEndDate(specialRentEndDate).address(address).zipcode(zipcode).featured(featured)
-                            .greenCertified(greenCertified).videoTourLink(videoTourLink)
-                            .threeSixtyVideoTourLink(threeSixtyVideoTourLink).virtualTourLink(virtualTourLink)
-                            .photo(photo).coverImage(coverImage).floorPlanFolderId(floorPlanFolderId)
-                            .photosFolderId(photosFolderId).units(new ArrayList<>()).webSpecials(new ArrayList<>())
-                            .amenities(new ArrayList<>()).photosCount(photosCount).description(description)
-                            .vanityLink(vanityLink).htmlTitle(htmlTitle).metaDescription(metaDescription)
-                            .conversionTrackingId1(conversionTrackingId1).conversionTrackingId2(conversionTrackingId2)
-                            .customCode(customCode).highlights(highlights).build());
+            FloorplanDetails floorplanDetails =
+                    floorplanMap.computeIfAbsent(floorplanId, id -> FloorplanDetails.builder()
+                            .id(floorplanId)
+                            .name(name)
+                            .bedroom(bedroom)
+                            .bathroom(bathroom)
+                            .style(style)
+                            .specialRent(specialRent)
+                            .specialRentStartDate(specialRentStartDate)
+                            .specialRentEndDate(specialRentEndDate)
+                            .address(address)
+                            .zipcode(zipcode)
+                            .featured(featured)
+                            .greenCertified(greenCertified)
+                            .videoTourLink(videoTourLink)
+                            .threeSixtyVideoTourLink(threeSixtyVideoTourLink)
+                            .virtualTourLink(virtualTourLink)
+                            .photo(photo)
+                            .coverImage(coverImage)
+                            .floorPlanFolderId(floorPlanFolderId)
+                            .photosFolderId(photosFolderId)
+                            .units(new ArrayList<>())
+                            .webSpecials(new ArrayList<>())
+                            .amenities(new ArrayList<>())
+                            .photosCount(photosCount)
+                            .description(description)
+                            .vanityLink(vanityLink)
+                            .htmlTitle(htmlTitle)
+                            .metaDescription(metaDescription)
+                            .conversionTrackingId1(conversionTrackingId1)
+                            .conversionTrackingId2(conversionTrackingId2)
+                            .customCode(customCode)
+                            .highlights(highlights)
+                            .build());
 
             // --- Add Unit ---
-            if (unitId != null && floorplanDetails.getUnits().stream().noneMatch(u -> u.getId().equals(unitId))) {
-                floorplanDetails.getUnits()
-                        .add(UnitDetails.builder().id(unitId).squareFoot(squareFoot).allowedPet(allowedPet).rent(rent)
-                                .discountedRent(discountedRent).deposit(deposit).furnished(furnished).garages(garages)
-                                .moveInDate(moveInDate).availabilityExtensionMonths(availabilityExtensionMonths)
+            if (unitId != null
+                    && floorplanDetails.getUnits().stream()
+                            .noneMatch(u -> u.getId().equals(unitId))) {
+                floorplanDetails
+                        .getUnits()
+                        .add(UnitDetails.builder()
+                                .id(unitId)
+                                .squareFoot(squareFoot)
+                                .allowedPet(allowedPet)
+                                .rent(rent)
+                                .discountedRent(discountedRent)
+                                .deposit(deposit)
+                                .furnished(furnished)
+                                .garages(garages)
+                                .moveInDate(moveInDate)
+                                .availabilityExtensionMonths(availabilityExtensionMonths)
                                 .build());
             }
 
             // --- Add WebSpecial ---
             if (webSpecialId != 0
                     && floorplanDetails.getWebSpecials().stream().noneMatch(w -> w.getId() == webSpecialId)) {
-                floorplanDetails.getWebSpecials()
-                        .add(WebSpecial.builder().id(webSpecialId).description(webSpecialDescription)
-                                .startDate(webSpecialStartDate).endDate(webSpecialEndDate).build());
+                floorplanDetails
+                        .getWebSpecials()
+                        .add(WebSpecial.builder()
+                                .id(webSpecialId)
+                                .description(webSpecialDescription)
+                                .startDate(webSpecialStartDate)
+                                .endDate(webSpecialEndDate)
+                                .build());
             }
 
             // --- Add Amenity ---
             if (amenityId != 0 && floorplanDetails.getAmenities().stream().noneMatch(a -> a.getId() == amenityId)) {
-                floorplanDetails.getAmenities().add(Amenity.builder().id(amenityId).name(amenityName).type(amenityType)
-                        .featured(amenityFeatured).build());
+                floorplanDetails
+                        .getAmenities()
+                        .add(Amenity.builder()
+                                .id(amenityId)
+                                .name(amenityName)
+                                .type(amenityType)
+                                .featured(amenityFeatured)
+                                .build());
             }
         }
 

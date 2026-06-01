@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ContactEventType {
-    CLICKED("clicked"), SUBMITTED("submitted"), INITIATED("initiated");
+    CLICKED("clicked"),
+    SUBMITTED("submitted"),
+    INITIATED("initiated");
 
     private final String value;
 
@@ -13,12 +15,12 @@ public enum ContactEventType {
     }
 
     @JsonValue
-    public String getValue(){
+    public String getValue() {
         return value;
     }
 
     @JsonCreator
-    public static ContactEventType fromValue(String value){
+    public static ContactEventType fromValue(String value) {
         for (ContactEventType eventType : ContactEventType.values()) {
             if (eventType.value.equals(value)) {
                 return eventType;

@@ -3,13 +3,11 @@ package com.renaissancerentals.persistence.entity;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
-
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.Data;
 
 @Data
 @Table(name = ContactEmailEntity.TABLE_NAME)
@@ -18,6 +16,7 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
 
     @Id
     private UUID id;
+
     private String firstName;
     private String lastName;
     private String fromEmail;
@@ -38,20 +37,25 @@ public class ContactEmailEntity implements Serializable, RenaissanceEmailAware, 
     private Instant createdAt;
 
     @Override
-    public boolean isNew(){
+    public boolean isNew() {
         return isNew;
     }
 
-    public void markNew(){
+    public void markNew() {
         this.isNew = true;
     }
 
-    public ContactAdditionalInfo getAdditionalInfo(){
-        if (additionalInfo == null)
-            return null;
-        return new ContactAdditionalInfo(additionalInfo.getAmenities(), additionalInfo.getBedrooms(),
-                additionalInfo.getFloorPlan(), additionalInfo.getHearAboutUs(), additionalInfo.getLowerRent(),
-                additionalInfo.getUpperRent(), additionalInfo.getMoveInDate(), additionalInfo.getPets(),
+    public ContactAdditionalInfo getAdditionalInfo() {
+        if (additionalInfo == null) return null;
+        return new ContactAdditionalInfo(
+                additionalInfo.getAmenities(),
+                additionalInfo.getBedrooms(),
+                additionalInfo.getFloorPlan(),
+                additionalInfo.getHearAboutUs(),
+                additionalInfo.getLowerRent(),
+                additionalInfo.getUpperRent(),
+                additionalInfo.getMoveInDate(),
+                additionalInfo.getPets(),
                 additionalInfo.getCommunities());
     }
 }

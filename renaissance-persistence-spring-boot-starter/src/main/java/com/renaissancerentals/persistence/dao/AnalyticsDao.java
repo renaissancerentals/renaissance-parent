@@ -1,9 +1,6 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.AnalyticsEntity;
 import org.springframework.data.repository.CrudRepository;
 
-import com.renaissancerentals.persistence.entity.AnalyticsEntity;
-
-public interface AnalyticsDao extends CrudRepository<AnalyticsEntity, String> {
-
-}
+public interface AnalyticsDao extends CrudRepository<AnalyticsEntity, String> {}

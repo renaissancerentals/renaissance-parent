@@ -1,9 +1,7 @@
 package com.renaissancerentals.api.domain.projection;
 
-import java.time.LocalDate;
-
 import com.renaissancerentals.api.domain.Floorplan;
-
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Data;
 
@@ -79,5 +77,4 @@ public class UnitFloorplan {
     private String floorplanLink;
 
     private Floorplan floorplan;
-
 }

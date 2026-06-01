@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class HoneyPotValidator implements ConstraintValidator<HoneyPot, String> {
     @Override
-    public boolean isValid(String value,ConstraintValidatorContext context){
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         return value == null || value.isEmpty();
     }
 }

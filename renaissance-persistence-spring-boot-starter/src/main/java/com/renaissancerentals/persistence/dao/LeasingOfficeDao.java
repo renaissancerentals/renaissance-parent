@@ -1,9 +1,6 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.LeasingOfficeEntity;
 import org.springframework.data.repository.CrudRepository;
 
-import com.renaissancerentals.persistence.entity.LeasingOfficeEntity;
-
-public interface LeasingOfficeDao extends CrudRepository<LeasingOfficeEntity, String> {
-
-}
+public interface LeasingOfficeDao extends CrudRepository<LeasingOfficeEntity, String> {}

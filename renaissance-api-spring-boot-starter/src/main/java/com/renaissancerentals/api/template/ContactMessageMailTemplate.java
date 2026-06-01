@@ -1,11 +1,9 @@
 package com.renaissancerentals.api.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.api.messaging.ContactMessageRequest;
 import com.renaissancerentals.foundation.template.AbstractTemplate;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ContactMessageMailTemplate extends AbstractTemplate<ContactMessageRequest> {
@@ -14,12 +12,12 @@ public class ContactMessageMailTemplate extends AbstractTemplate<ContactMessageR
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "contact-message-mail.ftl";
     }
 
     @Override
-    public Class<ContactMessageRequest> getModelType(){
+    public Class<ContactMessageRequest> getModelType() {
         return ContactMessageRequest.class;
     }
 }

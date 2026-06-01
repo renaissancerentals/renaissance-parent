@@ -13,5 +13,4 @@ public class PropertySpotlight {
     private String address;
 
     private String zipcode;
-
 }

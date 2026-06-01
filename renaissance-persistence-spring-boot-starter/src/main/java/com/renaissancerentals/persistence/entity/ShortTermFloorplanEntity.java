@@ -1,19 +1,18 @@
 package com.renaissancerentals.persistence.entity;
 
 import java.io.Serializable;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = ShortTermFloorplanEntity.TABLE_NAME)
 public class ShortTermFloorplanEntity implements Serializable, FloorplanAware {
     public static final String TABLE_NAME = "short_term_floorplan";
+
     @Id
     private Long id;
 
@@ -35,5 +34,4 @@ public class ShortTermFloorplanEntity implements Serializable, FloorplanAware {
     private Integer squareFoot;
 
     private String floorplanId;
-
 }

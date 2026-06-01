@@ -1,9 +1,8 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.UnitKeyLogEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import com.renaissancerentals.persistence.entity.UnitKeyLogEntity;
 
 public interface UnitKeyLogDao extends CrudRepository<UnitKeyLogEntity, Long> {
 

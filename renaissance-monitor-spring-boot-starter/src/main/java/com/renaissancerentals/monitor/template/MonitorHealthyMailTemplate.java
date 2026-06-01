@@ -1,11 +1,9 @@
 package com.renaissancerentals.monitor.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.foundation.template.AbstractTemplate;
 import com.renaissancerentals.monitor.template.model.MonitorHealthyMessage;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MonitorHealthyMailTemplate extends AbstractTemplate<MonitorHealthyMessage> {
@@ -14,12 +12,12 @@ public class MonitorHealthyMailTemplate extends AbstractTemplate<MonitorHealthyM
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "monitor-healthy-mail.ftl";
     }
 
     @Override
-    public Class<MonitorHealthyMessage> getModelType(){
+    public Class<MonitorHealthyMessage> getModelType() {
         return MonitorHealthyMessage.class;
     }
 }

@@ -1,14 +1,5 @@
 package com.renaissancerentals.api.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.renaissancerentals.api.domain.TeamMember;
 import com.renaissancerentals.api.domain.projection.PropertyContact;
 import com.renaissancerentals.api.domain.template.ContactAcknowledgementMail;
@@ -20,8 +11,14 @@ import com.renaissancerentals.foundation.mail.service.MailService;
 import com.renaissancerentals.foundation.template.TemplateMessageFactory;
 import com.renaissancerentals.foundation.text.data.TextMessage;
 import com.renaissancerentals.foundation.text.service.TextService;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,41 +33,52 @@ public class ContactService {
     private final TemplateMessageFactory templateMessageFactory;
 
     private final ExecutorService virtualThreadExecutor;
+
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
     @Transactional
-    public void save(ContactMessageRequest contactMessage){
+    public void save(ContactMessageRequest contactMessage) {
 
         contactRepository.save(contactMessage);
 
         var property = propertyService.getPropertyContact(contactMessage.property());
 
-        sendContactEmail(contactMessage,property);
+        sendContactEmail(contactMessage, property);
 
         virtualThreadExecutor.execute(() -> {
             var propertyManager = propertyService.getPropertyManager(contactMessage.property());
-            sendAcknowledgements(contactMessage,property,propertyManager);
+            sendAcknowledgements(contactMessage, property, propertyManager);
         });
     }
 
-    private void sendAcknowledgements(ContactMessageRequest contactMessage,PropertyContact property,
-            TeamMember propertyManager){
-        sendContactAcknowledgementMail(ContactAcknowledgementMail.builder().firstName(contactMessage.firstName())
-                .lastName(contactMessage.lastName()).email(contactMessage.email()).propertyName(property.propertyName())
-                .propertyPhone(property.phone()).propertyEmail(property.email())
+    private void sendAcknowledgements(
+            ContactMessageRequest contactMessage, PropertyContact property, TeamMember propertyManager) {
+        sendContactAcknowledgementMail(ContactAcknowledgementMail.builder()
+                .firstName(contactMessage.firstName())
+                .lastName(contactMessage.lastName())
+                .email(contactMessage.email())
+                .propertyName(property.propertyName())
+                .propertyPhone(property.phone())
+                .propertyEmail(property.email())
                 .propertyManager(propertyManager.getName())
-                .propertyUrl(propertyService.getPropertyUrl(contactMessage.property())).build());
+                .propertyUrl(propertyService.getPropertyUrl(contactMessage.property()))
+                .build());
 
         if (contactMessage.phone() != null) {
-            sendContactAcknowledgementText(ContactAcknowledgementText.builder().firstName(contactMessage.firstName())
-                    .lastName(contactMessage.lastName()).phoneNumber(contactMessage.phone())
-                    .propertyName(property.propertyName()).propertyPhone(property.phone())
-                    .propertyEmail(property.email()).propertyManager(propertyManager.getName()).build());
+            sendContactAcknowledgementText(ContactAcknowledgementText.builder()
+                    .firstName(contactMessage.firstName())
+                    .lastName(contactMessage.lastName())
+                    .phoneNumber(contactMessage.phone())
+                    .propertyName(property.propertyName())
+                    .propertyPhone(property.phone())
+                    .propertyEmail(property.email())
+                    .propertyManager(propertyManager.getName())
+                    .build());
         }
     }
 
-    private List<String> getCC(String secondaryEmail){
+    private List<String> getCC(String secondaryEmail) {
 
         List<String> ccList = new ArrayList<>(cc);
         if (secondaryEmail != null && !secondaryEmail.isEmpty()) {
@@ -78,33 +86,44 @@ public class ContactService {
         }
 
         return ccList;
-
     }
 
-    private void sendContactEmail(final ContactMessageRequest contactMessage,final PropertyContact property){
+    private void sendContactEmail(final ContactMessageRequest contactMessage, final PropertyContact property) {
         var message = templateMessageFactory.createMessage(contactMessage);
-        var subject = String.format("Message from %s by %s",property.propertyName(),contactMessage.firstName());
-        mailService.sendMail(MailMessage.builder().subject(subject).replyTo(contactMessage.email())
-                .to(getEmailTo(property.email())).cc(getCC(property.secondaryEmail())).build(),message);
+        var subject = String.format("Message from %s by %s", property.propertyName(), contactMessage.firstName());
+        mailService.sendMail(
+                MailMessage.builder()
+                        .subject(subject)
+                        .replyTo(contactMessage.email())
+                        .to(getEmailTo(property.email()))
+                        .cc(getCC(property.secondaryEmail()))
+                        .build(),
+                message);
     }
 
-    private void sendContactAcknowledgementMail(final ContactAcknowledgementMail acknowledgementMail){
+    private void sendContactAcknowledgementMail(final ContactAcknowledgementMail acknowledgementMail) {
         var message = templateMessageFactory.createMessage(acknowledgementMail);
-        var subject = String.format("Your contact form has been received! - %s",acknowledgementMail.propertyName());
-        mailService.sendHtmlMail(MailMessage.builder().subject(subject).replyTo(acknowledgementMail.propertyEmail())
-                .to(acknowledgementMail.email()).build(),message);
+        var subject = String.format("Your contact form has been received! - %s", acknowledgementMail.propertyName());
+        mailService.sendHtmlMail(
+                MailMessage.builder()
+                        .subject(subject)
+                        .replyTo(acknowledgementMail.propertyEmail())
+                        .to(acknowledgementMail.email())
+                        .build(),
+                message);
     }
 
-    private void sendContactAcknowledgementText(final ContactAcknowledgementText acknowledgementText){
+    private void sendContactAcknowledgementText(final ContactAcknowledgementText acknowledgementText) {
         var message = templateMessageFactory.createMessage(acknowledgementText);
-        textService.sendText(TextMessage.builder().from(acknowledgementText.propertyPhone())
-                .to(acknowledgementText.phoneNumber()).message(message).build());
+        textService.sendText(TextMessage.builder()
+                .from(acknowledgementText.propertyPhone())
+                .to(acknowledgementText.phoneNumber())
+                .message(message)
+                .build());
     }
 
-    private String getEmailTo(final String propertyEmail){
+    private String getEmailTo(final String propertyEmail) {
 
         return Optional.ofNullable(propertyEmail).orElse("inquiries@renaissancerentals.com");
-
     }
-
 }

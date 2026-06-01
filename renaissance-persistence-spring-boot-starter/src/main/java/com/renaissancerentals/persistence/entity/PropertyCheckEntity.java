@@ -2,19 +2,18 @@ package com.renaissancerentals.persistence.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = "id")
 @Table(name = PropertyCheckEntity.TABLE_NAME)
 public class PropertyCheckEntity implements Serializable {
     public static final String TABLE_NAME = "property_check";
+
     @Id
     private Long id;
 
@@ -38,5 +37,4 @@ public class PropertyCheckEntity implements Serializable {
     private String stopAssetId;
 
     private String notes;
-
 }

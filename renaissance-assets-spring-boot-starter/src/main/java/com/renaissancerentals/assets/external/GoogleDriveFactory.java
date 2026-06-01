@@ -3,11 +3,6 @@ package com.renaissancerentals.assets.external;
 import static com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport;
 import static com.google.api.client.json.gson.GsonFactory.getDefaultInstance;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import org.springframework.stereotype.Component;
-
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
@@ -19,9 +14,11 @@ import com.renaissancerentals.assets.config.AssetsConfigProperties;
 import com.renaissancerentals.assets.error.AssetsBusinessException;
 import com.renaissancerentals.assets.error.AssetsClientException;
 import com.renaissancerentals.assets.error.AssetsErrorCode;
-
 import jakarta.annotation.PostConstruct;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Component
@@ -35,15 +32,17 @@ public class GoogleDriveFactory {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         try {
             var tokenResponse = new TokenResponse();
             tokenResponse.setRefreshToken(config.refreshToken());
 
             this.credential = new Credential.Builder(BearerToken.authorizationHeaderAccessMethod())
-                    .setTransport(newTrustedTransport()).setJsonFactory(getDefaultInstance())
+                    .setTransport(newTrustedTransport())
+                    .setJsonFactory(getDefaultInstance())
                     .setTokenServerUrl(new GenericUrl(config.tokenServer()))
-                    .setClientAuthentication(new BasicAuthentication(config.clientId(), config.clientSecret())).build()
+                    .setClientAuthentication(new BasicAuthentication(config.clientId(), config.clientSecret()))
+                    .build()
                     .setFromTokenResponse(tokenResponse);
         } catch (GeneralSecurityException e) {
             throw new AssetsClientException(AssetsErrorCode.UNAUTHORIZED_ACCESS_ERROR, e);
@@ -52,14 +51,15 @@ public class GoogleDriveFactory {
         }
     }
 
-    public HttpRequestFactory createHttpRequestFactory(){
+    public HttpRequestFactory createHttpRequestFactory() {
         return credential.getTransport().createRequestFactory();
     }
 
-    public Drive createDrive(){
+    public Drive createDrive() {
         try {
             return new Drive.Builder(newTrustedTransport(), getDefaultInstance(), credential)
-                    .setApplicationName("Renaissance Rentals assets").build();
+                    .setApplicationName("Renaissance Rentals assets")
+                    .build();
         } catch (GeneralSecurityException e) {
             throw new AssetsClientException(AssetsErrorCode.UNAUTHORIZED_ACCESS_ERROR, e);
         } catch (IOException e) {

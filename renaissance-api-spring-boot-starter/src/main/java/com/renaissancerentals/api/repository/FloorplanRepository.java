@@ -1,18 +1,15 @@
 package com.renaissancerentals.api.repository;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
-
 import com.renaissancerentals.api.domain.projection.FloorplanDetails;
 import com.renaissancerentals.api.domain.projection.FloorplanSpotlight;
 import com.renaissancerentals.api.repository.helper.SqlBuilder;
 import com.renaissancerentals.api.repository.mapper.FloorplanDetailsExtractor;
 import com.renaissancerentals.api.repository.mapper.FloorplanSpotlightExtractor;
-
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,7 +20,8 @@ public class FloorplanRepository {
     private final FloorplanDetailsExtractor floorplanDetailsExtractor;
     private final FloorplanSpotlightExtractor floorplanSpotlightExtractor;
 
-    private static final String FLOORPLAN_DETAILS_SQL = """
+    private static final String FLOORPLAN_DETAILS_SQL =
+            """
             SELECT f.id,
                    f.name,
                    f.bedroom,
@@ -77,38 +75,39 @@ public class FloorplanRepository {
                      LEFT JOIN amenity a ON f.id = a.floorplan_id
             """;
 
-    public List<FloorplanDetails> getFloorplanDetailsForProperty(String propertyId){
+    public List<FloorplanDetails> getFloorplanDetailsForProperty(String propertyId) {
 
         SqlBuilder sqlBuilder = new SqlBuilder(FLOORPLAN_DETAILS_SQL)
-                .where("f.property_id = :propertyId","propertyId",propertyId)
-                .where("f.style != :style","style","GARAGE")
-                .where("f.active = :floorplanActive","floorplanActive",true);
+                .where("f.property_id = :propertyId", "propertyId", propertyId)
+                .where("f.style != :style", "style", "GARAGE")
+                .where("f.active = :floorplanActive", "floorplanActive", true);
 
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanDetailsExtractor);
-
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), floorplanDetailsExtractor);
     }
 
-    public List<FloorplanDetails> getActiveFloorplansDetails(){
-
-        SqlBuilder sqlBuilder = new SqlBuilder(FLOORPLAN_DETAILS_SQL).where("f.style != :style","style","GARAGE")
-                .where("f.active = :floorplanActive","floorplanActive",true);
-
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanDetailsExtractor);
-
-    }
-
-    public Optional<FloorplanDetails> getFloorplanDetails(String floorplanId){
+    public List<FloorplanDetails> getActiveFloorplansDetails() {
 
         SqlBuilder sqlBuilder = new SqlBuilder(FLOORPLAN_DETAILS_SQL)
-                .where("f.id = :floorplanId","floorplanId",floorplanId).where("f.style != :style","style","GARAGE");
+                .where("f.style != :style", "style", "GARAGE")
+                .where("f.active = :floorplanActive", "floorplanActive", true);
 
-        var floorplanDetails = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanDetailsExtractor);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), floorplanDetailsExtractor);
+    }
+
+    public Optional<FloorplanDetails> getFloorplanDetails(String floorplanId) {
+
+        SqlBuilder sqlBuilder = new SqlBuilder(FLOORPLAN_DETAILS_SQL)
+                .where("f.id = :floorplanId", "floorplanId", floorplanId)
+                .where("f.style != :style", "style", "GARAGE");
+
+        var floorplanDetails = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), floorplanDetailsExtractor);
         return floorplanDetails == null || floorplanDetails.isEmpty()
                 ? Optional.empty()
                 : Optional.ofNullable(floorplanDetails.getFirst());
     }
 
-    private static final String SPOTLIGHT_SQL = """
+    private static final String SPOTLIGHT_SQL =
+            """
             SELECT f.id,
                    f.name,
                    f.meta_description,
@@ -131,15 +130,16 @@ public class FloorplanRepository {
 
             """;
 
-    public List<FloorplanSpotlight> getFeaturedSpotlights(){
-        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL).where("f.active = :active","active",true)
-                .where("f.featured = :featured","featured",true);
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanSpotlightExtractor);
+    public List<FloorplanSpotlight> getFeaturedSpotlights() {
+        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL)
+                .where("f.active = :active", "active", true)
+                .where("f.featured = :featured", "featured", true);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), floorplanSpotlightExtractor);
     }
 
-    public Optional<FloorplanSpotlight> getFloorplanSpotlight(String floorplanId){
-        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL).where("f.id = :floorplanId","floorplanId",floorplanId);
-        var spotlights = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),floorplanSpotlightExtractor);
+    public Optional<FloorplanSpotlight> getFloorplanSpotlight(String floorplanId) {
+        SqlBuilder sqlBuilder = new SqlBuilder(SPOTLIGHT_SQL).where("f.id = :floorplanId", "floorplanId", floorplanId);
+        var spotlights = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), floorplanSpotlightExtractor);
         return spotlights == null || spotlights.isEmpty()
                 ? Optional.empty()
                 : Optional.ofNullable(spotlights.getFirst());

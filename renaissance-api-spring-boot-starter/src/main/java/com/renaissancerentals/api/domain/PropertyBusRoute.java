@@ -9,5 +9,4 @@ public class PropertyBusRoute {
     private String id;
     private String busRoute;
     private String busRouteLink;
-
 }

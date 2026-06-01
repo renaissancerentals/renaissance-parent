@@ -1,11 +1,9 @@
 package com.renaissancerentals.api.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.api.domain.Sublet;
 import com.renaissancerentals.foundation.template.AbstractTemplate;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SubletAlertMailTemplate extends AbstractTemplate<Sublet> {
@@ -14,12 +12,12 @@ public class SubletAlertMailTemplate extends AbstractTemplate<Sublet> {
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "sublet-alert-mail.ftl";
     }
 
     @Override
-    public Class<Sublet> getModelType(){
+    public Class<Sublet> getModelType() {
         return Sublet.class;
     }
 }

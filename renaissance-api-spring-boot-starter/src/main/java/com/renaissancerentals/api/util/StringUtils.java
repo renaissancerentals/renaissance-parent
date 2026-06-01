@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public final class StringUtils {
 
-    public static String capitalizeWords(String input){
+    public static String capitalizeWords(String input) {
         if (input == null || input.isBlank()) {
             return input;
         }
@@ -29,7 +29,7 @@ public final class StringUtils {
         return sb.toString();
     }
 
-    public static String getFirstName(String fullName){
+    public static String getFirstName(String fullName) {
         if (fullName == null || fullName.isBlank()) {
             return "";
         }

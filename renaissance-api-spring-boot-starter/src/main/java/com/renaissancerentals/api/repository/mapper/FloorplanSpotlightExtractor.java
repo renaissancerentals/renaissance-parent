@@ -1,25 +1,23 @@
 package com.renaissancerentals.api.repository.mapper;
 
+import com.renaissancerentals.api.domain.projection.FloorplanSpotlight;
+import com.renaissancerentals.api.domain.projection.PropertySpotlight;
+import com.renaissancerentals.api.domain.projection.UnitSpotlight;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
-
-import com.renaissancerentals.api.domain.projection.FloorplanSpotlight;
-import com.renaissancerentals.api.domain.projection.PropertySpotlight;
-import com.renaissancerentals.api.domain.projection.UnitSpotlight;
 
 @Component
 public class FloorplanSpotlightExtractor implements ResultSetExtractor<List<FloorplanSpotlight>> {
 
     @Override
-    public List<FloorplanSpotlight> extractData(ResultSet rs) throws SQLException, DataAccessException{
+    public List<FloorplanSpotlight> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<String, FloorplanSpotlight> floorplanSpotlightMap = new LinkedHashMap<>();
 
         while (rs.next()) {
@@ -40,20 +38,37 @@ public class FloorplanSpotlightExtractor implements ResultSetExtractor<List<Floo
             String unitAddress = rs.getString("unit_address");
             String unitZipcode = rs.getString("unit_zipcode");
 
-            floorplanSpotlightMap.computeIfAbsent(floorplanId,
-                    id -> FloorplanSpotlight.builder().id(floorplanId).name(name).metaDescription(metaDescription)
-                            .bedroom(bedroom).bathroom(bathroom).style(style).coverImage(coverImage)
-                            .units(new ArrayList<>()).property(PropertySpotlight.builder().id(propertyId)
-                                    .name(propertyName).address(propertyAddress).zipcode(propertyZipcode).build())
-                            .build());
+            floorplanSpotlightMap.computeIfAbsent(floorplanId, id -> FloorplanSpotlight.builder()
+                    .id(floorplanId)
+                    .name(name)
+                    .metaDescription(metaDescription)
+                    .bedroom(bedroom)
+                    .bathroom(bathroom)
+                    .style(style)
+                    .coverImage(coverImage)
+                    .units(new ArrayList<>())
+                    .property(PropertySpotlight.builder()
+                            .id(propertyId)
+                            .name(propertyName)
+                            .address(propertyAddress)
+                            .zipcode(propertyZipcode)
+                            .build())
+                    .build());
 
             if (unitId != null) {
-                floorplanSpotlightMap.get(floorplanId).getUnits().add(UnitSpotlight.builder().id(unitId)
-                        .squareFoot(squareFoot).rent(rent).address(unitAddress).zipcode(unitZipcode).build());
+                floorplanSpotlightMap
+                        .get(floorplanId)
+                        .getUnits()
+                        .add(UnitSpotlight.builder()
+                                .id(unitId)
+                                .squareFoot(squareFoot)
+                                .rent(rent)
+                                .address(unitAddress)
+                                .zipcode(unitZipcode)
+                                .build());
             }
         }
 
         return new ArrayList<>(floorplanSpotlightMap.values());
-
     }
 }

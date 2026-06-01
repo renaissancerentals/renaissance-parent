@@ -1,12 +1,10 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.FloorplanEntity;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import com.renaissancerentals.persistence.entity.FloorplanEntity;
 
 public interface FloorplanDao extends CrudRepository<FloorplanEntity, String> {
 
@@ -17,5 +15,4 @@ public interface FloorplanDao extends CrudRepository<FloorplanEntity, String> {
     List<FloorplanEntity> findAllByActiveTrueAndFeaturedTrue();
 
     List<FloorplanEntity> findByPropertyId(@Param("propertyId") String propertyId);
-
 }

@@ -1,4 +1,3 @@
 package com.renaissancerentals.api.domain;
 
-public record FloorplanVariation(String variation) {
-}
+public record FloorplanVariation(String variation) {}

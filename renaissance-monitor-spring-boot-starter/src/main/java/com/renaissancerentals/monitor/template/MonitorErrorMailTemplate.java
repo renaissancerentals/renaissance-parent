@@ -1,11 +1,9 @@
 package com.renaissancerentals.monitor.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.foundation.template.AbstractTemplate;
 import com.renaissancerentals.monitor.template.model.MonitorErrorMessage;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MonitorErrorMailTemplate extends AbstractTemplate<MonitorErrorMessage> {
@@ -14,12 +12,12 @@ public class MonitorErrorMailTemplate extends AbstractTemplate<MonitorErrorMessa
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "monitor-error-mail.ftl";
     }
 
     @Override
-    public Class<MonitorErrorMessage> getModelType(){
+    public Class<MonitorErrorMessage> getModelType() {
         return MonitorErrorMessage.class;
     }
 }

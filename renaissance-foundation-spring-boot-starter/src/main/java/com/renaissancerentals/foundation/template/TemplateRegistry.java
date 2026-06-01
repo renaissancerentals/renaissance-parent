@@ -9,12 +9,12 @@ public class TemplateRegistry {
 
     public TemplateRegistry(List<Template<?>> availableTemplates) {
         for (Template<?> t : availableTemplates) {
-            templates.put(t.getModelType(),t);
+            templates.put(t.getModelType(), t);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Template<T> getTemplate(T model){
+    public <T> Template<T> getTemplate(T model) {
         return (Template<T>) templates.get(model.getClass());
     }
 }

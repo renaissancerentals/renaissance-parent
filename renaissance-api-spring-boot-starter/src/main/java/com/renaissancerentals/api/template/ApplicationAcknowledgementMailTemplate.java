@@ -1,11 +1,9 @@
 package com.renaissancerentals.api.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.api.domain.template.ApplicationAcknowledgementMail;
 import com.renaissancerentals.foundation.template.AbstractTemplate;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ApplicationAcknowledgementMailTemplate extends AbstractTemplate<ApplicationAcknowledgementMail> {
@@ -14,12 +12,12 @@ public class ApplicationAcknowledgementMailTemplate extends AbstractTemplate<App
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "application-acknowledgement-mail.ftl";
     }
 
     @Override
-    public Class<ApplicationAcknowledgementMail> getModelType(){
+    public Class<ApplicationAcknowledgementMail> getModelType() {
         return ApplicationAcknowledgementMail.class;
     }
 }

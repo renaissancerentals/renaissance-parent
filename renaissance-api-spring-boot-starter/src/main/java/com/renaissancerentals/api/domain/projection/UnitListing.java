@@ -1,7 +1,6 @@
 package com.renaissancerentals.api.domain.projection;
 
 import java.time.LocalDate;
-
 import lombok.Builder;
 import lombok.Data;
 

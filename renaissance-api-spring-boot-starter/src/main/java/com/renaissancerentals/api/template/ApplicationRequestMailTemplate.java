@@ -1,11 +1,9 @@
 package com.renaissancerentals.api.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.api.messaging.ApplicationRequest;
 import com.renaissancerentals.foundation.template.AbstractTemplate;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ApplicationRequestMailTemplate extends AbstractTemplate<ApplicationRequest> {
@@ -14,12 +12,12 @@ public class ApplicationRequestMailTemplate extends AbstractTemplate<Application
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "application-request-mail.ftl";
     }
 
     @Override
-    public Class<ApplicationRequest> getModelType(){
+    public Class<ApplicationRequest> getModelType() {
         return ApplicationRequest.class;
     }
 }

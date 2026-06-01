@@ -1,7 +1,6 @@
 package com.renaissancerentals.persistence.entity;
 
 import java.util.List;
-
 import lombok.Data;
 
 @Data

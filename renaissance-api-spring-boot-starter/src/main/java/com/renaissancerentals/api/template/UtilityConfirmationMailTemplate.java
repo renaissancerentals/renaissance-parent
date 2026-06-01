@@ -1,11 +1,9 @@
 package com.renaissancerentals.api.template;
 
-import org.springframework.stereotype.Component;
-
 import com.renaissancerentals.api.messaging.UtilityConfirmationRequest;
 import com.renaissancerentals.foundation.template.AbstractTemplate;
-
 import freemarker.template.Configuration;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UtilityConfirmationMailTemplate extends AbstractTemplate<UtilityConfirmationRequest> {
@@ -14,12 +12,12 @@ public class UtilityConfirmationMailTemplate extends AbstractTemplate<UtilityCon
     }
 
     @Override
-    public String getTemplateName(){
+    public String getTemplateName() {
         return "utility-confirmation-mail.ftl";
     }
 
     @Override
-    public Class<UtilityConfirmationRequest> getModelType(){
+    public Class<UtilityConfirmationRequest> getModelType() {
         return UtilityConfirmationRequest.class;
     }
 }

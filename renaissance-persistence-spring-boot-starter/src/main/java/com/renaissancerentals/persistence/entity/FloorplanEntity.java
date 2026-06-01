@@ -3,21 +3,20 @@ package com.renaissancerentals.persistence.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Table;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @Data
 @EqualsAndHashCode(of = {"id"})
 @Table(name = FloorplanEntity.TABLE_NAME)
 public class FloorplanEntity implements Serializable, PropertyAware {
     public static final String TABLE_NAME = "floorplan";
+
     @Id
     private String id;
 
@@ -97,5 +96,4 @@ public class FloorplanEntity implements Serializable, PropertyAware {
 
     @Version
     private long version;
-
 }

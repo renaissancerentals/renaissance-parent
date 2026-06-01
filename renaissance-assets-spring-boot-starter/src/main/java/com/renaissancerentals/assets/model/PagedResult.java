@@ -1,7 +1,6 @@
 package com.renaissancerentals.assets.model;
 
 import java.util.List;
-
 import lombok.Builder;
 
 @Builder

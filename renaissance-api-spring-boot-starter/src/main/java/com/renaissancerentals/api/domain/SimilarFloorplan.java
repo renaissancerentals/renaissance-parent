@@ -1,4 +1,3 @@
 package com.renaissancerentals.api.domain;
 
-public record SimilarFloorplan(String similarFloorplanId) {
-}
+public record SimilarFloorplan(String similarFloorplanId) {}

@@ -1,19 +1,19 @@
 package com.renaissancerentals.api.domain.projection;
 
-import java.util.List;
-
 import com.renaissancerentals.api.domain.Amenity;
 import com.renaissancerentals.api.domain.LeasingOffice;
 import com.renaissancerentals.api.domain.PropertyBusRoute;
 import com.renaissancerentals.api.domain.TeamMember;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "DTO used only for serialization; safe to expose collections")
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP",
+        justification = "DTO used only for serialization; safe to expose collections")
 public class PropertyDetails {
     private String id;
 

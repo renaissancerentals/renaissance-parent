@@ -1,11 +1,5 @@
 package com.renaissancerentals.api.repository;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
-
 import com.renaissancerentals.api.domain.Amenity;
 import com.renaissancerentals.api.domain.PropertyBusRoute;
 import com.renaissancerentals.api.domain.TeamMember;
@@ -21,8 +15,11 @@ import com.renaissancerentals.api.repository.mapper.PropertySummaryExtractor;
 import com.renaissancerentals.api.repository.mapper.TeamMemberJdbcMapper;
 import com.renaissancerentals.persistence.dao.PropertyAmenityDao;
 import com.renaissancerentals.persistence.dao.PropertyBusRouteDao;
-
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,7 +37,8 @@ public class PropertyRepository {
 
     private final PropertyListingExtractor propertyListingExtractor;
 
-    private static final String TEAM_MEMBER_SQL = """
+    private static final String TEAM_MEMBER_SQL =
+            """
             SELECT DISTINCT
                 tm.*
             FROM team_member tm
@@ -49,22 +47,23 @@ public class PropertyRepository {
             """;
     private final PropertySummaryExtractor propertySummaryExtractor;
 
-    public Optional<TeamMember> getPropertyManager(String propertyId){
+    public Optional<TeamMember> getPropertyManager(String propertyId) {
         SqlBuilder sqlBuilder = new SqlBuilder(TEAM_MEMBER_SQL)
-                .where("tm.job_title = :jobTitle","jobTitle","Brand Manager")
-                .where("tmp.property_id = :propertyId","propertyId",propertyId);
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),teamMemberDetailsMapper).stream().findFirst();
-
+                .where("tm.job_title = :jobTitle", "jobTitle", "Brand Manager")
+                .where("tmp.property_id = :propertyId", "propertyId", propertyId);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), teamMemberDetailsMapper).stream()
+                .findFirst();
     }
 
-    public List<TeamMember> getPropertyTeamMembers(String propertyId){
-        SqlBuilder sqlBuilder = new SqlBuilder(TEAM_MEMBER_SQL).where("tmp.property_id = :propertyId","propertyId",
-                propertyId);
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),teamMemberDetailsMapper);
+    public List<TeamMember> getPropertyTeamMembers(String propertyId) {
+        SqlBuilder sqlBuilder =
+                new SqlBuilder(TEAM_MEMBER_SQL).where("tmp.property_id = :propertyId", "propertyId", propertyId);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), teamMemberDetailsMapper);
     }
 
-    public Optional<PropertyDetails> getProperty(String propertyId){
-        SqlBuilder sqlBuilder = new SqlBuilder("""
+    public Optional<PropertyDetails> getProperty(String propertyId) {
+        SqlBuilder sqlBuilder = new SqlBuilder(
+                        """
                 SELECT p.*,
                        l.id                       as leasingOfficeId,
                        l.name                     as leasingOfficeName,
@@ -79,8 +78,10 @@ public class PropertyRepository {
                        l.office_image_description as leasingOfficeImageDescription
                 from property p
                          join leasing_office l on p.leasing_office_id = l.id
-                """).where("p.id = :id","id",propertyId);
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertyDetailsJdbcMapper).stream().findFirst()
+                """)
+                .where("p.id = :id", "id", propertyId);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertyDetailsJdbcMapper).stream()
+                .findFirst()
                 .map(propertyDetails -> {
                     propertyDetails.setAmenities(getPropertyAmenities(propertyId));
                     propertyDetails.setBusRoutes(getPropertyBusRoutes(propertyId));
@@ -90,7 +91,8 @@ public class PropertyRepository {
                 });
     }
 
-    private static final String PROPERTY_LISTING_SQL = """
+    private static final String PROPERTY_LISTING_SQL =
+            """
             SELECT p.id          AS propertyId,
                    p.name        AS propertyName,
                    p.lease_type  AS propertyLeaseType,
@@ -124,32 +126,36 @@ public class PropertyRepository {
                            AND (w.end_date IS NULL OR w.end_date >= CURRENT_DATE)
             """;
 
-    public Optional<PropertyListing> getPropertyListing(String propertyId){
+    public Optional<PropertyListing> getPropertyListing(String propertyId) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL).where("p.id = :propertyId","propertyId",propertyId)
-                .where("f.style != :style","style","GARAGE").where("f.active = :floorplanActive","floorplanActive",true)
-                .where("u.active = :unitActive","unitActive",true);
+        SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL)
+                .where("p.id = :propertyId", "propertyId", propertyId)
+                .where("f.style != :style", "style", "GARAGE")
+                .where("f.active = :floorplanActive", "floorplanActive", true)
+                .where("u.active = :unitActive", "unitActive", true);
 
-        var propertyListing = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertyListingExtractor);
+        var propertyListing = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertyListingExtractor);
 
         return propertyListing == null || propertyListing.isEmpty()
                 ? Optional.empty()
                 : Optional.ofNullable(propertyListing.getFirst());
     }
 
-    public List<PropertyListing> getPropertyListings(){
+    public List<PropertyListing> getPropertyListings() {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL).where("f.style != :style","style","GARAGE")
-                .where("p.lease_type = :leaseType","leaseType","YEARLY")
-                .where("p.active = :propertyActive","propertyActive",true)
-                .where("f.active = :floorplanActive","floorplanActive",true)
-                .where("u.active = :unitActive","unitActive",true);
+        SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL)
+                .where("f.style != :style", "style", "GARAGE")
+                .where("p.lease_type = :leaseType", "leaseType", "YEARLY")
+                .where("p.active = :propertyActive", "propertyActive", true)
+                .where("f.active = :floorplanActive", "floorplanActive", true)
+                .where("u.active = :unitActive", "unitActive", true);
 
-        return jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertyListingExtractor);
+        return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertyListingExtractor);
     }
 
-    public Optional<PropertySummary> getPropertySummaryForFloorplan(String floorplanId){
-        SqlBuilder sqlBuilder = new SqlBuilder("""
+    public Optional<PropertySummary> getPropertySummaryForFloorplan(String floorplanId) {
+        SqlBuilder sqlBuilder = new SqlBuilder(
+                        """
                 SELECT p.id,
                        p.name,
                        p.address,
@@ -164,14 +170,17 @@ public class PropertyRepository {
                          LEFT JOIN property_bus_route pb
                                    ON pb.property_id = p.id
                         INNER JOIN floorplan f on p.id = f.property_id
-                """).where("f.id = :floorplanId","floorplanId",floorplanId);
-        var propertySummary = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertySummaryExtractor);
+                """)
+                .where("f.id = :floorplanId", "floorplanId", floorplanId);
+        var propertySummary = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertySummaryExtractor);
         return propertySummary == null || propertySummary.isEmpty()
                 ? Optional.empty()
                 : Optional.of(propertySummary.getFirst());
     }
-    public Optional<PropertySummary> getPropertySummaryForProperty(String propertyId){
-        SqlBuilder sqlBuilder = new SqlBuilder("""
+
+    public Optional<PropertySummary> getPropertySummaryForProperty(String propertyId) {
+        SqlBuilder sqlBuilder = new SqlBuilder(
+                        """
                 SELECT p.id,
                        p.name,
                        p.address,
@@ -185,18 +194,23 @@ public class PropertyRepository {
                 FROM property p
                          LEFT JOIN property_bus_route pb
                                    ON pb.property_id = p.id
-                """).where("p.id = :propertyId","propertyId",propertyId);
-        var propertySummary = jdbcTemplate.query(sqlBuilder.sql(),sqlBuilder.params(),propertySummaryExtractor);
+                """)
+                .where("p.id = :propertyId", "propertyId", propertyId);
+        var propertySummary = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertySummaryExtractor);
         return propertySummary == null || propertySummary.isEmpty()
                 ? Optional.empty()
                 : Optional.of(propertySummary.getFirst());
     }
 
-    private List<Amenity> getPropertyAmenities(String propertyId){
-        return propertyAmenityDao.findByPropertyId(propertyId).stream().map(propertyAmenityMapper::toDomain).toList();
+    private List<Amenity> getPropertyAmenities(String propertyId) {
+        return propertyAmenityDao.findByPropertyId(propertyId).stream()
+                .map(propertyAmenityMapper::toDomain)
+                .toList();
     }
 
-    private List<PropertyBusRoute> getPropertyBusRoutes(String propertyId){
-        return propertyBusRouteDao.findByPropertyId(propertyId).stream().map(propertyBusRouteMapper::toDomain).toList();
+    private List<PropertyBusRoute> getPropertyBusRoutes(String propertyId) {
+        return propertyBusRouteDao.findByPropertyId(propertyId).stream()
+                .map(propertyBusRouteMapper::toDomain)
+                .toList();
     }
 }

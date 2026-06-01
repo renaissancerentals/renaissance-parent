@@ -5,6 +5,11 @@ import com.renaissancerentals.foundation.error.ErrorMessage;
 
 public class MailClientException extends ClientException {
     public MailClientException(MailErrorCode errorCode, Throwable cause) {
-        super(ErrorMessage.builder().code(errorCode.name()).message(errorCode.message()).build(), cause);
+        super(
+                ErrorMessage.builder()
+                        .code(errorCode.name())
+                        .message(errorCode.message())
+                        .build(),
+                cause);
     }
 }

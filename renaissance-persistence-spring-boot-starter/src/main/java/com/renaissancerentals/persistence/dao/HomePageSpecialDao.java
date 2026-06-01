@@ -1,11 +1,9 @@
 package com.renaissancerentals.persistence.dao;
 
+import com.renaissancerentals.persistence.entity.HomePageSpecialEntity;
 import java.util.List;
-
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
-
-import com.renaissancerentals.persistence.entity.HomePageSpecialEntity;
 
 public interface HomePageSpecialDao extends CrudRepository<HomePageSpecialEntity, Long> {
 

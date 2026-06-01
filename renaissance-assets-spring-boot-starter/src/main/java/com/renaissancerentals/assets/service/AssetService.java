@@ -1,10 +1,8 @@
 package com.renaissancerentals.assets.service;
 
-import java.util.Optional;
-
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.renaissancerentals.assets.model.*;
+import java.util.Optional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public interface AssetService {
 
@@ -35,8 +33,11 @@ public interface AssetService {
      *            the asset URL containing query parameters
      * @return an Optional of the found asset, or empty if 'id' param is missing or not found
      */
-    default Optional<Asset> getFromUrl(final String url){
-        return Optional.ofNullable(UriComponentsBuilder.fromUriString(url).build().getQueryParams().getFirst("id"))
+    default Optional<Asset> getFromUrl(final String url) {
+        return Optional.ofNullable(UriComponentsBuilder.fromUriString(url)
+                        .build()
+                        .getQueryParams()
+                        .getFirst("id"))
                 .flatMap(this::get);
     }
 
@@ -49,8 +50,7 @@ public interface AssetService {
      *            of the asset to be fetched
      * @return an Optional containing the asset if found
      */
-
-    Optional<Asset> getBy(final String folderId,final String name);
+    Optional<Asset> getBy(final String folderId, final String name);
 
     /**
      * Lists assets under the specified folder with pagination support.
@@ -63,7 +63,7 @@ public interface AssetService {
      *            the token to fetch the next page
      * @return a paged result of assets
      */
-    PagedResult<Asset> listByFolder(final String folderId,final Integer pageSize,final String nextPageToken);
+    PagedResult<Asset> listByFolder(final String folderId, final Integer pageSize, final String nextPageToken);
 
     /**
      * Lists assets under the specified folder with pagination support.
@@ -72,8 +72,8 @@ public interface AssetService {
      *            the folder ID
      * @return a paged result of assets
      */
-    default PagedResult<Asset> listByFolder(final String folderId){
-        return listByFolder(folderId,PAGE_SIZE,null);
+    default PagedResult<Asset> listByFolder(final String folderId) {
+        return listByFolder(folderId, PAGE_SIZE, null);
     }
 
     /**
@@ -94,9 +94,9 @@ public interface AssetService {
      *            name of the folder to be created
      * @return AssetFolder object containing folder ID and name
      */
-    AssetFolder createFolderIn(final String folderId,final String name);
+    AssetFolder createFolderIn(final String folderId, final String name);
 
-    Optional<AssetFolder> getFolderBy(final String folderId,final String name);
+    Optional<AssetFolder> getFolderBy(final String folderId, final String name);
 
     /**
      * Updates an existing asset using the provided request object.
@@ -114,5 +114,4 @@ public interface AssetService {
      *            the ID of the asset to be deleted
      */
     void delete(final String id);
-
 }

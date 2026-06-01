@@ -5,6 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(PropertyConfigProperties.class)
-public class ApiAutoConfiguration {
-
-}
+public class ApiAutoConfiguration {}

@@ -1,17 +1,14 @@
 package com.renaissancerentals.api.service;
 
-import java.text.MessageFormat;
-import java.time.YearMonth;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.renaissancerentals.api.messaging.ContactEventRequest;
 import com.renaissancerentals.persistence.dao.AnalyticsDao;
 import com.renaissancerentals.persistence.entity.AnalyticsEntity;
-
+import java.text.MessageFormat;
+import java.time.YearMonth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +18,10 @@ public class AnalyticsService {
     private final AnalyticsDao analyticsRepository;
 
     @Transactional
-    public void handleContactEvent(ContactEventRequest contactEvent){
+    public void handleContactEvent(ContactEventRequest contactEvent) {
         YearMonth yearMonth = YearMonth.now();
-        String analyticsName = MessageFormat.format("contact-{0}-{1}-{2}",contactEvent.type().getValue(),yearMonth,
-                contactEvent.property());
+        String analyticsName = MessageFormat.format(
+                "contact-{0}-{1}-{2}", contactEvent.type().getValue(), yearMonth, contactEvent.property());
 
         var analytics = analyticsRepository.findById(analyticsName).orElseGet(() -> {
             var entity = new AnalyticsEntity();
@@ -39,5 +36,4 @@ public class AnalyticsService {
         analytics.setCount(analytics.getCount() + 1);
         analyticsRepository.save(analytics);
     }
-
 }
