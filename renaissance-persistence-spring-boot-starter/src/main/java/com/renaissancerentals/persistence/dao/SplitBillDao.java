@@ -1,8 +1,8 @@
 package com.renaissancerentals.persistence.dao;
 
-import com.renaissancerentals.persistence.entity.OwnerEntity;
+import com.renaissancerentals.persistence.entity.SplitBillEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OwnerDao extends CrudRepository<OwnerEntity, Long> {}
+public interface SplitBillDao extends CrudRepository<SplitBillEntity, Long> {}
