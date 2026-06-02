@@ -3,7 +3,6 @@ package com.renaissancerentals.persistence.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renaissancerentals.persistence.converter.AdditionalInfoConverter;
 import com.renaissancerentals.persistence.converter.LinkedImageRegionsConverter;
-import com.renaissancerentals.persistence.converter.OwnerDataConverters;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +24,6 @@ public class PersistenceAutoConfiguration extends AbstractJdbcConfiguration {
                 new AdditionalInfoConverter.AdditionalInfoWritingConverter(objectMapper),
                 new AdditionalInfoConverter.AdditionalInfoReadingConverter(objectMapper),
                 new LinkedImageRegionsConverter.LinkedImageReadingConverter(objectMapper),
-                new LinkedImageRegionsConverter.LinkedImageWritingConverter(objectMapper),
-                new OwnerDataConverters.OwnerDataReadingConverter(objectMapper),
-                new OwnerDataConverters.OwnerDataWritingConverter(objectMapper)));
+                new LinkedImageRegionsConverter.LinkedImageWritingConverter(objectMapper)));
     }
 }
