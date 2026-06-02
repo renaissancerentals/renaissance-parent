@@ -11,14 +11,15 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 public record SplitBillEntity(@Id Long id, OwnerData ownerData, @LastModifiedDate LocalDateTime lastModifiedDate) {
 
-    public record OwnerData(String name, int unitCount, List<OwnerClassData> classes) {
+    public record OwnerData(List<Owner> owners) {}
 
+    public record Owner(String name, int unitCount, List<OwnerClass> classes) {
         public int effectiveUnitCount() {
             return classes == null || classes.isEmpty()
                     ? unitCount
-                    : classes.stream().mapToInt(OwnerClassData::unitCount).sum();
+                    : classes.stream().mapToInt(OwnerClass::unitCount).sum();
         }
     }
 
-    public record OwnerClassData(String name, int unitCount) {}
+    public record OwnerClass(String name, int unitCount) {}
 }
