@@ -6,11 +6,43 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.38.0</version>
+        <version>3.39.0</version>
     </parent>
     <artifactId>renaissance-site-parent</artifactId>
     <packaging>pom</packaging>
     <name>Renaissance Site Parent</name>
+    <description>Renaissancerentals sites parent pom</description>
+    <url>https://github.com/renaissancerentals/renaissance-parent/renaissance-site-parent</url>
+    <licenses>
+        <license>
+            <name>License</name>
+            <url>https://github.com/renaissancerentals/renaissance-parent/LICENSE</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Contentmunch</name>
+            <email>mail@contentmunch.com</email>
+            <organization>Contentmunch</organization>
+            <organizationUrl>https://www.contentmunch.com</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/renaissancerentals/renaissance-parent.git</connection>
+        <developerConnection>scm:git:ssh://github.com/renaissancerentals/renaissance-parent.git</developerConnection>
+        <url>https://github.com/renaissancerentals/renaissance-parent</url>
+    </scm>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.renaissancerentals</groupId>
+                <artifactId>renaissance-bom</artifactId>
+                <version>3.39.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <finalName>${project.name}</finalName>
         <plugins>

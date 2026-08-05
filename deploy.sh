@@ -42,8 +42,8 @@ echo "📦 Committing with message: $COMMIT_MSG"
 git commit -am "$COMMIT_MSG"
 git push origin main
 
-# Step 5: Deploy to Nexus
-echo "🚀 Deploying to Nexus..."
+# Step 5: Deploy to Maven Central
+echo "🚀 Deploying to Maven Central..."
 
 # Deploy BOM first
 mvn deploy -pl renaissance-bom -DskipTests
