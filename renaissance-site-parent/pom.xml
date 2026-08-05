@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.39.0</version>
+        <version>3.40.0</version>
     </parent>
     <artifactId>renaissance-site-parent</artifactId>
     <packaging>pom</packaging>
@@ -37,14 +37,13 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>3.39.0</version>
+                <version>3.40.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
-        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -126,6 +125,7 @@
             </activation>
 
             <build>
+                <finalName>${project.name}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
