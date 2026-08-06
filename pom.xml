@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>3.42.0</version>
+    <version>3.43.0</version>
     <packaging>pom</packaging>
     <name>Renaissance Parent</name>
     <description>Renaissancerentals Parent pom</description>
@@ -61,7 +61,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>3.42.0</version>
+                <version>3.43.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -120,34 +120,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.11.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <autoPublish>true</autoPublish>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.2.8</version>
-                <configuration>
-                    <signer>bc</signer>
-                    <keyFingerprint>897501A2DEE78F219D157045C47E2A3B6107BDAF</keyFingerprint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -241,6 +213,53 @@
                             <!--suppress UnresolvedMavenProperty -->
                             <excludeFilterFile>${session.topLevelProject.basedir}/.build-config/spotbugs-exclude.xml</excludeFilterFile>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Only active during renaissance-parent's own release (deploy.sh passes
+                 -Drelease=true). Never activates for downstream consumer apps that
+                 inherit renaissance-site-parent as their <parent>, since their normal
+                 Heroku/local builds never set this property. Without this gate, gpg
+                 signing and central-publishing would run (and fail, no key configured)
+                 on every consumer app build too. -->
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.11.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.8</version>
+                        <configuration>
+                            <signer>bc</signer>
+                            <keyFingerprint>897501A2DEE78F219D157045C47E2A3B6107BDAF</keyFingerprint>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

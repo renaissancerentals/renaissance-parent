@@ -48,7 +48,9 @@ echo "🚀 Deploying to Maven Central..."
 # Deploy BOM first
 mvn deploy -pl renaissance-bom -DskipTests
 
-# Deploy everything else
-mvn deploy -pl !renaissance-bom -DskipTests
+# Deploy everything else (-Drelease=true activates gpg signing + central
+# publishing, which are gated off by default so consumer apps that inherit
+# renaissance-site-parent don't try to sign/publish on their own builds)
+mvn deploy -pl !renaissance-bom -DskipTests -Drelease=true
 
 echo "🎉 Release complete: $NEW_VERSION"

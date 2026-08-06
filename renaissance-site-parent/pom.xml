@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.42.0</version>
+        <version>3.43.0</version>
     </parent>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-site-parent</artifactId>
-    <version>3.42.0</version>
+    <version>3.43.0</version>
     <packaging>pom</packaging>
     <name>Renaissance Site Parent</name>
     <description>Renaissancerentals sites parent pom</description>
@@ -39,7 +39,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>3.42.0</version>
+                <version>3.43.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
