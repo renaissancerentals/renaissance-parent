@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.renaissancerentals</groupId>
   <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
-  <version>3.43.0</version>
+  <version>3.44.0</version>
   <name>Renaissance Foundation</name>
   <description>Renaissancerentals Parent pom</description>
   <url>https://github.com/renaissancerentals/renaissance-parent/renaissance-foundation-spring-boot-starter</url>
