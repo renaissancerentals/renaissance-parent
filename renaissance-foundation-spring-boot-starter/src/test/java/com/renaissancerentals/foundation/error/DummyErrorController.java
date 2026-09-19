@@ -2,6 +2,7 @@ package com.renaissancerentals.foundation.error;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,5 +34,11 @@ class DummyErrorController {
     @GetMapping("/unhandled")
     public void unhandled() {
         throw new RuntimeException("Unexpected error");
+    }
+
+    @GetMapping("/type-mismatch")
+    public void typeMismatch(@RequestParam("count") int count) {
+        // Intentionally unreachable: Spring rejects the request during argument
+        // resolution before this body runs, when count isn't a valid integer.
     }
 }

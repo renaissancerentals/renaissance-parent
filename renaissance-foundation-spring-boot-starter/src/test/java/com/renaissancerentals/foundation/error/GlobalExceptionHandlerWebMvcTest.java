@@ -57,4 +57,11 @@ public class GlobalExceptionHandlerWebMvcTest {
                 .andExpect(jsonPath("$.errorCode").value("INTERNAL_SERVER_ERROR"))
                 .andExpect(jsonPath("$.errorMessage").value("Internal Server Error"));
     }
+
+    @Test
+    void shouldHandleMethodArgumentTypeMismatchAsBadRequestInsteadOf500() throws Exception {
+        mockMvc.perform(get("/dummy/error/type-mismatch").param("count", "not-a-number"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("INVALID_PARAMETER"));
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice(basePackages = "com.renaissancerentals")
@@ -82,6 +83,16 @@ public class GlobalExceptionHandler {
                         .errorMessage("Method " + ex.getMethod() + " not allowed for this endpoint")
                         .errorCode("METHOD_NOT_ALLOWED")
                         .build());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        log.error("Failed to convert request parameter '{}'", ex.getName(), ex);
+        String message = ex.getMostSpecificCause() instanceof ClientException clientCause
+                ? clientCause.getErrorMessage().message()
+                : "Invalid value for parameter: " + ex.getName();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder().errorMessage(message).errorCode("INVALID_PARAMETER").build());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
