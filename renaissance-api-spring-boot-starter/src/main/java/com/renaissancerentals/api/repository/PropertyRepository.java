@@ -79,7 +79,8 @@ public class PropertyRepository {
                 from property p
                          join leasing_office l on p.leasing_office_id = l.id
                 """)
-                .where("p.id = :id", "id", propertyId);
+                .where("p.id = :id", "id", propertyId)
+                .where("p.active = :active", "active", true);
         return jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertyDetailsJdbcMapper).stream()
                 .findFirst()
                 .map(propertyDetails -> {
@@ -131,6 +132,7 @@ public class PropertyRepository {
         SqlBuilder sqlBuilder = new SqlBuilder(PROPERTY_LISTING_SQL)
                 .where("p.id = :propertyId", "propertyId", propertyId)
                 .where("f.style != :style", "style", "GARAGE")
+                .where("p.active = :propertyActive", "propertyActive", true)
                 .where("f.active = :floorplanActive", "floorplanActive", true)
                 .where("u.active = :unitActive", "unitActive", true);
 
@@ -171,7 +173,8 @@ public class PropertyRepository {
                                    ON pb.property_id = p.id
                         INNER JOIN floorplan f on p.id = f.property_id
                 """)
-                .where("f.id = :floorplanId", "floorplanId", floorplanId);
+                .where("f.id = :floorplanId", "floorplanId", floorplanId)
+                .where("p.active = :active", "active", true);
         var propertySummary = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertySummaryExtractor);
         return propertySummary == null || propertySummary.isEmpty()
                 ? Optional.empty()
@@ -195,7 +198,8 @@ public class PropertyRepository {
                          LEFT JOIN property_bus_route pb
                                    ON pb.property_id = p.id
                 """)
-                .where("p.id = :propertyId", "propertyId", propertyId);
+                .where("p.id = :propertyId", "propertyId", propertyId)
+                .where("p.active = :active", "active", true);
         var propertySummary = jdbcTemplate.query(sqlBuilder.sql(), sqlBuilder.params(), propertySummaryExtractor);
         return propertySummary == null || propertySummary.isEmpty()
                 ? Optional.empty()

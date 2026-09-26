@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.renaissancerentals</groupId>
   <artifactId>renaissance-assets-spring-boot-starter</artifactId>
-  <version>3.45.0</version>
+  <version>3.46.0</version>
   <name>Renaissance Assets</name>
   <description>Renaissancerentals Parent pom</description>
   <url>https://github.com/renaissancerentals/renaissance-parent/renaissance-assets-spring-boot-starter</url>
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.renaissancerentals</groupId>
       <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
-      <version>3.45.0</version>
+      <version>3.46.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

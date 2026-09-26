@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.renaissancerentals</groupId>
   <artifactId>renaissance-api-spring-boot-starter</artifactId>
-  <version>3.45.0</version>
+  <version>3.46.0</version>
   <name>Renaissance API</name>
   <description>Renaissance API Spring Boot Starter</description>
   <url>https://github.com/renaissancerentals/renaissance-parent/renaissance-api-spring-boot-starter</url>
@@ -37,19 +37,19 @@
     <dependency>
       <groupId>com.renaissancerentals</groupId>
       <artifactId>renaissance-foundation-spring-boot-starter</artifactId>
-      <version>3.45.0</version>
+      <version>3.46.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.renaissancerentals</groupId>
       <artifactId>renaissance-persistence-spring-boot-starter</artifactId>
-      <version>3.45.0</version>
+      <version>3.46.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.renaissancerentals</groupId>
       <artifactId>renaissance-assets-spring-boot-starter</artifactId>
-      <version>3.45.0</version>
+      <version>3.46.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

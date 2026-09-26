@@ -38,12 +38,14 @@ class PropertyRepositoryIntegrationTest extends PostgresIntegrationTest {
         jdbcTemplate.update(
                 "INSERT INTO property (id, name, address, zipcode, email, phone, leasing_office_id) "
                         + "VALUES ('p-yearly', 'Yearly Property', '1 Main St', '47401', 'p@example.com', '8125551234', 'lo-1')");
-        jdbcTemplate.update(
-                "INSERT INTO property (id, name, lease_type, active) VALUES ('p-inactive', 'Inactive Property', 'YEARLY', false)");
+        jdbcTemplate.update("INSERT INTO property (id, name, lease_type, active, leasing_office_id) "
+                + "VALUES ('p-inactive', 'Inactive Property', 'YEARLY', false, 'lo-1')");
 
         jdbcTemplate.update("INSERT INTO floorplan (id, name, property_id, style, active) "
                 + "VALUES ('f-1', 'Floorplan One', 'p-yearly', 'STUDIO', true)");
         jdbcTemplate.update("INSERT INTO unit (id, floorplan_id, rent, active) VALUES ('u-1', 'f-1', 900.0, true)");
+        jdbcTemplate.update("INSERT INTO floorplan (id, name, property_id, style, active) "
+                + "VALUES ('f-inactive-property', 'Floorplan On Inactive Property', 'p-inactive', 'STUDIO', true)");
 
         jdbcTemplate.update("INSERT INTO team_member (id, name, job_title) VALUES (1, 'Alice', 'Brand Manager')");
         jdbcTemplate.update(
@@ -79,6 +81,11 @@ class PropertyRepositoryIntegrationTest extends PostgresIntegrationTest {
     }
 
     @Test
+    void getPropertyReturnsEmptyForInactiveProperty() {
+        assertThat(propertyRepository.getProperty("p-inactive")).isEmpty();
+    }
+
+    @Test
     void getPropertyListingsOnlyIncludesActiveYearlyNonGarageFloorplansWithUnits() {
         List<PropertyListing> result = propertyRepository.getPropertyListings();
 
@@ -107,10 +114,22 @@ class PropertyRepositoryIntegrationTest extends PostgresIntegrationTest {
     }
 
     @Test
+    void getPropertySummaryForPropertyReturnsEmptyForInactiveProperty() {
+        assertThat(propertyRepository.getPropertySummaryForProperty("p-inactive"))
+                .isEmpty();
+    }
+
+    @Test
     void getPropertySummaryForFloorplanJoinsThroughFloorplan() {
         Optional<PropertySummary> result = propertyRepository.getPropertySummaryForFloorplan("f-1");
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo("p-yearly");
+    }
+
+    @Test
+    void getPropertySummaryForFloorplanReturnsEmptyWhenPropertyInactive() {
+        assertThat(propertyRepository.getPropertySummaryForFloorplan("f-inactive-property"))
+                .isEmpty();
     }
 }
