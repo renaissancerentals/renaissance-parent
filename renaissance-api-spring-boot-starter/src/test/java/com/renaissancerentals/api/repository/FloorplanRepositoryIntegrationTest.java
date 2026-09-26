@@ -72,6 +72,13 @@ class FloorplanRepositoryIntegrationTest extends PostgresIntegrationTest {
     }
 
     @Test
+    void getFloorplanDetailsExcludesInactiveFloorplan() {
+        Optional<FloorplanDetails> result = floorplanRepository.getFloorplanDetails("f-inactive");
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
     void getFeaturedSpotlightsRequiresActiveAndFeatured() {
         List<FloorplanSpotlight> result = floorplanRepository.getFeaturedSpotlights();
 
@@ -85,5 +92,12 @@ class FloorplanRepositoryIntegrationTest extends PostgresIntegrationTest {
         Optional<FloorplanSpotlight> result = floorplanRepository.getFloorplanSpotlight("f-active");
 
         assertThat(result).isPresent();
+    }
+
+    @Test
+    void getFloorplanSpotlightExcludesInactiveFloorplan() {
+        Optional<FloorplanSpotlight> result = floorplanRepository.getFloorplanSpotlight("f-inactive");
+
+        assertThat(result).isEmpty();
     }
 }

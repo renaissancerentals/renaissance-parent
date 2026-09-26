@@ -46,6 +46,10 @@ public class FloorplanService {
                 .join()
                 .orElseThrow(() -> new NotFoundException(String.format("Floorplan with id %s not found", floorplanId)));
 
+        if (!Boolean.TRUE.equals(floorplanEntity.getActive())) {
+            throw new NotFoundException(String.format("Floorplan with id %s not found", floorplanId));
+        }
+
         CompletableFuture.allOf(floorplanFuture, propertyFuture, unitsFuture, amenitiesFuture, webSpecialsFuture)
                 .join();
 
@@ -123,6 +127,11 @@ public class FloorplanService {
         var unitEntity = unitService
                 .getUnit(unitId)
                 .orElseThrow(() -> new NotFoundException(String.format("Unit %s not found", unitId)));
+
+        if (!Boolean.TRUE.equals(unitEntity.getActive())) {
+            throw new NotFoundException(String.format("Unit %s not found", unitId));
+        }
+
         var unitFloorplan = unitMapper.toUnitFloorplan(unitEntity);
         unitFloorplan.setFloorplan(getFloorplan(unitEntity.getFloorplanId()));
         return unitFloorplan;

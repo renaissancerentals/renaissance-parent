@@ -89,9 +89,20 @@ class FloorplanServiceTest {
     }
 
     @Test
+    void getFloorplanThrowsWhenInactive() {
+        FloorplanEntity entity = new FloorplanEntity();
+        entity.setId("f-1");
+        entity.setActive(false);
+        when(floorplanDao.findById("f-1")).thenReturn(Optional.of(entity));
+
+        assertThatThrownBy(() -> floorplanService().getFloorplan("f-1")).isInstanceOf(NotFoundException.class);
+    }
+
+    @Test
     void getFloorplanThrowsWhenPropertyMissing() {
         FloorplanEntity entity = new FloorplanEntity();
         entity.setId("f-1");
+        entity.setActive(true);
         when(floorplanDao.findById("f-1")).thenReturn(Optional.of(entity));
         when(propertyService.getPropertySummaryForFloorplanAsync("f-1"))
                 .thenReturn(CompletableFuture.completedFuture(Optional.empty()));
@@ -112,6 +123,7 @@ class FloorplanServiceTest {
         entity.setId("f-1");
         entity.setName("Floorplan One");
         entity.setBedroom(2);
+        entity.setActive(true);
         PropertySummary propertySummary =
                 PropertySummary.builder().id("p-1").name("Property One").build();
 
