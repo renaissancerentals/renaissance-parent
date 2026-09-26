@@ -92,7 +92,10 @@ public class GlobalExceptionHandler {
                 ? clientCause.getErrorMessage().message()
                 : "Invalid value for parameter: " + ex.getName();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.builder().errorMessage(message).errorCode("INVALID_PARAMETER").build());
+                .body(ErrorResponse.builder()
+                        .errorMessage(message)
+                        .errorCode("INVALID_PARAMETER")
+                        .build());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)

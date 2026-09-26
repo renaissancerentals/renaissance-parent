@@ -51,13 +51,13 @@ class PropertyControllerTest {
 
     @Test
     void getAllWithUnsupportedProjectionReturns400() throws Exception {
-        mockMvc.perform(get("/api/properties").param("projection", "details"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/api/properties").param("projection", "details")).andExpect(status().isBadRequest());
     }
 
     @Test
     void getWithDetailsProjectionReturnsProperty() throws Exception {
-        when(propertyService.getProperty("p-1")).thenReturn(PropertyDetails.builder().id("p-1").build());
+        when(propertyService.getProperty("p-1"))
+                .thenReturn(PropertyDetails.builder().id("p-1").build());
 
         mockMvc.perform(get("/api/properties/p-1").param("projection", "details"))
                 .andExpect(status().isOk())

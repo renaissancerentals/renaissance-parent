@@ -81,8 +81,9 @@ class ApplicationRequestControllerTest {
                 {"firstName":"Jane","lastName":"Doe","property":"p-1","currentPage":"https://site/apply","community":"Summer House"}
                 """;
 
-        mockMvc.perform(
-                        post("/api/applicationRequest").contentType(MediaType.APPLICATION_JSON).content(missingEmail))
+        mockMvc.perform(post("/api/applicationRequest")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(missingEmail))
                 .andExpect(status().isBadRequest());
 
         verify(applicationRequestService, never()).save(any());

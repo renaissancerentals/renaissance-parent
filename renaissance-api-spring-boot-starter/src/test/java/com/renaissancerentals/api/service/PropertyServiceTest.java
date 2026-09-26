@@ -105,8 +105,7 @@ class PropertyServiceTest {
 
     @Test
     void getPropertyUrlReturnsConfiguredUrlWhenPresent() {
-        assertThat(propertyService().getPropertyUrl("summer-house"))
-                .isEqualTo("https://www.summerhouseatindiana.com/");
+        assertThat(propertyService().getPropertyUrl("summer-house")).isEqualTo("https://www.summerhouseatindiana.com/");
     }
 
     @Test
@@ -140,8 +139,10 @@ class PropertyServiceTest {
     @Test
     void getFloorplanListingsForPropertyReturnsFloorplansWhenPresent() {
         FloorplanListing floorplanListing = FloorplanListing.builder().id("f-1").build();
-        PropertyListing listing =
-                PropertyListing.builder().id("p-1").floorplans(List.of(floorplanListing)).build();
+        PropertyListing listing = PropertyListing.builder()
+                .id("p-1")
+                .floorplans(List.of(floorplanListing))
+                .build();
         when(propertyRepository.getPropertyListing("p-1")).thenReturn(Optional.of(listing));
 
         assertThat(propertyService().getFloorplanListingsForProperty("p-1")).containsExactly(floorplanListing);

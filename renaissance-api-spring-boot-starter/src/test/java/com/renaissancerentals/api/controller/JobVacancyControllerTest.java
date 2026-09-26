@@ -39,7 +39,8 @@ class JobVacancyControllerTest {
     @Test
     void getJobVacancyReturnsVacancyWhenFound() throws Exception {
         when(jobVacancyRepository.getJobVacancy(1L))
-                .thenReturn(Optional.of(JobVacancy.builder().id(1L).title("Leasing Agent").build()));
+                .thenReturn(Optional.of(
+                        JobVacancy.builder().id(1L).title("Leasing Agent").build()));
 
         mockMvc.perform(get("/api/jobVacancies/1"))
                 .andExpect(status().isOk())
@@ -56,7 +57,8 @@ class JobVacancyControllerTest {
     @Test
     void getJobVacanciesReturnsActiveVacancies() throws Exception {
         when(jobVacancyRepository.getActiveJobVacancies())
-                .thenReturn(List.of(JobVacancy.builder().id(1L).title("Leasing Agent").build()));
+                .thenReturn(List.of(
+                        JobVacancy.builder().id(1L).title("Leasing Agent").build()));
 
         mockMvc.perform(get("/api/jobVacancies"))
                 .andExpect(status().isOk())

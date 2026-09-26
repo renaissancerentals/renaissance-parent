@@ -53,14 +53,16 @@ class UnitControllerTest {
 
     @Test
     void getAllWithUnsupportedProjectionReturns400() throws Exception {
-        mockMvc.perform(get("/api/units").param("projection", "details"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/api/units").param("projection", "details")).andExpect(status().isBadRequest());
     }
 
     @Test
     void getWithUtilitiesProjectionReturnsUnitUtilities() throws Exception {
         when(unitRepository.getUnitUtilities("u-1"))
-                .thenReturn(UnitUtilities.builder().id("u-1").propertyEmail("p@example.com").build());
+                .thenReturn(UnitUtilities.builder()
+                        .id("u-1")
+                        .propertyEmail("p@example.com")
+                        .build());
 
         mockMvc.perform(get("/api/units/u-1").param("projection", "utilities"))
                 .andExpect(status().isOk())
@@ -72,12 +74,12 @@ class UnitControllerTest {
         UnitFloorplan unitFloorplan = UnitFloorplan.builder().id("u-1").build();
         when(floorplanService.getUnitFloorplan("u-1")).thenReturn(unitFloorplan);
 
-        mockMvc.perform(get("/api/units/u-1").param("projection", "unit-floorplan")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/units/u-1").param("projection", "unit-floorplan"))
+                .andExpect(status().isOk());
     }
 
     @Test
     void getWithUnsupportedProjectionReturns400() throws Exception {
-        mockMvc.perform(get("/api/units/u-1").param("projection", "address"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/api/units/u-1").param("projection", "address")).andExpect(status().isBadRequest());
     }
 }

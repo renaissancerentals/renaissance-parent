@@ -103,7 +103,8 @@ class ContactServiceTest {
     @Test
     void saveSendsContactEmailWithSecondaryEmailAddedToCc() {
         when(propertyService.getPropertyContact("p-1"))
-                .thenReturn(new PropertyContact("Summer House", "sh@example.com", "secondary@example.com", "8125559999"));
+                .thenReturn(
+                        new PropertyContact("Summer House", "sh@example.com", "secondary@example.com", "8125559999"));
         when(propertyService.getPropertyManager("p-1"))
                 .thenReturn(TeamMember.builder().name("Alice").build());
         when(propertyService.getPropertyUrl("p-1")).thenReturn("https://www.summerhouseatindiana.com/");
@@ -119,7 +120,8 @@ class ContactServiceTest {
 
     @Test
     void saveFallsBackToDefaultEmailWhenPropertyHasNone() {
-        when(propertyService.getPropertyContact("p-1")).thenReturn(new PropertyContact("Summer House", null, null, null));
+        when(propertyService.getPropertyContact("p-1"))
+                .thenReturn(new PropertyContact("Summer House", null, null, null));
         when(propertyService.getPropertyManager("p-1"))
                 .thenReturn(TeamMember.builder().name("Alice").build());
         when(propertyService.getPropertyUrl("p-1")).thenReturn("https://www.summerhouseatindiana.com/");

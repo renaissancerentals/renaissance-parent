@@ -83,7 +83,9 @@ class ContactControllerTest {
                 {"firstName":"Jane","lastName":"Doe","phone":"8125550000","property":"p-1","currentPage":"https://site/contact"}
                 """;
 
-        mockMvc.perform(post("/api/contact").contentType(MediaType.APPLICATION_JSON).content(missingEmail))
+        mockMvc.perform(post("/api/contact")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(missingEmail))
                 .andExpect(status().isBadRequest());
 
         verify(contactService, never()).save(any());

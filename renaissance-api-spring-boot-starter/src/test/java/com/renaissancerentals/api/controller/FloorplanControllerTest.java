@@ -1,6 +1,5 @@
 package com.renaissancerentals.api.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,15 +20,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @WebMvcTest(controllers = FloorplanController.class)
-@ContextConfiguration(
-        classes = {FloorplanController.class, ProjectionConverter.class, GlobalExceptionHandler.class})
+@ContextConfiguration(classes = {FloorplanController.class, ProjectionConverter.class, GlobalExceptionHandler.class})
 class FloorplanControllerTest {
 
     @Autowired
@@ -120,8 +118,7 @@ class FloorplanControllerTest {
 
     @Test
     void getFloorplansWithSpotlightAndUnsupportedFilterReturns400() throws Exception {
-        mockMvc.perform(
-                        get("/api/floorplans").param("projection", "spotlight").param("filterBy", "unsupported"))
+        mockMvc.perform(get("/api/floorplans").param("projection", "spotlight").param("filterBy", "unsupported"))
                 .andExpect(status().isBadRequest());
     }
 

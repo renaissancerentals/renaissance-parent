@@ -75,7 +75,15 @@ class ApplicationRequestServiceTest {
 
     private ApplicationRequest requestWithPhone(String phone) {
         return new ApplicationRequest(
-                "Jane", "Doe", "jane@example.com", phone, "p-1", "https://site/apply", "Summer House", null, null,
+                "Jane",
+                "Doe",
+                "jane@example.com",
+                phone,
+                "p-1",
+                "https://site/apply",
+                "Summer House",
+                null,
+                null,
                 null);
     }
 
@@ -101,7 +109,8 @@ class ApplicationRequestServiceTest {
     void saveSendsApplicationEmailWithSecondaryEmailAddedToCc() {
         when(applicationRequestMapper.toEntity(any())).thenReturn(new ApplicationEmailEntity());
         when(propertyService.getPropertyContact("p-1"))
-                .thenReturn(new PropertyContact("Summer House", "sh@example.com", "secondary@example.com", "8125559999"));
+                .thenReturn(
+                        new PropertyContact("Summer House", "sh@example.com", "secondary@example.com", "8125559999"));
         when(propertyService.getPropertyManager("p-1"))
                 .thenReturn(TeamMember.builder().name("Alice").build());
         when(templateMessageFactory.createMessage(any())).thenReturn("rendered");
@@ -117,7 +126,8 @@ class ApplicationRequestServiceTest {
     @Test
     void saveFallsBackToDefaultEmailWhenPropertyHasNone() {
         when(applicationRequestMapper.toEntity(any())).thenReturn(new ApplicationEmailEntity());
-        when(propertyService.getPropertyContact("p-1")).thenReturn(new PropertyContact("Summer House", null, null, null));
+        when(propertyService.getPropertyContact("p-1"))
+                .thenReturn(new PropertyContact("Summer House", null, null, null));
         when(propertyService.getPropertyManager("p-1"))
                 .thenReturn(TeamMember.builder().name("Alice").build());
         when(templateMessageFactory.createMessage(any())).thenReturn("rendered");
