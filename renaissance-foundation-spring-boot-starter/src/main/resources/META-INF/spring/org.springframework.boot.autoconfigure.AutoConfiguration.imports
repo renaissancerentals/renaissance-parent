@@ -8,3 +8,4 @@ com.renaissancerentals.foundation.threads.VirtualThreadAutoConfiguration
 com.renaissancerentals.foundation.ratelimiter.RateLimiterAutoconfiguration
 com.renaissancerentals.foundation.management.ManagementAutoConfiguration
 com.renaissancerentals.foundation.web.WebAutoConfiguration
+com.renaissancerentals.foundation.seo.SeoAutoConfiguration

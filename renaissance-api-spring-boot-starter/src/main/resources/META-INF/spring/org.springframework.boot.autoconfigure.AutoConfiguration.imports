@@ -1,1 +1,2 @@
 com.renaissancerentals.api.config.ApiAutoConfiguration
+com.renaissancerentals.api.seo.ApiSeoAutoConfiguration
