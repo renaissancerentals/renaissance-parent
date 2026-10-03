@@ -1,1 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=com.renaissancerentals.foundation.threads.VirtualThreadEnabler
+org.springframework.boot.env.EnvironmentPostProcessor=com.renaissancerentals.foundation.threads.VirtualThreadEnabler,\
+com.renaissancerentals.foundation.web.CompressionDefaultsPostProcessor

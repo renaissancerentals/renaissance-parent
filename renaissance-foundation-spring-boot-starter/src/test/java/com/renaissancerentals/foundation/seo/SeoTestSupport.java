@@ -342,11 +342,11 @@ final class SeoTestSupport {
                 properties,
                 links,
                 List.of(
-                        new StaticPageContributor(properties, links, new SnapshotBuilder(links, data)),
+                        new StaticPageContributor(properties, links, new SnapshotBuilder(links, data), jsonLd),
                         new EntityPageContributor(properties, links, jsonLd, data),
                         new HomePageContributor(properties, links, jsonLd, new SnapshotBuilder(links, data))),
                 List.of(
-                        new StaticPageContributor(properties, links, new SnapshotBuilder(links, data)),
+                        new StaticPageContributor(properties, links, new SnapshotBuilder(links, data), jsonLd),
                         new EntityPageContributor(properties, links, jsonLd, data),
                         new HomePageContributor(properties, links, jsonLd, new SnapshotBuilder(links, data))),
                 Clock.systemUTC());

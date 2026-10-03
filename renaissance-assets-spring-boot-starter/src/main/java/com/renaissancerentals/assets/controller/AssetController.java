@@ -5,9 +5,11 @@ import com.renaissancerentals.assets.model.Asset;
 import com.renaissancerentals.assets.model.PagedResult;
 import com.renaissancerentals.assets.service.AssetService;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Optional;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -43,6 +45,13 @@ public class AssetController {
                 .orElseThrow(() -> new AssetsNotFoundException("Asset with Id: " + id + " not found")));
     }
 
+    /**
+     * Nothing is kept on the server. This only lets browsers and proxies keep a photo for a day, so a returning visitor
+     * does not make the server download it from Drive again.
+     */
+    private static final CacheControl DOWNLOAD_CACHE =
+            CacheControl.maxAge(Duration.ofDays(1)).cachePublic();
+
     @GetMapping("/assets/{id}/download")
     public ResponseEntity<Resource> getFile(@PathVariable("id") String id) {
 
@@ -58,6 +67,7 @@ public class AssetController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(resource.contentLength())
+                .cacheControl(DOWNLOAD_CACHE)
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         ContentDisposition.attachment()

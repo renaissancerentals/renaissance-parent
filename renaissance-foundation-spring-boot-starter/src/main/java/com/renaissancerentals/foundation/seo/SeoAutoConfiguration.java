@@ -57,8 +57,9 @@ public class SeoAutoConfiguration {
 
     @Bean
     @Order(0)
-    public StaticPageContributor seoStaticPages(SeoProperties properties, SiteLinks links, SnapshotBuilder snapshots) {
-        return new StaticPageContributor(properties, links, snapshots);
+    public StaticPageContributor seoStaticPages(
+            SeoProperties properties, SiteLinks links, SnapshotBuilder snapshots, SeoJsonLd jsonLd) {
+        return new StaticPageContributor(properties, links, snapshots, jsonLd);
     }
 
     @Bean

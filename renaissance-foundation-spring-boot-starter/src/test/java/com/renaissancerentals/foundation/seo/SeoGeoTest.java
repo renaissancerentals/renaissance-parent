@@ -202,4 +202,26 @@ class SeoGeoTest {
         assertThat(SeoFacts.money(1784f)).isEqualTo("$1,784");
         assertThat(SeoFacts.join(List.of("a", "b", "c"))).isEqualTo("a, b and c");
     }
+
+    @Test
+    void indexedPagesGetWebPageAndBreadcrumbMarkup() throws Exception {
+        var pages = new SeoProperties.StaticPage[] {
+            new SeoProperties.StaticPage("/contact", "Contact Us", "Call us.", null, null, null, null),
+            new SeoProperties.StaticPage("/units", "Available Now", "Homes.", null, null, null, "units"),
+            new SeoProperties.StaticPage("/secret", "Hidden", "Hidden.", false, null, null, null),
+            new SeoProperties.StaticPage("/sublets", "Sublets", "Sublets.", null, null, "/floorplans", null)
+        };
+        var stack = stack(hub(pages), richData());
+
+        var contact = html(stack, "/contact");
+        assertThat(contact)
+                .contains("\"@type\":\"WebPage\"")
+                .contains("\"@type\":\"BreadcrumbList\"")
+                .contains("\"url\":\"" + HUB + "/contact\"")
+                .contains("\"inLanguage\":\"en-US\"");
+        assertThat(html(stack, "/units")).contains("\"@type\":\"CollectionPage\"");
+        // noindex pages and pages whose canonical is elsewhere carry no page markup
+        assertThat(html(stack, "/secret")).doesNotContain("application/ld+json");
+        assertThat(html(stack, "/sublets")).doesNotContain("\"@type\":\"WebPage\"");
+    }
 }

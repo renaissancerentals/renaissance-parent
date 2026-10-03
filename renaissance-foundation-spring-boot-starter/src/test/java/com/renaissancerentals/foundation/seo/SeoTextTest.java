@@ -21,10 +21,13 @@ class SeoTextTest {
     }
 
     @Test
-    void storedTitleIsKeptUnlessTooLong() {
-        assertThat(SeoText.title("Nice Title", "generated")).isEqualTo("Nice Title");
-        assertThat(SeoText.title("x".repeat(90), "generated")).isEqualTo("generated");
+    void storedTitleIsKeptOnlyWhenItFitsTheSearchResult() {
+        assertThat(SeoText.title("Nice Title For A Page", "generated")).isEqualTo("Nice Title For A Page");
+        assertThat(SeoText.title("x".repeat(60), "generated")).hasSize(60);
+        assertThat(SeoText.title("x".repeat(61), "generated")).isEqualTo("generated");
+        assertThat(SeoText.title("Verona Park", "generated")).isEqualTo("generated");
         assertThat(SeoText.title(null, "generated")).isEqualTo("generated");
+        assertThat(SeoText.title(null, "word ".repeat(30)).length()).isLessThanOrEqualTo(60);
     }
 
     @Test

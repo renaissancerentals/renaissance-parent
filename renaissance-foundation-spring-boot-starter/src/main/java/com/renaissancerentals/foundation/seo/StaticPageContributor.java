@@ -1,7 +1,9 @@
 package com.renaissancerentals.foundation.seo;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.util.AntPathMatcher;
 
@@ -11,9 +13,12 @@ public class StaticPageContributor implements SeoPageContributor, SitemapContrib
     private final SeoProperties properties;
     private final SiteLinks links;
     private final SnapshotBuilder snapshots;
+    private final SeoJsonLd jsonLd;
     private final AntPathMatcher matcher = new AntPathMatcher();
 
-    public StaticPageContributor(SeoProperties properties, SiteLinks links, SnapshotBuilder snapshots) {
+    public StaticPageContributor(
+            SeoProperties properties, SiteLinks links, SnapshotBuilder snapshots, SeoJsonLd jsonLd) {
+        this.jsonLd = jsonLd;
         this.properties = properties;
         this.links = links;
         this.snapshots = snapshots;
@@ -40,8 +45,25 @@ public class StaticPageContributor implements SeoPageContributor, SitemapContrib
                 200,
                 "website",
                 links.absolute(properties.defaultImage()),
-                List.of(),
+                structuredData(page, path, canonical, title, description),
                 snapshot(page, title, description));
+    }
+
+    /** Only pages that are indexed under their own URL get markup; a page that points elsewhere would contradict it. */
+    private List<Map<String, Object>> structuredData(
+            SeoProperties.StaticPage page, String path, String canonical, String title, String description) {
+        if (!page.indexable() || !links.isSelf(canonical) || !canonical.equals(links.self(path))) {
+            return List.of();
+        }
+        var type = SeoText.blank(page.snapshot()) ? "WebPage" : "CollectionPage";
+        var nodes = new ArrayList<Map<String, Object>>();
+        nodes.add(jsonLd.webPage(type, title, canonical, description));
+        var wildcard = page.path().contains("*") || page.path().contains("{");
+        if (!wildcard && !"/".equals(path)) {
+            nodes.add(jsonLd.breadcrumbs(
+                    List.of(new String[] {properties.siteName(), links.self("/")}, new String[] {title, canonical})));
+        }
+        return nodes;
     }
 
     private String snapshot(SeoProperties.StaticPage page, String title, String description) {

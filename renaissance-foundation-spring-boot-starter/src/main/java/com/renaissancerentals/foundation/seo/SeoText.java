@@ -6,7 +6,8 @@ import org.springframework.web.util.HtmlUtils;
 /** Text clean-up helpers for titles and descriptions. */
 final class SeoText {
 
-    static final int MAX_TITLE = 70;
+    static final int MIN_TITLE = 20;
+    static final int MAX_TITLE = 60;
     static final int MAX_DESCRIPTION = 160;
 
     private static final Pattern TAGS = Pattern.compile("<[^>]*>");
@@ -49,10 +50,11 @@ final class SeoText {
         return clip(text, MAX_DESCRIPTION);
     }
 
-    /** Uses the stored title when it is sensible, otherwise the generated one. */
+    /** Uses the stored title when it is 20-60 characters, otherwise the generated one (kept within 60). */
     static String title(String preferred, String generated) {
         var text = plain(preferred);
-        return !text.isEmpty() && text.length() <= MAX_TITLE ? text : clip(generated, MAX_TITLE);
+        var usable = text.length() >= MIN_TITLE && text.length() <= MAX_TITLE;
+        return usable ? text : clip(generated, MAX_TITLE);
     }
 
     static String esc(String value) {

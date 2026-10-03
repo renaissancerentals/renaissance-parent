@@ -74,6 +74,31 @@ public class SeoJsonLd {
         return map;
     }
 
+    /** A plain page of the site; {@code type} is WebPage, or CollectionPage for pages that list things. */
+    public Map<String, Object> webPage(String type, String name, String url, String description) {
+        var map = node(type);
+        put(map, "@id", url + "#webpage");
+        put(map, "name", name);
+        put(map, "url", url);
+        put(map, "description", description);
+        map.put("inLanguage", "en-US");
+        var site = new LinkedHashMap<String, Object>();
+        site.put("@type", "WebSite");
+        site.put("name", properties.siteName());
+        site.put("url", links.self("/"));
+        map.put("isPartOf", site);
+        var publisher = new LinkedHashMap<String, Object>();
+        publisher.put("@type", "Organization");
+        publisher.put(
+                "name",
+                properties.organization().name() != null
+                        ? properties.organization().name()
+                        : properties.siteName());
+        publisher.put("url", links.hubOrigin() + "/");
+        map.put("publisher", publisher);
+        return map;
+    }
+
     public Map<String, Object> webSite() {
         var map = node("WebSite");
         put(map, "name", properties.siteName());
