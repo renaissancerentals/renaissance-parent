@@ -1020,3 +1020,51 @@ CREATE TABLE split_bill
     owner_data JSONB NOT NULL,
     last_modified_date TIMESTAMP WITHOUT TIME ZONE
 );
+
+-- changeset renaissance-admin:86
+-- The blog: a copy of the posts the notes platform publishes, kept in this database so that pages never wait on it.
+CREATE TABLE blog_post
+(
+    id             VARCHAR(16) PRIMARY KEY,
+    bucket         VARCHAR(8)  NOT NULL,
+    source_version INTEGER     NOT NULL,
+    title          TEXT        NOT NULL,
+    excerpt        TEXT,
+    cover_ref      VARCHAR(32),
+    category       TEXT,
+    body           TEXT        NOT NULL,
+    published_at   TIMESTAMPTZ,
+    updated_at     TIMESTAMPTZ,
+    removed_at     TIMESTAMPTZ,
+    synced_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX idx_blog_post_listing ON blog_post (published_at DESC) WHERE removed_at IS NULL;
+
+-- Images and documents of the posts, copied when a post is synced and served from here.
+CREATE TABLE blog_media
+(
+    ref          VARCHAR(32) PRIMARY KEY,
+    content_type VARCHAR(100) NOT NULL,
+    content      BYTEA        NOT NULL,
+    fetched_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- Where the sync has got to: the cursor it committed, when it last succeeded, and the last thing that went wrong.
+CREATE TABLE sync_state
+(
+    name            VARCHAR(40) PRIMARY KEY,
+    cursor_value    TEXT,
+    last_success_at TIMESTAMPTZ,
+    last_error      TEXT,
+    last_error_at   TIMESTAMPTZ
+);
+
+-- A post that keeps failing is set aside after a few tries so one bad post cannot stop the rest.
+CREATE TABLE sync_failure
+(
+    post_id        VARCHAR(16) PRIMARY KEY,
+    source_version INTEGER     NOT NULL,
+    failures       INTEGER     NOT NULL DEFAULT 1,
+    last_error     TEXT,
+    quarantined_at TIMESTAMPTZ
+);

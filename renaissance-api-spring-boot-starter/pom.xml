@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.renaissancerentals</groupId>
         <artifactId>renaissance-parent</artifactId>
-        <version>3.49.0</version>
+        <version>3.50.0</version>
     </parent>
     <artifactId>renaissance-api-spring-boot-starter</artifactId>
     <name>Renaissance API</name>
@@ -28,6 +28,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.19.1</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
