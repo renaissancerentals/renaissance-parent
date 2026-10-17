@@ -1068,3 +1068,49 @@ CREATE TABLE sync_failure
     last_error     TEXT,
     quarantined_at TIMESTAMPTZ
 );
+
+-- changeset renaissance-admin:87
+-- A floorplan's id is its URL slug, and renaming a floorplan changes that id. Every foreign key that points at the id
+-- therefore has to carry the change along. All of them did except these two, which would have refused the rename as
+-- soon as the floorplan had FAQs or short term data.
+ALTER TABLE floorplan_faq
+    DROP CONSTRAINT IF EXISTS fk_floorplan_floorplan_faq_floorplan_id,
+    ADD CONSTRAINT fk_floorplan_floorplan_faq_floorplan_id
+        FOREIGN KEY (floorplan_id) REFERENCES floorplan (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE short_term_floorplan
+    DROP CONSTRAINT IF EXISTS fk_short_term_floorplan_floorplan_id,
+    ADD CONSTRAINT fk_short_term_floorplan_floorplan_id
+        FOREIGN KEY (floorplan_id) REFERENCES floorplan (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- changeset renaissance-admin:88
+-- The earlier slugs of renamed floorplans, so that their old URLs can redirect to the floorplan's current one.
+-- floorplan_id always holds the CURRENT id (it follows the floorplan through every rename), so a floorplan renamed
+-- twice still has both old slugs pointing straight at it, never through a chain.
+CREATE TABLE floorplan_slug_history
+(
+    old_id       VARCHAR(255) PRIMARY KEY,
+    floorplan_id VARCHAR(255) NOT NULL,
+    changed_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_floorplan_slug_history_floorplan_id
+        FOREIGN KEY (floorplan_id) REFERENCES floorplan (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_floorplan_slug_history_floorplan_id ON floorplan_slug_history (floorplan_id);
+
+-- changeset renaissance-admin:89
+-- Keys that let scripts read the admin API without a Google sign-in. Only the SHA-256 of a key is stored, so a leaked
+-- copy of this table cannot be used to call the API; the key itself is shown once when it is created.
+CREATE TABLE api_key
+(
+    id           BIGSERIAL PRIMARY KEY,
+    label        VARCHAR(100) NOT NULL,
+    key_prefix   VARCHAR(16)  NOT NULL,
+    key_hash     VARCHAR(64)  NOT NULL,
+    created_by   VARCHAR(255),
+    created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    expires_at   TIMESTAMPTZ,
+    revoked_at   TIMESTAMPTZ,
+    last_used_at TIMESTAMPTZ,
+    CONSTRAINT uq_api_key_hash UNIQUE (key_hash)
+);

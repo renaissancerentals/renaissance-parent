@@ -35,6 +35,7 @@ final class SeoTestSupport {
         final List<SeoData.Sublet> sublets = new ArrayList<>();
         final List<SeoData.Job> jobs = new ArrayList<>();
         final List<SeoData.Faq> faqs = new ArrayList<>();
+        final Map<String, String> redirects = new HashMap<>();
         boolean down;
 
         private void check() {
@@ -56,6 +57,11 @@ final class SeoTestSupport {
         public Optional<SeoData.Floorplan> floorplan(String id) {
             check();
             return Optional.ofNullable(floorplans.get(id));
+        }
+
+        public Optional<String> floorplanRedirect(String oldId) {
+            check();
+            return Optional.ofNullable(redirects.get(oldId));
         }
 
         public Optional<SeoData.Unit> unit(String id) {
@@ -295,7 +301,8 @@ final class SeoTestSupport {
                 null,
                 null,
                 org(),
-                List.of(pages));
+                List.of(pages),
+                null);
     }
 
     static SeoProperties highGrove(SeoProperties.StaticPage... pages) {
@@ -312,7 +319,8 @@ final class SeoTestSupport {
                 null,
                 null,
                 org(),
-                List.of(pages));
+                List.of(pages),
+                null);
     }
 
     static SeoProperties listingSite(String origin) {
@@ -329,7 +337,8 @@ final class SeoTestSupport {
                 null,
                 null,
                 org(),
-                List.of());
+                List.of(),
+                null);
     }
 
     record Stack(MockMvc mvc, SeoService service) {}

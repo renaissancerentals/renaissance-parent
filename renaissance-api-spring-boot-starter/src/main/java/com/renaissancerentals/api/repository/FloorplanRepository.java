@@ -6,13 +6,17 @@ import com.renaissancerentals.api.repository.helper.SqlBuilder;
 import com.renaissancerentals.api.repository.mapper.FloorplanDetailsExtractor;
 import com.renaissancerentals.api.repository.mapper.FloorplanSpotlightExtractor;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class FloorplanRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -146,5 +150,32 @@ public class FloorplanRepository {
         return spotlights == null || spotlights.isEmpty()
                 ? Optional.empty()
                 : Optional.ofNullable(spotlights.getFirst());
+    }
+
+    /**
+     * The id a floorplan has now, when {@code oldId} is an address it used to have (it was renamed). Only a floorplan
+     * that is live counts, so a redirect never leads to a page that does not exist.
+     */
+    public Optional<String> findCurrentIdOfRenamed(String oldId) {
+        try {
+            return jdbcTemplate
+                    .queryForList(
+                            """
+                            SELECT h.floorplan_id
+                            FROM floorplan_slug_history h
+                                     JOIN floorplan f ON f.id = h.floorplan_id
+                            WHERE h.old_id = :oldId
+                              AND f.active = true
+                              AND f.style != 'GARAGE'
+                            """,
+                            Map.of("oldId", oldId),
+                            String.class)
+                    .stream()
+                    .findFirst();
+        } catch (BadSqlGrammarException e) {
+            // The table comes with the admin's database migration. Until that has run nothing is renamed yet.
+            log.warn("floorplan_slug_history is not there yet, no redirects: {}", e.getMessage());
+            return Optional.empty();
+        }
     }
 }

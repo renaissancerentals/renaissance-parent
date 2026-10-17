@@ -16,6 +16,7 @@ import com.renaissancerentals.api.domain.projection.PropertyDetails;
 import com.renaissancerentals.api.domain.projection.PropertyListing;
 import com.renaissancerentals.api.domain.projection.UnitListing;
 import com.renaissancerentals.api.error.NotFoundException;
+import com.renaissancerentals.api.repository.FloorplanRepository;
 import com.renaissancerentals.api.repository.JobVacancyRepository;
 import com.renaissancerentals.api.repository.SubletRepository;
 import com.renaissancerentals.api.service.FloorplanService;
@@ -31,11 +32,13 @@ class LocalSeoDataSourceTest {
 
     private final PropertyService propertyService = mock(PropertyService.class);
     private final FloorplanService floorplanService = mock(FloorplanService.class);
+    private final FloorplanRepository floorplanRepository = mock(FloorplanRepository.class);
     private final SubletRepository subletRepository = mock(SubletRepository.class);
     private final JobVacancyRepository jobRepository = mock(JobVacancyRepository.class);
     private final LocalSeoDataSource source = new LocalSeoDataSource(
             propertyService,
             floorplanService,
+            floorplanRepository,
             subletRepository,
             jobRepository,
             new ObjectMapper().registerModule(new JavaTimeModule()));
@@ -157,5 +160,21 @@ class LocalSeoDataSourceTest {
         var property = source.property("high-grove").orElseThrow();
         assertThat(property.leaseType()).isEqualTo("YEARLY");
         assertThat(property.busRoutes().get(0).busRoute()).isEqualTo("Bloomington Transit #9");
+    }
+
+    @Test
+    void readsWhereARenamedFloorplanMovedTo() {
+        when(floorplanRepository.findCurrentIdOfRenamed("view-big")).thenReturn(Optional.of("view"));
+        when(floorplanRepository.findCurrentIdOfRenamed("nope")).thenReturn(Optional.empty());
+
+        assertThat(source.floorplanRedirect("view-big")).contains("view");
+        assertThat(source.floorplanRedirect("nope")).isEmpty();
+    }
+
+    @Test
+    void aDatabaseFailureLookingForARedirectIsAnOutageNotANoRedirect() {
+        when(floorplanRepository.findCurrentIdOfRenamed("x")).thenThrow(new IllegalStateException("db down"));
+
+        assertThatThrownBy(() -> source.floorplanRedirect("x")).isInstanceOf(SeoDataUnavailableException.class);
     }
 }

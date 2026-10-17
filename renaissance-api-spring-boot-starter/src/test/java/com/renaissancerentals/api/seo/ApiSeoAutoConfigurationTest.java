@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.renaissancerentals.api.repository.FloorplanRepository;
 import com.renaissancerentals.api.repository.JobVacancyRepository;
 import com.renaissancerentals.api.repository.SubletRepository;
 import com.renaissancerentals.api.service.FloorplanService;
@@ -26,6 +27,7 @@ class ApiSeoAutoConfigurationTest {
     void aSiteWithTheApiReadsItsOwnDatabase() {
         runner.withBean(PropertyService.class, () -> mock(PropertyService.class))
                 .withBean(FloorplanService.class, () -> mock(FloorplanService.class))
+                .withBean(FloorplanRepository.class, () -> mock(FloorplanRepository.class))
                 .withBean(SubletRepository.class, () -> mock(SubletRepository.class))
                 .withBean(JobVacancyRepository.class, () -> mock(JobVacancyRepository.class))
                 .run(context -> assertThat(context)

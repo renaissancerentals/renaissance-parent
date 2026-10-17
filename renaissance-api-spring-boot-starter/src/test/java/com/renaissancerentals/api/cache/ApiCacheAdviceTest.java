@@ -44,6 +44,11 @@ class ApiCacheAdviceTest {
             return Map.of("a", "b");
         }
 
+        @GetMapping("/floorplanRedirects/{id}")
+        Map<String, String> redirect(@PathVariable("id") String id) {
+            return Map.of("from", id, "to", "view");
+        }
+
         @GetMapping("/sublets")
         Map<String, String> sublets() {
             return Map.of("email", "someone@example.com");
@@ -142,5 +147,11 @@ class ApiCacheAdviceTest {
     void aSimilarlyNamedPathIsNotMatched() throws Exception {
         // "/api/propertiesX" must not match the "/api/properties" prefix
         assertThat(cacheControl(mvc(null), get("/api/propertiesX"))).isNull();
+    }
+
+    @Test
+    void floorplanRedirectsAreCacheableToo() throws Exception {
+        assertThat(cacheControl(mvc(null), get("/api/floorplanRedirects/view-big")))
+                .contains("max-age=60");
     }
 }

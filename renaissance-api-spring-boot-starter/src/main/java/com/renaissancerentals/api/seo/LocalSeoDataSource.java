@@ -2,6 +2,7 @@ package com.renaissancerentals.api.seo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renaissancerentals.api.error.NotFoundException;
+import com.renaissancerentals.api.repository.FloorplanRepository;
 import com.renaissancerentals.api.repository.JobVacancyRepository;
 import com.renaissancerentals.api.repository.SubletRepository;
 import com.renaissancerentals.api.service.FloorplanService;
@@ -21,6 +22,7 @@ public class LocalSeoDataSource implements SeoDataSource {
 
     private final PropertyService propertyService;
     private final FloorplanService floorplanService;
+    private final FloorplanRepository floorplanRepository;
     private final SubletRepository subletRepository;
     private final JobVacancyRepository jobVacancyRepository;
     private final ObjectMapper mapper;
@@ -28,11 +30,13 @@ public class LocalSeoDataSource implements SeoDataSource {
     public LocalSeoDataSource(
             PropertyService propertyService,
             FloorplanService floorplanService,
+            FloorplanRepository floorplanRepository,
             SubletRepository subletRepository,
             JobVacancyRepository jobVacancyRepository,
             ObjectMapper mapper) {
         this.propertyService = propertyService;
         this.floorplanService = floorplanService;
+        this.floorplanRepository = floorplanRepository;
         this.subletRepository = subletRepository;
         this.jobVacancyRepository = jobVacancyRepository;
         this.mapper = mapper;
@@ -51,6 +55,11 @@ public class LocalSeoDataSource implements SeoDataSource {
     @Override
     public Optional<SeoData.Floorplan> floorplan(String floorplanId) {
         return found(() -> floorplanService.getFloorplan(floorplanId), SeoData.Floorplan.class);
+    }
+
+    @Override
+    public Optional<String> floorplanRedirect(String oldId) {
+        return guard(() -> floorplanRepository.findCurrentIdOfRenamed(oldId));
     }
 
     @Override

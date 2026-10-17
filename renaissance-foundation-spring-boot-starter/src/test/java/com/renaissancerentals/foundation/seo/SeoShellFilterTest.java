@@ -3,6 +3,7 @@ package com.renaissancerentals.foundation.seo;
 import static com.renaissancerentals.foundation.seo.SeoTestSupport.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
@@ -210,5 +211,147 @@ class SeoShellFilterTest {
         MvcResult result =
                 stack(hub(), data()).mvc().perform(get("/api/things")).andReturn();
         assertThat(result.getResponse().getContentAsString()).isEqualTo("{}");
+    }
+
+    @Test
+    void configuredSettingsAreWrittenIntoThePageAsMetaTags() throws Exception {
+        var base = hub();
+        var props = new SeoProperties(
+                base.canonicalOrigin(),
+                base.siteName(),
+                base.defaultTitle(),
+                base.defaultDescription(),
+                base.defaultImage(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                base.organization(),
+                java.util.List.of(),
+                java.util.Map.of("blog-source", "notes", "Bad Name", "x", "empty", " ", "a<b", "y"));
+        var html = html(stack(props, data()), "/");
+
+        assertThat(html).contains("<meta name=\"blog-source\" content=\"notes\"/>");
+        // names that are not plain, and empty values, are left out
+        assertThat(html)
+                .doesNotContain("Bad Name")
+                .doesNotContain("name=\"empty\"")
+                .doesNotContain("a<b");
+    }
+
+    @Test
+    void noSettingsMeansNoExtraMetaTags() throws Exception {
+        assertThat(html(stack(hub(), data()), "/")).doesNotContain("blog-source");
+    }
+
+    @Test
+    void aRenamedFloorplansOldAddressRedirectsPermanentlyToTheCurrentOne() throws Exception {
+        var data = data();
+        data.redirects.put("view-big", "hg-2br");
+
+        var response = stack(highGrove(), data)
+                .mvc()
+                .perform(get("/floorplans/view-big"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(301);
+        assertThat(response.getHeader("Location")).isEqualTo("/floorplans/hg-2br");
+        assertThat(response.getContentAsByteArray()).isEmpty();
+        assertThat(response.getHeader("Cache-Control")).contains("max-age=3600");
+    }
+
+    @Test
+    void theQueryStringSurvivesTheRedirect() throws Exception {
+        var data = data();
+        data.redirects.put("view-big", "hg-2br");
+
+        var response = stack(hub(), data)
+                .mvc()
+                .perform(get("/floorplans/view-big?utm_source=mail&x=1"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(301);
+        assertThat(response.getHeader("Location")).isEqualTo("/floorplans/hg-2br?utm_source=mail&x=1");
+    }
+
+    @Test
+    void aFloorplanThatExistsIsNeverRedirectedEvenIfAStaleEntryNamesItsAddress() throws Exception {
+        var data = data();
+        data.redirects.put("hg-2br", "somewhere-else");
+
+        var response = stack(highGrove(), data)
+                .mvc()
+                .perform(get("/floorplans/hg-2br"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString()).contains("\"@type\":\"FloorPlan\"");
+    }
+
+    @Test
+    void anUnknownAddressWithNoRedirectIsStillA404() throws Exception {
+        var response = stack(highGrove(), data())
+                .mvc()
+                .perform(get("/floorplans/never-existed"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(404);
+        assertThat(response.getHeader("Location")).isNull();
+    }
+
+    @Test
+    void aRedirectToItselfIsIgnored() throws Exception {
+        var data = data();
+        data.redirects.put("gone", "gone");
+
+        assertThat(stack(highGrove(), data)
+                        .mvc()
+                        .perform(get("/floorplans/gone"))
+                        .andReturn()
+                        .getResponse()
+                        .getStatus())
+                .isEqualTo(404);
+    }
+
+    @Test
+    void whenTheRedirectLookupFailsThePageStillAnswers() throws Exception {
+        var data = data();
+        data.down = true;
+
+        var response = stack(highGrove(), data)
+                .mvc()
+                .perform(get("/floorplans/view-big"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getHeader("Location")).isNull();
+    }
+
+    @Test
+    void aHeadRequestGetsTheSameAnswerAsAGet() throws Exception {
+        var data = data();
+        data.redirects.put("view-big", "hg-2br");
+        var stack = stack(highGrove(), data);
+
+        var redirect =
+                stack.mvc().perform(head("/floorplans/view-big")).andReturn().getResponse();
+        var missing = stack.mvc()
+                .perform(head("/floorplans/never-existed"))
+                .andReturn()
+                .getResponse();
+        var page = stack.mvc().perform(head("/floorplans/hg-2br")).andReturn().getResponse();
+
+        assertThat(redirect.getStatus()).isEqualTo(301);
+        assertThat(redirect.getHeader("Location")).isEqualTo("/floorplans/hg-2br");
+        assertThat(missing.getStatus()).isEqualTo(404);
+        assertThat(missing.getHeader("X-Robots-Tag")).contains("noindex");
+        assertThat(page.getStatus()).isEqualTo(200);
     }
 }

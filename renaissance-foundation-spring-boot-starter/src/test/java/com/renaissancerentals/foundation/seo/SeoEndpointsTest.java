@@ -130,7 +130,8 @@ class SeoEndpointsTest {
                 java.util.Map.of("high-grove", HIGH_GROVE, "high-grove-short-term", HIGH_GROVE),
                 null,
                 org(),
-                List.of());
+                List.of(),
+                null);
         var xml = body(stack(props, data), "/sitemap.xml");
         assertThat(xml).contains("<loc>" + HIGH_GROVE + "/floorplans/st-1br</loc>");
     }

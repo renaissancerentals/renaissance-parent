@@ -121,6 +121,9 @@ public final class SeoData {
     public record ListingUnit(String id, Float rent, Integer squareFoot, LocalDate moveInDate) {}
 
     @JsonIgnoreProperties(ignoreUnknown = true)
+    public record Redirect(String from, String to) {}
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public record Faq(String question, String answer) {}
 
     @JsonIgnoreProperties(ignoreUnknown = true)

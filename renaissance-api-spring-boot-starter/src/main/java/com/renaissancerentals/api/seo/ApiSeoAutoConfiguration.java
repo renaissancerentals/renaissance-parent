@@ -1,6 +1,7 @@
 package com.renaissancerentals.api.seo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.renaissancerentals.api.repository.FloorplanRepository;
 import com.renaissancerentals.api.repository.JobVacancyRepository;
 import com.renaissancerentals.api.repository.SubletRepository;
 import com.renaissancerentals.api.service.FloorplanService;
@@ -26,16 +27,18 @@ public class ApiSeoAutoConfiguration {
     @ConditionalOnBean({
         PropertyService.class,
         FloorplanService.class,
+        FloorplanRepository.class,
         SubletRepository.class,
         JobVacancyRepository.class
     })
     public SeoDataSource seoLocalDataSource(
             PropertyService propertyService,
             FloorplanService floorplanService,
+            FloorplanRepository floorplanRepository,
             SubletRepository subletRepository,
             JobVacancyRepository jobVacancyRepository,
             ObjectMapper mapper) {
         return new LocalSeoDataSource(
-                propertyService, floorplanService, subletRepository, jobVacancyRepository, mapper);
+                propertyService, floorplanService, floorplanRepository, subletRepository, jobVacancyRepository, mapper);
     }
 }

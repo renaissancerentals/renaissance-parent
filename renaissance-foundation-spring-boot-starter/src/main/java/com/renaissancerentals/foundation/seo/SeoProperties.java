@@ -20,6 +20,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @param preferPropertySiteCanonical when true a property's own site is canonical for that property's content
  * @param organization business details used for schema.org markup
  * @param pages explicit list of routes that are served by the single page app
+ * @param meta extra {@code <meta name="..." content="...">} tags written into every page, for settings the page's script reads
+ *     (for example {@code blog-source}). Names are limited to lower case letters, digits, dash, underscore and dot.
  */
 @ConfigurationProperties(prefix = "renaissancerentals.seo")
 public record SeoProperties(
@@ -35,7 +37,8 @@ public record SeoProperties(
         Map<String, String> propertySites,
         Boolean preferPropertySiteCanonical,
         Organization organization,
-        List<StaticPage> pages) {
+        List<StaticPage> pages,
+        Map<String, String> meta) {
 
     public static final String DEFAULT_HUB_ORIGIN = "https://www.renaissancerentals.com";
 
@@ -65,6 +68,7 @@ public record SeoProperties(
                 ? new Organization(null, null, null, null, null, null, null, null, null, null)
                 : organization;
         pages = pages == null ? List.of() : List.copyOf(pages);
+        meta = meta == null ? Map.of() : Map.copyOf(meta);
     }
 
     private static boolean isBlank(String value) {

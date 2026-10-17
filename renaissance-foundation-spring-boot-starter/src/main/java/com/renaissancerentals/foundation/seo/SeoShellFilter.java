@@ -62,6 +62,15 @@ public class SeoShellFilter extends OncePerRequestFilter {
         }
 
         var meta = seo.resolve(path);
+        if (meta.redirectTo() != null) {
+            // permanent: search engines move the old address's standing to the new one. Nothing of the page is sent.
+            var query = request.getQueryString();
+            response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            response.setHeader("Location", meta.redirectTo() + (query == null ? "" : "?" + query));
+            response.setHeader("Cache-Control", "public, max-age=3600");
+            response.setContentLength(0);
+            return;
+        }
         var rendered = renderer.render(html, meta).getBytes(StandardCharsets.UTF_8);
         if (status < 400 && meta.status() >= 400) {
             response.setStatus(meta.status());
@@ -125,6 +134,17 @@ public class SeoShellFilter extends OncePerRequestFilter {
 
         NoConditionalRequest(HttpServletRequest request) {
             super(request);
+        }
+
+        /**
+         * A HEAD request is answered as a GET and the container drops the body. Otherwise there would be nothing to
+         * look at (no body, so no way to tell the page from an error page) and a link checker would be told 200 for
+         * an address that redirects or does not exist.
+         */
+        @Override
+        public String getMethod() {
+            var method = super.getMethod();
+            return "HEAD".equals(method) ? "GET" : method;
         }
 
         @Override

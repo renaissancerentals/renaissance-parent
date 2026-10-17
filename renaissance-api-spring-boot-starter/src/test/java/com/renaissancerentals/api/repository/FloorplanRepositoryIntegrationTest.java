@@ -22,6 +22,7 @@ class FloorplanRepositoryIntegrationTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void seed() {
+        jdbcTemplate.update("DELETE FROM floorplan_slug_history");
         jdbcTemplate.update("DELETE FROM amenity");
         jdbcTemplate.update("DELETE FROM web_special");
         jdbcTemplate.update("DELETE FROM unit");
@@ -99,5 +100,37 @@ class FloorplanRepositoryIntegrationTest extends PostgresIntegrationTest {
         Optional<FloorplanSpotlight> result = floorplanRepository.getFloorplanSpotlight("f-inactive");
 
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    void findsTheCurrentIdOfARenamedFloorplan() {
+        jdbcTemplate.update(
+                "INSERT INTO floorplan_slug_history (old_id, floorplan_id) VALUES ('f-old-name', 'f-active')");
+
+        assertThat(floorplanRepository.findCurrentIdOfRenamed("f-old-name")).contains("f-active");
+        assertThat(floorplanRepository.findCurrentIdOfRenamed("never-existed")).isEmpty();
+    }
+
+    @Test
+    void doesNotRedirectToAFloorplanThatIsNotLive() {
+        jdbcTemplate.update(
+                "INSERT INTO floorplan_slug_history (old_id, floorplan_id) VALUES ('old-inactive', 'f-inactive')");
+        jdbcTemplate.update(
+                "INSERT INTO floorplan_slug_history (old_id, floorplan_id) VALUES ('old-garage', 'f-garage')");
+
+        assertThat(floorplanRepository.findCurrentIdOfRenamed("old-inactive")).isEmpty();
+        assertThat(floorplanRepository.findCurrentIdOfRenamed("old-garage")).isEmpty();
+    }
+
+    @Test
+    void behavesAsIfNothingWasRenamedUntilTheMigrationHasCreatedTheTable() {
+        jdbcTemplate.update("DROP TABLE floorplan_slug_history");
+        try {
+            assertThat(floorplanRepository.findCurrentIdOfRenamed("anything")).isEmpty();
+        } finally {
+            jdbcTemplate.update("CREATE TABLE floorplan_slug_history (old_id VARCHAR(255) PRIMARY KEY, "
+                    + "floorplan_id VARCHAR(255) NOT NULL REFERENCES floorplan (id) ON DELETE CASCADE ON UPDATE CASCADE, "
+                    + "changed_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
+        }
     }
 }

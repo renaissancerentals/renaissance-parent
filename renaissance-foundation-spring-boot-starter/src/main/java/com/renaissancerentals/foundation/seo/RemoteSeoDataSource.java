@@ -44,6 +44,13 @@ public class RemoteSeoDataSource implements SeoDataSource {
     }
 
     @Override
+    public Optional<String> floorplanRedirect(String oldId) {
+        return read("/api/floorplanRedirects/" + oldId, SeoData.Redirect.class)
+                .map(SeoData.Redirect::to)
+                .filter(to -> !to.isBlank());
+    }
+
+    @Override
     public Optional<SeoData.Unit> unit(String unitId) {
         return read("/api/units/" + unitId + "?projection=UNIT_FLOORPLAN", SeoData.Unit.class);
     }

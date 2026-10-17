@@ -62,6 +62,14 @@ public class HeadRenderer {
         tag(out, "<meta name=\"twitter:title\" content=\"%s\"/>", meta.title());
         tag(out, "<meta name=\"twitter:description\" content=\"%s\"/>", meta.description());
         tag(out, "<meta name=\"twitter:image\" content=\"%s\"/>", meta.image());
+        properties.meta().entrySet().stream()
+                .filter(e -> e.getKey().matches("[a-z0-9._-]+") && !SeoText.blank(e.getValue()))
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(e -> out.append("<meta name=\"")
+                        .append(e.getKey())
+                        .append("\" content=\"")
+                        .append(SeoText.esc(e.getValue().trim()))
+                        .append("\"/>\n"));
         if (!meta.jsonLd().isEmpty()) {
             out.append("<script type=\"application/ld+json\">")
                     .append(json(graph(meta)))

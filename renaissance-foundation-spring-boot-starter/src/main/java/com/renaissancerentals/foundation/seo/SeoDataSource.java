@@ -16,6 +16,12 @@ public interface SeoDataSource {
 
     Optional<SeoData.Floorplan> floorplan(String floorplanId);
 
+    /**
+     * The id a floorplan has now, when {@code oldId} is an address it used to have (the floorplan was renamed).
+     * Empty when nothing is known about it. Only asked for an id that is not a floorplan any more.
+     */
+    Optional<String> floorplanRedirect(String oldId);
+
     Optional<SeoData.Unit> unit(String unitId);
 
     List<SeoData.Faq> propertyFaqs(String propertyId);

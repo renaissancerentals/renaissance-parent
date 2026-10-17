@@ -154,7 +154,9 @@ public class EntityPageContributor implements SeoPageContributor, SitemapContrib
     private PageMeta floorplanPage(String floorplanId, String path) {
         var found = data.floorplan(floorplanId);
         if (found.isEmpty()) {
-            return notFound(path);
+            return renamedTo(floorplanId)
+                    .map(target -> PageMeta.redirect("/floorplans/" + target))
+                    .orElseGet(() -> notFound(path));
         }
         var fp = found.get();
         var propertyId = fp.property() == null ? null : fp.property().id();
@@ -193,6 +195,16 @@ public class EntityPageContributor implements SeoPageContributor, SitemapContrib
         appendFloorplanFacts(html, fp, description);
         appendUnits(html, fp.units());
         return new PageMeta(title, description, url, true, 200, "website", image, ld, html.toString());
+    }
+
+    /** A floorplan that was renamed keeps answering at its old address: it redirects to the current one. */
+    private Optional<String> renamedTo(String oldId) {
+        try {
+            return data.floorplanRedirect(oldId).filter(target -> !target.equals(oldId));
+        } catch (SeoDataUnavailableException e) {
+            log.warn("Redirect lookup unavailable for {}: {}", oldId, e.getMessage());
+            return Optional.empty();
+        }
     }
 
     private PageMeta unitPage(String unitId, String path) {

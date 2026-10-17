@@ -13,7 +13,27 @@ public record PageMeta(
         String ogType,
         String image,
         List<Map<String, Object>> jsonLd,
-        String snapshotHtml) {
+        String snapshotHtml,
+        String redirectTo) {
+
+    /** A page that is shown (no redirect). */
+    public PageMeta(
+            String title,
+            String description,
+            String canonicalUrl,
+            boolean indexable,
+            int status,
+            String ogType,
+            String image,
+            List<Map<String, Object>> jsonLd,
+            String snapshotHtml) {
+        this(title, description, canonicalUrl, indexable, status, ogType, image, jsonLd, snapshotHtml, null);
+    }
+
+    /** A permanent redirect to {@code target}, a path on this site such as {@code /floorplans/view}. */
+    public static PageMeta redirect(String target) {
+        return new PageMeta(null, null, null, false, 301, null, null, null, null, target);
+    }
 
     public PageMeta {
         jsonLd = jsonLd == null ? List.of() : List.copyOf(jsonLd);
@@ -21,10 +41,12 @@ public record PageMeta(
     }
 
     public PageMeta withJsonLd(List<Map<String, Object>> jsonLd) {
-        return new PageMeta(title, description, canonicalUrl, indexable, status, ogType, image, jsonLd, snapshotHtml);
+        return new PageMeta(
+                title, description, canonicalUrl, indexable, status, ogType, image, jsonLd, snapshotHtml, redirectTo);
     }
 
     public PageMeta withSnapshot(String snapshotHtml) {
-        return new PageMeta(title, description, canonicalUrl, indexable, status, ogType, image, jsonLd, snapshotHtml);
+        return new PageMeta(
+                title, description, canonicalUrl, indexable, status, ogType, image, jsonLd, snapshotHtml, redirectTo);
     }
 }

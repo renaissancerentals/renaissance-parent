@@ -19,6 +19,7 @@ public record ApiCacheProperties(Boolean enabled, Duration maxAge, Duration stal
     public static final List<String> DEFAULT_PATHS = List.of(
             "/api/properties",
             "/api/floorplans",
+            "/api/floorplanRedirects",
             "/api/units",
             "/api/shortTermFloorplans",
             "/api/leasingOffices",
