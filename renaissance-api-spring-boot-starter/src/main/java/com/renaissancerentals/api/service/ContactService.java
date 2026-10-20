@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,10 @@ public class ContactService {
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
-    @Transactional
+    /**
+     * Deliberately not transactional: the repository saves in its own short transaction, so the database connection
+     * is back in the pool before the (slow) Gmail call starts.
+     */
     public void save(ContactMessageRequest contactMessage) {
 
         contactRepository.save(contactMessage);

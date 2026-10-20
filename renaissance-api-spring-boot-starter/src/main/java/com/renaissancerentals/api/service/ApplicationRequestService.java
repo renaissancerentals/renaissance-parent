@@ -21,7 +21,6 @@ import java.util.concurrent.ExecutorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +39,10 @@ public class ApplicationRequestService {
     @Value("${renaissancerentals.mail.cc}")
     private final List<String> cc;
 
-    @Transactional
+    /**
+     * Not transactional on purpose: the save below commits on its own, so no database connection is held while the
+     * (slow) Gmail call runs.
+     */
     public void save(ApplicationRequest applicationRequest) {
 
         var applicationEmail = applicationRequestMapper.toEntity(applicationRequest);

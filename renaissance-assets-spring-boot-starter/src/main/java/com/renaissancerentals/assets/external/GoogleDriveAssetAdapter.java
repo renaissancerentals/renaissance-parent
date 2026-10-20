@@ -9,6 +9,7 @@ import com.renaissancerentals.assets.model.*;
 import com.renaissancerentals.assets.service.AssetService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,6 +45,11 @@ public class GoogleDriveAssetAdapter implements AssetService {
             file.executeMediaAndDownloadTo(outputStream);
             return Optional.of(outputStream.toByteArray());
         });
+    }
+
+    @Override
+    public void downloadTo(final String id, final OutputStream out) {
+        executeVoid(() -> drive.files().get(id).executeMediaAndDownloadTo(out));
     }
 
     @Override

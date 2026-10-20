@@ -7,8 +7,6 @@ import com.renaissancerentals.assets.service.AssetService;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Optional;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 @RestController
 @CrossOrigin
@@ -53,20 +52,19 @@ public class AssetController {
             CacheControl.maxAge(Duration.ofDays(1)).cachePublic();
 
     @GetMapping("/assets/{id}/download")
-    public ResponseEntity<Resource> getFile(@PathVariable("id") String id) {
+    public ResponseEntity<StreamingResponseBody> getFile(@PathVariable("id") String id) {
 
         // sanitize for header safety
         var safeFilename = StringUtils.cleanPath(id).replaceAll("[\r\n]", "");
 
-        final var fileBytes = assetService
-                .getFile(id)
-                .orElseThrow(() -> new AssetsNotFoundException("Asset with Id: " + id + " not found"));
+        // Asked before the first byte is sent, so a missing file is still a clean 404. The file itself is piped from
+        // Drive to the client and never held in memory whole, however many photos are being fetched at once.
+        assetService.get(id).orElseThrow(() -> new AssetsNotFoundException("Asset with Id: " + id + " not found"));
 
-        final var resource = new ByteArrayResource(fileBytes);
+        StreamingResponseBody body = out -> assetService.downloadTo(id, out);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(resource.contentLength())
                 .cacheControl(DOWNLOAD_CACHE)
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
@@ -74,6 +72,6 @@ public class AssetController {
                                 .filename(safeFilename, StandardCharsets.UTF_8)
                                 .build()
                                 .toString())
-                .body(resource);
+                .body(body);
     }
 }

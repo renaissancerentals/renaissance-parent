@@ -1,6 +1,9 @@
 package com.renaissancerentals.assets.service;
 
+import com.renaissancerentals.assets.error.AssetsNotFoundException;
 import com.renaissancerentals.assets.model.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Optional;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,6 +28,19 @@ public interface AssetService {
      * @return an Optional containing the asset file if found.
      */
     Optional<byte[]> getFile(final String id);
+
+    /**
+     * Writes the asset file with the given ID to the stream without holding the whole file in memory (when the
+     * implementation can avoid it). Prefer this over {@link #getFile(String)} for anything that is sent to a client.
+     *
+     * @param id
+     *            the asset ID of the file to be sent.
+     * @param out
+     *            where the bytes go; not closed here.
+     */
+    default void downloadTo(final String id, final OutputStream out) throws IOException {
+        out.write(getFile(id).orElseThrow(() -> new AssetsNotFoundException("Asset with Id: " + id + " not found")));
+    }
 
     /**
      * Extracts the 'id' query parameter from the given URL and fetches the corresponding asset.

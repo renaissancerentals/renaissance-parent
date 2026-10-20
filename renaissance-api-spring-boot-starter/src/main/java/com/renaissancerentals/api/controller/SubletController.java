@@ -12,7 +12,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +24,6 @@ public class SubletController {
     private final SubletRepository subletRepository;
 
     @PostMapping
-    @Transactional
     public Sublet create(@Valid @RequestBody SubletRequest subletRequest) {
         var sublet = subletRepository.createSublet(subletRequest);
         subletMessageService.sendNewSubletAlert(sublet);

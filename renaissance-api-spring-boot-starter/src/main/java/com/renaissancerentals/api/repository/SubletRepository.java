@@ -43,14 +43,23 @@ public class SubletRepository {
         return subletDao.findOneByAssetKey(assetKey).map(subletMapper::fromEntity);
     }
 
-    @Transactional
+    /**
+     * Not transactional on purpose: every {@code subletDao.save} commits on its own, so no database connection is held
+     * while the Google Drive calls run. If the folders cannot be created the half-made sublet is deactivated.
+     */
     public Sublet createSublet(SubletRequest sublet) {
         var subletEntity = subletMapper.toEntity(sublet);
         addDefaultFields(subletEntity);
-        return createSubletImageFolders(subletDao.save(subletEntity));
+        var saved = subletDao.save(subletEntity);
+        try {
+            return createSubletImageFolders(saved);
+        } catch (RuntimeException e) {
+            deactivateSublet(saved);
+            throw e;
+        }
     }
 
-    @Transactional
+    /** Not transactional on purpose: the Drive upload can take a long time and must not hold a pooled connection. */
     public Asset createAsset(String assetKey, MultipartFile file, String name, Boolean isCoverImage) {
         var sublet =
                 subletDao.findOneByAssetKey(assetKey).orElseThrow(() -> new NotFoundException("Sublet not found!"));
