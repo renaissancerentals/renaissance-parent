@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.renaissancerentals</groupId>
     <artifactId>renaissance-parent</artifactId>
-    <version>3.52.0</version>
+    <version>3.53.0</version>
     <packaging>pom</packaging>
     <name>Renaissance Parent</name>
     <description>Renaissancerentals Parent pom</description>
@@ -51,6 +51,14 @@
     </modules>
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Boot's own 1.21.2 cannot talk to Docker Engine 29: it asks for an API version the engine now rejects -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>1.21.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>io.opentelemetry.instrumentation</groupId>
                 <artifactId>opentelemetry-instrumentation-bom</artifactId>
@@ -61,7 +69,7 @@
             <dependency>
                 <groupId>com.renaissancerentals</groupId>
                 <artifactId>renaissance-bom</artifactId>
-                <version>3.52.0</version>
+                <version>3.53.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
